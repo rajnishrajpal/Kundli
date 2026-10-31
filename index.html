@@ -36,6 +36,17 @@
     }
   </script>
   <style>
+    
+    /* Ensure all select inputs, options, and lists maintain dark slate styling across all OS browsers */
+    select, select option, select optgroup {
+      background-color: #0F1A30 !important;
+      color: #F8FAFC !important;
+    }
+    select:focus option:checked {
+      background-color: #D97706 !important;
+      color: #0F172A !important;
+    }
+
     /* Custom scrollbars */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #050B18; }
@@ -661,6 +672,15 @@
         <span>Lagna & Navamsha (D1 & D9)</span>
       </button>
       <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-vargas">
+      <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-allvargas">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        <span>All Divisional Charts (Multi-Grid)</span>
+      </button>
+
+      <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-varshaphal">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <span>Varshaphal (Annual Horoscope)</span>
+      </button>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
         <span>Divisional Charts (Vargas)</span>
       </button>
@@ -693,10 +713,32 @@
         <div class="bg-vedic-cardbg border border-vedic-border rounded-2xl p-5 shadow-xl flex flex-col items-center">
           <div class="w-full flex items-center justify-between mb-3 border-b border-vedic-border/70 pb-2">
             <div>
-              <h3 class="font-cinzel text-base font-bold text-amber-300">Lagna Kundli (D1 - Rashi Chart)</h3>
-              <p class="text-xs text-slate-400">Physical reality, overall vitality, life destiny</p>
+              <div class="flex items-center gap-2">
+                <h3 id="d1ChartTitle" class="font-cinzel text-base font-bold text-amber-300">Lagna Kundli (D1 - Rashi Chart)</h3>
+                <span id="d1RotationBadge" class="hidden text-[10px] px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-300 font-bold border border-orange-500/30">H1</span>
+              </div>
+              <p id="d1ChartSubtitle" class="text-xs text-slate-400">Physical constitution, vitality & general life path</p>
             </div>
-            <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 text-xs font-semibold">Primary Varga</span>
+            
+            <!-- D1 Rotation Controls -->
+            <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-700/80 rounded-lg px-2 py-1 text-xs">
+              <label for="d1BhavaSelect" class="text-[10px] text-slate-400 uppercase font-semibold">Rotate:</label>
+              <select id="d1BhavaSelect" class="bg-transparent text-amber-300 font-semibold text-xs outline-none cursor-pointer">
+                <option value="1">House 1 (Natal Lagna)</option>
+                <option value="2">House 2 (Dhana - Wealth)</option>
+                <option value="3">House 3 (Sahaja - Siblings)</option>
+                <option value="4">House 4 (Bandhu - Home)</option>
+                <option value="5">House 5 (Putra - Intellect)</option>
+                <option value="6">House 6 (Ari - Health)</option>
+                <option value="7">House 7 (Yuvati - Spouse)</option>
+                <option value="8">House 8 (Randhra - Longevity)</option>
+                <option value="9">House 9 (Dharma - Fortune)</option>
+                <option value="10">House 10 (Karma - Career)</option>
+                <option value="11">House 11 (Labha - Gains)</option>
+                <option value="12">House 12 (Vyaya - Moksha)</option>
+              </select>
+              <button id="btnResetD1Rotation" class="hidden text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 transition">Reset</button>
+            </div>
           </div>
           <div id="chartD1Container" class="w-full max-w-[420px] aspect-square flex items-center justify-center py-2">
             <!-- SVG injected by JS -->
@@ -706,12 +748,34 @@
 
         <!-- D9 Navamsha Kundli Card -->
         <div class="bg-vedic-cardbg border border-vedic-border rounded-2xl p-5 shadow-xl flex flex-col items-center">
-          <div class="w-full flex items-center justify-between mb-3 border-b border-vedic-border/70 pb-2">
+          <div class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 border-b border-vedic-border/70 pb-2">
             <div>
-              <h3 class="font-cinzel text-base font-bold text-blue-300">Navamsha Kundli (D9 Chart)</h3>
-              <p class="text-xs text-slate-400">Soul purpose, marriage/spouse, fortune in later life</p>
+              <div class="flex items-center gap-2">
+                <h3 id="d9ChartTitle" class="font-cinzel text-base font-bold text-blue-300">Navamsha Kundli (D9 Chart)</h3>
+                <span id="d9RotationBadge" class="hidden text-[10px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold border border-blue-500/30">H1</span>
+              </div>
+              <p id="d9ChartSubtitle" class="text-xs text-slate-400">Soul purpose, marriage/spouse, fortune in later life</p>
             </div>
-            <span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20 text-xs font-semibold">Dharma Varga</span>
+            
+            <!-- D9 Rotation Controls -->
+            <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-700/80 rounded-lg px-2 py-1 text-xs">
+              <label for="d9BhavaSelect" class="text-[10px] text-slate-400 uppercase font-semibold">Rotate:</label>
+              <select id="d9BhavaSelect" class="bg-transparent text-blue-300 font-semibold text-xs outline-none cursor-pointer">
+                <option value="1">Navamsha Lagna (H1)</option>
+                <option value="2">Navamsha House 2 (Dhana)</option>
+                <option value="3">Navamsha House 3 (Courage)</option>
+                <option value="4">Navamsha House 4 (Inner Peace)</option>
+                <option value="5">Navamsha House 5 (Dharma)</option>
+                <option value="6">Navamsha House 6 (Shatru)</option>
+                <option value="7">Navamsha House 7 (Spouse)</option>
+                <option value="8">Navamsha House 8 (Ayur)</option>
+                <option value="9">Navamsha House 9 (Bhagya)</option>
+                <option value="10">Navamsha House 10 (Karma)</option>
+                <option value="11">Navamsha House 11 (Labha)</option>
+                <option value="12">Navamsha House 12 (Moksha)</option>
+              </select>
+              <button id="btnResetD9Rotation" class="hidden text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 transition">Reset</button>
+            </div>
           </div>
           <div id="chartD9Container" class="w-full max-w-[420px] aspect-square flex items-center justify-center py-2">
             <!-- SVG injected by JS -->
@@ -736,6 +800,150 @@
         </div>
       </div>
     </div>
+
+        <!-- TAB: ALL DIVISIONAL CHARTS (SARVA-VARGA MULTI-GRID) -->
+    <div id="tab-allvargas" class="tab-pane hidden space-y-6">
+      <div class="bg-vedic-cardbg border border-vedic-border rounded-2xl p-5 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-vedic-border pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 text-lg">☸</span>
+              <h3 class="font-cinzel text-lg font-bold text-amber-300">Sarvavarga Multi-Chart Grid (16 Core Divisional Charts)</h3>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Simultaneous comprehensive overview of all 16 classical Shodashavarga charts on one screen</p>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <button id="printAllVargasBtn" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-semibold shadow transition cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              <span>Print All Charts (PDF)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 16-Varga Multi-Grid Container -->
+        <div id="allVargasMultiGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Populated dynamically via JS: 16 individual cards with SVG charts -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: VARSHAPHAL (ANNUAL SOLAR RETURN HOROSCOPE) -->
+    <div id="tab-varshaphal" class="tab-pane hidden space-y-6">
+      <div class="bg-vedic-cardbg border border-vedic-border rounded-2xl p-5 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-vedic-border pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 text-lg">☀️</span>
+              <h3 class="font-cinzel text-lg font-bold text-amber-300">Tajika Varshaphal (Annual Solar Return Horoscope)</h3>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Solar return chart, Muntha progression, Varsheshwara (Year Lord), and 12-month timeline</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs">
+              <label for="varshaYearSelect" class="text-slate-300 font-semibold">Select Year:</label>
+              <select id="varshaYearSelect" class="bg-transparent text-amber-300 font-bold outline-none cursor-pointer">
+                <!-- Injected via JS -->
+              </select>
+            </div>
+
+            <!-- PDF / Print Varshaphal Button -->
+            <button id="printVarshaphalBtn" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 text-xs font-bold shadow-md shadow-amber-500/20 transition cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              <span>Export PDF / Print Varshaphal</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Varshaphal Summary Banner & Chart Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- Left Column: Varsha Kundli Chart -->
+          <div class="lg:col-span-5 flex flex-col items-center">
+            <div class="flex items-center justify-between w-full mb-2">
+              <h4 id="varshaChartTitle" class="font-cinzel text-sm font-bold text-amber-400">Varsha Kundli (Solar Return)</h4>
+              <span id="varshaMunthaBadge" class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">Muntha: H1</span>
+            </div>
+            <div id="varshaphalChartContainer" class="w-full max-w-[380px] aspect-square flex items-center justify-center">
+              <!-- SVG -->
+            </div>
+            
+            <div class="w-full mt-4 bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-xs text-slate-300 space-y-2">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="font-cinzel font-bold text-amber-300 text-sm">Tajika Key Indicators</span>
+                <span id="varshaScoreBadge" class="font-mono text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded font-bold">82 / 100 Score</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-300">
+                <div><strong class="text-slate-400">Solar Return:</strong> <span id="varshaExactMoment" class="text-amber-200 block truncate">24 Oct 2026</span></div>
+                <div><strong class="text-slate-400">Varsha Lagna:</strong> <span id="varshaLagnaSign" class="text-amber-200 block">Scorpio (Vrischika)</span></div>
+                <div><strong class="text-slate-400">Muntha Sign:</strong> <span id="varshaMunthaSign" class="text-emerald-300 block">Leo in H10</span></div>
+                <div><strong class="text-slate-400">Varsheshwara:</strong> <span id="varshaLordName" class="text-purple-300 block font-bold">Sun (Surya)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Annual Areas Forecast & 12 Months Progression -->
+          <div class="lg:col-span-7 space-y-4">
+            <h4 class="font-cinzel text-sm font-bold text-slate-200">Annual Tajika Predictions & Life Themes</h4>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="flex items-center justify-between mb-1">
+                  <strong class="text-white flex items-center gap-1.5">💼 Career & Profession</strong>
+                  <span id="badgeCareer" class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300">Favorable</span>
+                </div>
+                <p id="descCareer" class="text-[11px] text-slate-400 leading-relaxed">Year Lord and 10th house alignments promote professional status and recognition.</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="flex items-center justify-between mb-1">
+                  <strong class="text-white flex items-center gap-1.5">💰 Finances & Wealth</strong>
+                  <span id="badgeWealth" class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300">Gains Expected</span>
+                </div>
+                <p id="descWealth" class="text-[11px] text-slate-400 leading-relaxed">Muntha in Kendra/Trikona indicates expansion in liquid resources and assets.</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="flex items-center justify-between mb-1">
+                  <strong class="text-white flex items-center gap-1.5">🩺 Health & Vitality</strong>
+                  <span id="badgeHealth" class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300">Steady</span>
+                </div>
+                <p id="descHealth" class="text-[11px] text-slate-400 leading-relaxed">Ascendant lord well-placed; maintain balanced diet and regular routine.</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="flex items-center justify-between mb-1">
+                  <strong class="text-white flex items-center gap-1.5">🤝 Relationships & Family</strong>
+                  <span id="badgeFamily" class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300">Harmony</span>
+                </div>
+                <p id="descFamily" class="text-[11px] text-slate-400 leading-relaxed">Benefic aspects on 4th and 7th houses foster domestic understanding.</p>
+              </div>
+            </div>
+
+            <!-- Monthly Tajika Progression Table -->
+            <div class="pt-3 border-t border-slate-800">
+              <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">12-Month Annual Progression Timeline</h5>
+              <div class="overflow-x-auto rounded-xl border border-slate-800">
+                <table class="w-full text-left text-xs bg-slate-900/60">
+                  <thead class="bg-slate-900 text-amber-300 text-[10px] uppercase font-bold tracking-wider">
+                    <tr>
+                      <th class="py-2 px-3">Month</th>
+                      <th class="py-2 px-3">Dates</th>
+                      <th class="py-2 px-3">Tajik Patyamsa Ruler</th>
+                      <th class="py-2 px-3">Influence & Guidance</th>
+                    </tr>
+                  </thead>
+                  <tbody id="varshaMonthsTableBody" class="divide-y divide-slate-800/80 font-sans">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- TAB 2: DIVISIONAL CHARTS (VARGAS) -->
     <div id="tab-vargas" class="tab-pane hidden space-y-6">
@@ -2704,7 +2912,8 @@
       if (!container) return;
 
       const isD1 = vargaKey === "D1" && containerId === "chartD1Container" && !isPrint;
-      const rotBhava = isD1 ? d1RotatedBhava : 1;
+      const isD9 = vargaKey === "D9" && containerId === "chartD9Container" && !isPrint;
+      const rotBhava = isD1 ? d1RotatedBhava : (isD9 ? d9RotatedBhava : 1);
       const ascSign = bodiesMap.Lagna ? bodiesMap.Lagna.sign : 1;
       const effectiveAscSign = rotBhava === 1 ? ascSign : (((ascSign - 1 + (rotBhava - 1)) % 12) + 1);
 
@@ -2718,7 +2927,7 @@
       Object.entries(bodiesMap).forEach(([name, b]) => {
         if (signBodies[b.sign]) {
           if (name === "Lagna") {
-            if (isD1 && rotBhava !== 1) {
+            if ((isD1 || isD9) && rotBhava !== 1) {
               signBodies[b.sign].push("NLg");
             } else {
               signBodies[b.sign].push("Lg");
@@ -2728,7 +2937,7 @@
           }
         }
       });
-      if (isD1 && rotBhava !== 1) {
+      if ((isD1 || isD9) && rotBhava !== 1) {
         signBodies[effectiveAscSign].unshift("Lg");
       }
 
@@ -2810,7 +3019,8 @@
       if (!container) return;
 
       const isD1 = vargaKey === "D1" && containerId === "chartD1Container" && !isPrint;
-      const rotBhava = isD1 ? d1RotatedBhava : 1;
+      const isD9 = vargaKey === "D9" && containerId === "chartD9Container" && !isPrint;
+      const rotBhava = isD1 ? d1RotatedBhava : (isD9 ? d9RotatedBhava : 1);
       const ascSign = bodiesMap.Lagna ? bodiesMap.Lagna.sign : 1;
       const effectiveAscSign = rotBhava === 1 ? ascSign : (((ascSign - 1 + (rotBhava - 1)) % 12) + 1);
 
@@ -2831,7 +3041,7 @@
       Object.entries(bodiesMap).forEach(([name, b]) => {
         if (signBodies[b.sign]) {
           if (name === "Lagna") {
-            if (isD1 && rotBhava !== 1) {
+            if ((isD1 || isD9) && rotBhava !== 1) {
               signBodies[b.sign].push("NLg");
             } else {
               signBodies[b.sign].push("ASC");
@@ -2841,7 +3051,7 @@
           }
         }
       });
-      if (isD1 && rotBhava !== 1) {
+      if ((isD1 || isD9) && rotBhava !== 1) {
         signBodies[effectiveAscSign].unshift("ASC");
       }
 
@@ -2906,7 +3116,8 @@
       if (!container) return;
 
       const isD1 = vargaKey === "D1" && containerId === "chartD1Container" && !isPrint;
-      const rotBhava = isD1 ? d1RotatedBhava : 1;
+      const isD9 = vargaKey === "D9" && containerId === "chartD9Container" && !isPrint;
+      const rotBhava = isD1 ? d1RotatedBhava : (isD9 ? d9RotatedBhava : 1);
       const ascSign = bodiesMap.Lagna ? bodiesMap.Lagna.sign : 1;
       const effectiveAscSign = rotBhava === 1 ? ascSign : (((ascSign - 1 + (rotBhava - 1)) % 12) + 1);
 
@@ -2934,7 +3145,7 @@
       Object.entries(bodiesMap).forEach(([name, b]) => {
         if (signBodies[b.sign]) {
           if (name === "Lagna") {
-            if (isD1 && rotBhava !== 1) {
+            if ((isD1 || isD9) && rotBhava !== 1) {
               signBodies[b.sign].push("NLg");
             } else {
               signBodies[b.sign].push("Lg");
@@ -2944,7 +3155,7 @@
           }
         }
       });
-      if (isD1 && rotBhava !== 1) {
+      if ((isD1 || isD9) && rotBhava !== 1) {
         signBodies[effectiveAscSign].unshift("Lg");
       }
 
@@ -3249,6 +3460,47 @@
 
     // UI Updates
     function updateUIWithData(data) {
+      currentChartData = data;
+
+      // Populate Graha Sphuta on Main Page (Tab 1)
+      const mainTable = document.getElementById("mainPlanetaryTableBody");
+      if (mainTable) {
+        mainTable.innerHTML = "";
+        const allList = [data.ascendant, ...Object.values(data.planets)];
+        allList.forEach(p => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-slate-800/40 transition";
+          tr.innerHTML = `
+            <td class="py-2 px-3 font-semibold text-white flex items-center gap-1.5">
+              <span>${p.name}</span>
+              ${p.isRetrograde ? '<span class="text-amber-400 text-[10px] font-bold">ᴿ</span>' : ''}
+              ${p.isCombust ? '<span class="text-rose-400 text-[10px] font-bold">ᶜ</span>' : ''}
+            </td>
+            <td class="py-2 px-3 text-slate-400 text-[11px]">${p.isRetrograde ? 'Vakri (R)' : p.isCombust ? 'Asta (C)' : 'Direct'}</td>
+            <td class="py-2 px-3 font-medium text-amber-300">${p.rashiName} (${p.rashiSanskrit})</td>
+            <td class="py-2 px-3 font-mono text-slate-300">${formatDMS(p.degInSign)}</td>
+            <td class="py-2 px-3 text-slate-300">${p.nakshatra} (P${p.pada})</td>
+            <td class="py-2 px-3 text-slate-400">${p.nakshatraLord}</td>
+            <td class="py-2 px-3 font-bold text-slate-200">H${p.house}</td>
+            <td class="py-2 px-3 text-[11px] font-semibold ${p.dignity === 'Exalted' ? 'text-emerald-400' : p.dignity === 'Debilitated' ? 'text-rose-400' : p.dignity === 'Own Sign' ? 'text-amber-300' : 'text-slate-300'}">${p.dignity}</td>
+            <td class="py-2 px-3 text-[11px] text-slate-400">${p.charaKaraka}</td>
+          `;
+          mainTable.appendChild(tr);
+        });
+      }
+
+      // Populate All Vargas Grid & Varshaphal
+      try {
+        renderAllVargasGrid();
+      } catch (e) {
+        console.warn("renderAllVargasGrid:", e);
+      }
+      try {
+        updateVarshaphalUI();
+      } catch (e) {
+        console.warn("updateVarshaphalUI:", e);
+      }
+
       currentChartData = data;
       try {
         updateVarshaphalUI();
@@ -5198,6 +5450,117 @@
       if (closeAdmin) closeAdmin.addEventListener("click", () => document.getElementById("masterAdminModal").classList.add("hidden"));
     }
 
+    
+    // =========================================================================
+    // D9 NAVAMSHA HOUSE ROTATION LOGIC
+    // =========================================================================
+    let d9RotatedBhava = 1;
+
+    window.setD1Rotation = function(bhavaNum) {
+      d1RotatedBhava = parseInt(bhavaNum) || 1;
+      if (d1RotatedBhava < 1 || d1RotatedBhava > 12) d1RotatedBhava = 1;
+
+      const title = document.getElementById("d1ChartTitle");
+      const subtitle = document.getElementById("d1ChartSubtitle");
+      const badge = document.getElementById("d1RotationBadge");
+      const resetBtn = document.getElementById("btnResetD1Rotation");
+      const select = document.getElementById("d1BhavaSelect");
+
+      if (select) select.value = d1RotatedBhava;
+
+      const bhavaNames = [
+        "Self / Tanu", "Dhana (Wealth)", "Sahaja (Siblings)", "Bandhu (Home)",
+        "Putra (Intellect)", "Ari (Health)", "Yuvati (Spouse)", "Randhra (Longevity)",
+        "Dharma (Fortune)", "Karma (Career)", "Labha (Gains)", "Vyaya (Moksha)"
+      ];
+
+      if (d1RotatedBhava === 1) {
+        if (title) title.textContent = "Lagna Kundli (D1 - Rashi Chart)";
+        if (subtitle) subtitle.textContent = "Physical constitution, vitality & general life path";
+        if (badge) badge.classList.add("hidden");
+        if (resetBtn) resetBtn.classList.add("hidden");
+      } else {
+        if (title) title.textContent = "Lagna H" + d1RotatedBhava + " (" + bhavaNames[d1RotatedBhava - 1] + ")";
+        if (subtitle) subtitle.textContent = "Chart rotated reckoning House " + d1RotatedBhava + " as Ascendant";
+        if (badge) {
+          badge.textContent = "Rotated: H" + d1RotatedBhava;
+          badge.classList.remove("hidden");
+        }
+        if (resetBtn) resetBtn.classList.remove("hidden");
+      }
+
+      renderChart("D1", "chartD1Container", false);
+    };
+
+    window.setD9Rotation = function(bhavaNum) {
+      d9RotatedBhava = parseInt(bhavaNum) || 1;
+      if (d9RotatedBhava < 1 || d9RotatedBhava > 12) d9RotatedBhava = 1;
+
+      const title = document.getElementById("d9ChartTitle");
+      const subtitle = document.getElementById("d9ChartSubtitle");
+      const badge = document.getElementById("d9RotationBadge");
+      const resetBtn = document.getElementById("btnResetD9Rotation");
+      const select = document.getElementById("d9BhavaSelect");
+
+      if (select) select.value = d9RotatedBhava;
+
+      const bhavaNames = [
+        "Soul / Self", "Dhana (Wealth)", "Sahaja (Courage)", "Sukha (Inner Peace)",
+        "Putra (Purva Punya)", "Ari (Obstacles)", "Yuvati (Spouse)", "Randhra (Transformation)",
+        "Bhagya (Fortune)", "Karma (Divine Duty)", "Labha (Fulfillment)", "Vyaya (Moksha)"
+      ];
+
+      if (d9RotatedBhava === 1) {
+        if (title) title.textContent = "Navamsha Kundli (D9 Chart)";
+        if (subtitle) subtitle.textContent = "Marriage, spouse, dharma & inner soul potential";
+        if (badge) badge.classList.add("hidden");
+        if (resetBtn) resetBtn.classList.add("hidden");
+      } else {
+        if (title) title.textContent = `Navamsha H${d9RotatedBhava} (${bhavaNames[d9RotatedBhava - 1]})`;
+        if (subtitle) subtitle.textContent = `Chart rotated reckoning House ${d9RotatedBhava} as Ascendant`;
+        if (badge) {
+          badge.textContent = `Rotated: H${d9RotatedBhava}`;
+          badge.classList.remove("hidden");
+        }
+        if (resetBtn) resetBtn.classList.remove("hidden");
+      }
+
+      renderChart("D9", "chartD9Container", false);
+    };
+
+    // =========================================================================
+    // ALL DIVISIONAL CHARTS (SARVAVARGA MULTI-GRID) RENDERER
+    // =========================================================================
+    function renderAllVargasGrid() {
+      const container = document.getElementById("allVargasMultiGrid");
+      if (!container || !currentChartData || !currentChartData.vargas) return;
+
+      container.innerHTML = "";
+      const vKeyList = ["D1", "D2", "D3", "D4", "D7", "D9", "D10", "D12", "D16", "D20", "D24", "D27", "D30", "D40", "D45", "D60"];
+
+      vKeyList.forEach(vk => {
+        const meta = VARGA_METADATA[vk] || { name: vk, sanskrit: "", desc: "Harmonic chart", num: 1 };
+        const vData = currentChartData.vargas[vk] || currentChartData.vargas.D1;
+        const vLagnaSign = vData.Lagna ? vData.Lagna.sign : 1;
+        const vLagnaName = RASHIS[vLagnaSign - 1].name;
+
+        const card = document.createElement("div");
+        card.className = "bg-slate-900 border border-slate-800 rounded-xl p-3 flex flex-col items-center hover:border-amber-500/40 transition shadow";
+        card.innerHTML = `
+          <div class="w-full flex items-center justify-between mb-2 pb-1.5 border-b border-slate-800 text-xs">
+            <span class="font-cinzel font-bold text-amber-300 text-[11px]">${vk} ${meta.name}</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-300 font-mono">Lg: ${vLagnaName.slice(0,3)}</span>
+          </div>
+          <div id="gridChart_${vk}" class="w-full max-w-[240px] aspect-square flex items-center justify-center"></div>
+          <p class="text-[10px] text-slate-400 mt-2 text-center truncate w-full" title="${meta.desc}">${meta.desc}</p>
+        `;
+        container.appendChild(card);
+
+        // Render individual small chart inside this container
+        renderChart(vk, `gridChart_${vk}`, true);
+      });
+    }
+
     window.addEventListener("DOMContentLoaded", () => {
       const citySelect = document.getElementById("birthPlaceSelect");
       const citySearch = document.getElementById("citySearchInput");
@@ -5411,33 +5774,7 @@
       }
 
       initLocationHierarchy();
-      setupIndusKundliAppEvents();
-      
-      // Varshaphal Event Listeners
-      const ySelect = document.getElementById("varshaYearSelect");
-      const btnRecalcVarsha = document.getElementById("btnRecalcVarsha");
-      if (btnRecalcVarsha && ySelect) {
-        btnRecalcVarsha.addEventListener("click", () => {
-          updateVarshaphalUI(ySelect.value);
-          showToast(`Varshaphal calculated for Year ${ySelect.value}!`, "success");
-        });
-        ySelect.addEventListener("change", () => {
-          updateVarshaphalUI(ySelect.value);
-        });
-      }
-
-      document.querySelectorAll(".varsha-filter-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          document.querySelectorAll(".varsha-filter-btn").forEach(b => {
-            b.classList.remove("active", "bg-amber-500/20", "text-amber-300");
-            b.classList.add("bg-slate-900", "text-slate-400");
-          });
-          btn.classList.add("active", "bg-amber-500/20", "text-amber-300");
-          btn.classList.remove("bg-slate-900", "text-slate-400");
-          renderVarshaphalMonths(btn.getAttribute("data-vfilter"));
-        });
-      });
-
+      // D1 Rotation
       triggerCalculation();
     });
 
