@@ -3408,10 +3408,233 @@
       }
     }
 
+    
+    // =========================================================================
+    // VARSHAPHAL (TAJIK ANNUAL SOLAR RETURN) CALCULATION ENGINE
+    // =========================================================================
+    let currentVarshaphalData = null;
+
+    function calculateVarshaphal(natalData, targetYear) {
+      if (!natalData || !natalData.meta) return null;
+      const bYear = natalData.meta.year;
+      const tYear = parseInt(targetYear) || new Date().getFullYear();
+      const age = Math.max(0, tYear - bYear);
+
+      const natalLagna = natalData.ascendant.rashi;
+      const munthaSign = ((natalLagna - 1 + age) % 12) + 1;
+      const munthaHouse = ((munthaSign - natalLagna + 12) % 12) + 1;
+      const munthaLord = RASHIS[munthaSign - 1].lord;
+
+      // Auspiciousness of Muntha
+      const isMunthaDifficult = [4, 6, 7, 8, 12].includes(munthaHouse);
+      const munthaStatus = isMunthaDifficult 
+        ? `House ${munthaHouse} (Demands vigilance, health care & prudence)` 
+        : `House ${munthaHouse} (Auspicious expansion, honors & success)`;
+
+      // Solar return calculation approximation: Sun returns to exact natal longitude
+      // Sun moves ~360 / 365.25 days. Every year solar return advances by ~6.24 hours.
+      const hoursAdvance = (age * 6.242) % 24;
+      const returnHour = (natalData.meta.hour + hoursAdvance) % 24;
+      
+      // Calculate Varsha Lagna based on return moment
+      const varshaLagna = ((natalLagna - 1 + Math.floor(hoursAdvance / 2)) % 12) + 1;
+      const varshaLagnaLord = RASHIS[varshaLagna - 1].lord;
+
+      // Varsheshwar (Year Lord) selection among Panchadhikaris
+      const candidates = [varshaLagnaLord, munthaLord, RASHIS[natalLagna - 1].lord, "Jupiter", "Sun"];
+      const yearLord = candidates[age % candidates.length];
+
+      const energyMap = {
+        "Sun": "Authority, leadership, government favor and inner dignity",
+        "Moon": "Emotional peace, public popularity and domestic prosperity",
+        "Mars": "Dynamic action, technical enterprise and bold initiatives",
+        "Mercury": "Commercial success, analytical intellect and communication",
+        "Jupiter": "Wisdom, expansion, spiritual fortune and ethical rewards",
+        "Venus": "Creative luxury, marital happiness and artistic partnerships",
+        "Saturn": "Disciplined perseverance, structural patience and enduring results"
+      };
+
+      // Monthwise Predictions (12 solar months)
+      const monthsData = [];
+      const monthThemes = [
+        { title: "Self-Alignment & Vitality", focus: "career", desc: "Setting annual objectives, fresh energy, and initial career momentum." },
+        { title: "Financial Inflow & Assets", focus: "finance", desc: "Accumulation of liquid resources, family commitments, and budget consolidation." },
+        { title: "Courage, Travel & Enterprise", focus: "career", desc: "Productive short journeys, contracts, siblings' support, and proactive initiatives." },
+        { title: "Domestic Peace & Property", focus: "relationship", desc: "Focus on residential comforts, real estate evaluations, and mother's well-being." },
+        { title: "Creative & Intellectual Spark", focus: "gains", desc: "Speculative judgment, higher learning, progeny matters, and creative output." },
+        { title: "Overcoming Trials & Work", focus: "health", desc: "Managing workload, resolving debts or legal hurdles, and physical fitness regimes." },
+        { title: "Partnerships & Alliances", focus: "relationship", desc: "Crucial agreements, marital harmony, public visibility, and collaborative deals." },
+        { title: "Research & Hidden Resources", focus: "finance", desc: "Deep analytical research, insurance, legacy matters, and cautious risk management." },
+        { title: "Fortune & Dharmic Grace", focus: "gains", desc: "Long journeys, blessings of mentors, spiritual pilgrimages, and auspicious luck." },
+        { title: "Executive Authority & Fame", focus: "career", desc: "Peak professional recognition, leadership roles, and executive achievements." },
+        { title: "Fulfillment of Ambitions", focus: "gains", desc: "Financial bonuses, expanding network circles, and realization of annual goals." },
+        { title: "Introspection & Culmination", focus: "health", desc: "Review of annual lessons, charity, foreign contacts, and peaceful rejuvenation." }
+      ];
+
+      for (let m = 1; m <= 12; m++) {
+        const theme = monthThemes[m - 1];
+        const mLord = candidates[(age + m) % candidates.length];
+        monthsData.push({
+          monthNum: m,
+          title: theme.title,
+          category: theme.focus,
+          ruler: mLord,
+          desc: theme.desc,
+          status: (m % 3 === 0) ? "Peak Progress" : (m % 2 === 0 ? "Favorable" : "Active Steady")
+        });
+      }
+
+      return {
+        natalYear: bYear,
+        returnYear: tYear,
+        age,
+        periodStr: `${tYear} – ${tYear + 1}`,
+        varshaLagnaName: RASHIS[varshaLagna - 1].name,
+        varshaLagnaLord,
+        munthaSignName: RASHIS[munthaSign - 1].name,
+        munthaHouse,
+        munthaLord,
+        munthaStatus,
+        yearLord,
+        yearLordEnergy: energyMap[yearLord] || "Balanced harmonic progress",
+        overallScore: isMunthaDifficult ? 72 : 88,
+        months: monthsData
+      };
+    }
+
+    function updateVarshaphalUI(selectedYear) {
+      if (!currentChartData) return;
+      const bYear = currentChartData.meta.year;
+      const curYear = new Date().getFullYear();
+      const targetYear = selectedYear ? parseInt(selectedYear) : curYear;
+
+      const vData = calculateVarshaphal(currentChartData, targetYear);
+      currentVarshaphalData = vData;
+      if (!vData) return;
+
+      // Populate Year Dropdown if empty
+      const ySelect = document.getElementById("varshaYearSelect");
+      if (ySelect && ySelect.options.length <= 1) {
+        ySelect.innerHTML = "";
+        for (let y = bYear; y <= bYear + 90; y++) {
+          const opt = document.createElement("option");
+          opt.value = y;
+          opt.textContent = `${y} (Age ${y - bYear})`;
+          if (y === targetYear) opt.selected = true;
+          ySelect.appendChild(opt);
+        }
+      }
+
+      // Update Summary Cards
+      const setTxt = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      };
+
+      setTxt("varshaAgeDisplay", `Age ${vData.age}`);
+      setTxt("varshaPeriodDisplay", vData.periodStr);
+      setTxt("varshaLagnaDisplay", vData.varshaLagnaName);
+      setTxt("varshaLagnaLordDisplay", `Lord: ${vData.varshaLagnaLord}`);
+      setTxt("varshaMunthaDisplay", `${vData.munthaSignName} (H${vData.munthaHouse})`);
+      setTxt("varshaMunthaStatusDisplay", vData.munthaStatus);
+      setTxt("varshaLordDisplay", `${vData.yearLord}`);
+      setTxt("varshaLordEnergyDisplay", vData.yearLordEnergy);
+      setTxt("varshaScoreDisplay", `${vData.overallScore}% Auspicious`);
+
+      // Update Executive Life Area Cards
+      setTxt("execCareer", `Varsheshwar ${vData.yearLord} accelerates career ventures with strategic clarity.`);
+      setTxt("badgeCareer", "Favorable");
+      setTxt("execGains", `Muntha in House ${vData.munthaHouse} stabilizes profit streams and investment avenues.`);
+      setTxt("badgeGains", "Auspicious");
+      setTxt("execIncome", "Consistent cash flow with timely realization of consulting dues.");
+      setTxt("badgeIncome", "Positive");
+      setTxt("execHealth", vData.munthaHouse === 6 || vData.munthaHouse === 8 ? "Health requires mindful diet and regular sleep discipline." : "Robust physical stamina and positive mental vitality.");
+      setTxt("badgeHealth", vData.munthaHouse === 6 || vData.munthaHouse === 8 ? "Vigilance" : "Sound");
+      setTxt("execAccidents", "Travel indicators are favorable; avoid impulsive high-speed transit.");
+      setTxt("badgeAccidents", "Protected");
+      setTxt("execRelationship", "Mutual understanding and harmonious bonding with partners.");
+      setTxt("badgeRelationship", "Harmonious");
+
+      // Render Monthwise Grid
+      renderVarshaphalMonths("all");
+    }
+
+    function renderVarshaphalMonths(filter = "all") {
+      const container = document.getElementById("varshaphalMonthsContainer");
+      if (!container || !currentVarshaphalData) return;
+      container.innerHTML = "";
+
+      const filtered = currentVarshaphalData.months.filter(m => {
+        if (filter === "all") return true;
+        return m.category === filter;
+      });
+
+      filtered.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "bg-slate-900 border border-slate-800 hover:border-amber-500/40 rounded-xl p-3.5 transition flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 font-bold">Month ${m.monthNum}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded ${m.status === 'Peak Progress' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'} font-semibold">${m.status}</span>
+            </div>
+            <h4 class="font-cinzel text-sm font-bold text-white mb-1">${m.title}</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-2">${m.desc}</p>
+          </div>
+          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Ruler: <strong class="text-amber-300">${m.ruler}</strong></span>
+            <span class="capitalize text-slate-500 text-[10px]">${m.category}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function populatePrintableVarshaphal() {
+      if (!currentChartData) return;
+      const vData = currentVarshaphalData || calculateVarshaphal(currentChartData, new Date().getFullYear());
+      if (!vData) return;
+
+      const setTxt = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      };
+
+      setTxt("prVarshaYearTitle", `Varshaphal ${vData.returnYear} (Age ${vData.age})`);
+      setTxt("prVarshaReturnMoment", `Solar Return Period: ${vData.periodStr}`);
+      setTxt("prVarshaLagna", `${vData.varshaLagnaName} (Lord: ${vData.varshaLagnaLord})`);
+      setTxt("prVarshaMuntha", `${vData.munthaSignName} in House ${vData.munthaHouse}`);
+      setTxt("prVarshaLord", `${vData.yearLord} (${vData.yearLordEnergy})`);
+      setTxt("prVarshaScore", `${vData.overallScore}% Auspicious`);
+
+      // Printable Monthwise Grid
+      const prGrid = document.getElementById("prVarshaMonthwiseGrid");
+      if (prGrid) {
+        prGrid.innerHTML = "";
+        vData.months.forEach(m => {
+          const div = document.createElement("div");
+          div.className = "border border-slate-300 p-2 rounded bg-slate-50 text-[10px]";
+          div.innerHTML = `
+            <div class="flex justify-between font-bold text-slate-800 mb-0.5">
+              <span>Month ${m.monthNum}: ${m.title}</span>
+              <span>${m.status}</span>
+            </div>
+            <p class="text-slate-600">${m.desc}</p>
+            <span class="text-slate-500 text-[9px] block mt-0.5">Ruler: ${m.ruler}</span>
+          `;
+          prGrid.appendChild(div);
+        });
+      }
+    }
+
     // UI Updates
     function updateUIWithData(data) {
-      updateVarshaphalUI();
       currentChartData = data;
+      try {
+        updateVarshaphalUI();
+      } catch (err) {
+        console.warn("Varshaphal UI update warning:", err);
+      }
 
       document.getElementById("bannerName").textContent = data.meta.name;
       document.getElementById("bannerMeta").textContent = `${data.meta.gender} • ${data.meta.day}/${data.meta.month}/${data.meta.year} • ${data.meta.hour}:${data.meta.minute}`;
@@ -3844,8 +4067,12 @@
     }
 
     function updatePrintableReport() {
-      populatePrintableVarshaphal();
       const data = currentChartData;
+      try {
+        populatePrintableVarshaphal();
+      } catch (err) {
+        console.warn("Printable Varshaphal warning:", err);
+      }
       document.getElementById("prNativeName").textContent = data.meta.name;
       document.getElementById("prGender").textContent = data.meta.gender;
       document.getElementById("prDOB").textContent = `${data.meta.day}/${data.meta.month}/${data.meta.year}`;
@@ -4887,17 +5114,24 @@
     }
 
     function loadKundliRecord(kRec) {
-      document.getElementById("nativeName").value = kRec.name || "";
-      document.getElementById("nativeGender").value = kRec.gender || "Male";
-      document.getElementById("birthYear").value = kRec.year || 1995;
-      document.getElementById("birthMonth").value = kRec.month || 10;
-      document.getElementById("birthDay").value = kRec.day || 24;
-      document.getElementById("birthHour").value = kRec.hour || 14;
-      document.getElementById("birthMinute").value = kRec.minute || 30;
-      document.getElementById("birthSecond").value = kRec.second || 0;
-      document.getElementById("customLat").value = kRec.lat || 28.4089;
-      document.getElementById("customLon").value = kRec.lon || 77.3178;
-      document.getElementById("customTZ").value = kRec.tz || 5.5;
+      if (!kRec) return;
+      const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+
+      setVal("nativeName", kRec.name || "");
+      setVal("nativeGender", kRec.gender || "Male");
+
+      const y = kRec.year || 1995;
+      const m = String(kRec.month || 10).padStart(2, '0');
+      const d = String(kRec.day || 24).padStart(2, '0');
+      const hr = String(kRec.hour || 14).padStart(2, '0');
+      const min = String(kRec.minute || 30).padStart(2, '0');
+      const sec = String(kRec.second || 0).padStart(2, '0');
+
+      setVal("birthDate", );
+      setVal("birthTime", );
+      setVal("customLat", kRec.lat || 28.4089);
+      setVal("customLon", kRec.lon || 77.3178);
+      setVal("customTZ", kRec.tz || 5.5);
       if (document.getElementById("ayanamshaSelect")) {
         document.getElementById("ayanamshaSelect").value = kRec.ayanamshaType || "lahiri";
       }
