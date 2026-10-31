@@ -126,7 +126,10 @@
           <input type="text" id="loginId" required placeholder="Enter your Login ID or Mobile Number" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
         </div>
         <div>
-          <label class="block text-slate-300 mb-1 font-semibold">Password</label>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-slate-300 font-semibold">Password</label>
+            <button type="button" id="btnForgotPass" class="text-[11px] text-amber-400 hover:underline font-semibold cursor-pointer">Forgot Password?</button>
+          </div>
           <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
         </div>
         <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20 active:scale-95 cursor-pointer">
@@ -137,11 +140,55 @@
         </p>
       </form>
 
+      <!-- Forgot Password Form -->
+      <form id="forgotPassForm" class="space-y-3 text-xs hidden">
+        <div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-slate-300 space-y-1">
+          <strong class="text-amber-300 block">Reset Account Password</strong>
+          <p class="text-[11px] text-slate-400 leading-relaxed">Enter your registered Email ID or Login ID. We will shoot a 6-digit verification code to your email.</p>
+        </div>
+
+        <div id="forgotStep1" class="space-y-3">
+          <div>
+            <label class="block text-slate-300 mb-1 font-semibold">Registered Email Address or Login ID</label>
+            <input type="text" id="forgotIdentifier" required placeholder="e.g. rahul@example.com or astrorahul" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+          </div>
+          <button type="submit" id="btnSendResetOtp" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20 active:scale-95 cursor-pointer">
+            Shoot Verification Code to Email
+          </button>
+        </div>
+
+        <div id="forgotStep2" class="space-y-3 hidden">
+          <div class="p-2 rounded bg-emerald-500/10 border border-emerald-500/30 text-[11px] text-emerald-300">
+            ✉️ Verification code dispatched to <strong id="forgotTargetEmail">your email</strong>.
+          </div>
+          <div>
+            <label class="block text-slate-300 mb-1 font-semibold">6-Digit Verification Code (OTP)</label>
+            <input type="text" id="forgotOtp" required maxlength="6" placeholder="Enter 6-digit code" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-center tracking-widest text-base font-bold focus:border-amber-400 outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-300 mb-1 font-semibold">New Password</label>
+            <input type="password" id="forgotNewPass" required minlength="4" placeholder="Enter new password" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+          </div>
+          <button type="button" id="btnConfirmResetPass" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-emerald-500/20 active:scale-95 cursor-pointer">
+            Verify Code & Set New Password
+          </button>
+        </div>
+
+        <p class="text-center text-[11px] text-slate-400 pt-1">
+          Remembered your password? <button type="button" id="backToLoginBtn" class="text-amber-400 hover:underline font-semibold cursor-pointer">Back to Sign In</button>
+        </p>
+      </form>
+
+
       <!-- Register Form -->
       <form id="registerForm" class="space-y-3 text-xs hidden">
         <div>
           <label class="block text-slate-300 mb-1 font-semibold">Login ID (Username)</label>
           <input type="text" id="regLoginId" required placeholder="e.g. astrorahul or rahul123" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none font-mono">
+        </div>
+        <div>
+          <label class="block text-slate-300 mb-1 font-semibold">Email Address (For Account & Kundli Reports)</label>
+          <input type="email" id="regEmail" required placeholder="e.g. rahul@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
         </div>
         <div>
           <label class="block text-slate-300 mb-1 font-semibold">Mobile Number</label>
@@ -354,12 +401,15 @@
           </h3>
           <p class="text-xs text-slate-400">Manage user accounts, adjust credit allowances, and upgrade subscription tiers</p>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="adminExportCsvBtn" class="px-3 py-1 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+            <span>📊</span> Export Users (CSV / Excel)
+          </button>
           <button id="adminExportDbBtn" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs flex items-center gap-1">
-            <span>💾</span> Export JSON
+            <span>💾</span> JSON
           </button>
           <button id="adminImportDbBtn" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs flex items-center gap-1">
-            <span>📂</span> Import JSON
+            <span>📂</span> Restore
           </button>
           <input type="file" id="adminImportFileInput" class="hidden" accept=".json">
         </div>
@@ -402,10 +452,11 @@
         <table class="w-full text-left text-xs">
           <thead class="bg-slate-900 text-purple-300 text-[10px] uppercase font-bold tracking-wider sticky top-0">
             <tr>
-              <th class="py-2.5 px-3">User</th>
-              <th class="py-2.5 px-3">Current Plan</th>
-              <th class="py-2.5 px-3">Kundlis Saved</th>
-              <th class="py-2.5 px-3">Credit Limit</th>
+              <th class="py-2.5 px-3">User / Login ID</th>
+              <th class="py-2.5 px-3">Email ID</th>
+              <th class="py-2.5 px-3">Mobile Number</th>
+              <th class="py-2.5 px-3">Location</th>
+              <th class="py-2.5 px-3">Saved / Limit</th>
               <th class="py-2.5 px-3 text-right">Admin Actions</th>
             </tr>
           </thead>
@@ -4196,8 +4247,9 @@
         return this.currentUser;
       }
 
-      async register(loginId, mobile, location, password) {
+      async register(loginId, email, mobile, location, password) {
         const cleanLogin = loginId.trim();
+        const cleanEmail = email.trim().toLowerCase();
         const cleanMobile = mobile.trim();
         const cleanLoc = location.trim();
 
@@ -4208,6 +4260,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               login_id: cleanLogin,
+              email: cleanEmail,
               mobile: cleanMobile,
               location: cleanLoc,
               password: password
@@ -4221,6 +4274,7 @@
               this.currentUser = {
                 id: data.user.id,
                 loginId: data.user.login_id,
+                email: data.user.email || cleanEmail,
                 mobile: data.user.mobile,
                 location: data.user.location,
                 role: data.user.role || 'user',
@@ -4230,24 +4284,29 @@
               };
               localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(this.currentUser));
               updateIndusAuthUI();
-              return { success: true, user: this.currentUser, message: data.message };
+              return { success: true, user: this.currentUser, message: data.message || "Registration successful! Welcome email sent." };
             } else {
               return { success: false, message: data.message || "Registration failed on server." };
             }
           }
         } catch (e) {
-          console.warn("Server registration failed, falling back to local storage:", e);
+          console.warn("Server registration failed, using local storage:", e);
         }
 
         // 2. Offline fallback registration
-        const existing = this.db.users.find(u => u.loginId.toLowerCase() === cleanLogin.toLowerCase() || (cleanMobile && u.mobile === cleanMobile));
+        const existing = this.db.users.find(u => 
+          (u.loginId && u.loginId.toLowerCase() === cleanLogin.toLowerCase()) || 
+          (u.email && u.email.toLowerCase() === cleanEmail) ||
+          (cleanMobile && u.mobile === cleanMobile)
+        );
         if (existing) {
-          return { success: false, message: "An account with this Login ID or Mobile Number already exists." };
+          return { success: false, message: "An account with this Login ID, Email, or Mobile Number already exists." };
         }
 
         const newUser = {
           id: "usr_" + Date.now(),
           loginId: cleanLogin,
+          email: cleanEmail,
           mobile: cleanMobile,
           location: cleanLoc,
           password: password,
@@ -4263,7 +4322,137 @@
         this.currentUser = newUser;
         localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(newUser));
         updateIndusAuthUI();
+
+        // Simulate welcome email dispatch in offline/preview mode
+        setTimeout(() => {
+          showToast(`📧 Welcome Email dispatched to ${cleanEmail}!`, "info");
+        }, 600);
+
         return { success: true, user: newUser, message: "Registration successful! 10 Kundli save slots active." };
+      }
+
+      async forgotPassword(identifier) {
+        const cleanId = identifier.trim().toLowerCase();
+
+        // 1. Try server API
+        try {
+          const res = await fetch('./api.php?action=forgot_password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ identifier: cleanId }),
+            credentials: 'same-origin'
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success) {
+              return { success: true, email: data.email, message: data.message };
+            } else {
+              return { success: false, message: data.message || "Could not find account." };
+            }
+          }
+        } catch (e) {
+          console.warn("Server forgot_password failed, using local fallback:", e);
+        }
+
+        // 2. Offline fallback
+        const u = this.db.users.find(user => 
+          (user.email && user.email.toLowerCase() === cleanId) ||
+          (user.loginId && user.loginId.toLowerCase() === cleanId) ||
+          (user.mobile && user.mobile === cleanId)
+        );
+
+        if (!u) {
+          return { success: false, message: "No account found matching that Email ID, Login ID, or Mobile Number." };
+        }
+
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        u.resetOtp = otp;
+        u.resetOtpExpires = Date.now() + 15 * 60 * 1000;
+        this.saveLocalDB();
+
+        // Simulate email dispatch
+        setTimeout(() => {
+          showToast(`✉️ [Simulated Email] Code ${otp} sent to ${u.email || u.loginId}`, "info");
+        }, 500);
+
+        return {
+          success: true,
+          email: u.email || `${u.loginId}@user`,
+          otp: otp,
+          message: `A 6-digit verification code has been dispatched to ${u.email || u.loginId}!`
+        };
+      }
+
+      async resetPassword(identifier, otp, newPassword) {
+        const cleanId = identifier.trim().toLowerCase();
+
+        // 1. Try server API
+        try {
+          const res = await fetch('./api.php?action=reset_password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              identifier: cleanId,
+              otp: otp.trim(),
+              new_password: newPassword
+            }),
+            credentials: 'same-origin'
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success) {
+              return { success: true, message: data.message };
+            } else {
+              return { success: false, message: data.message || "Verification code invalid or expired." };
+            }
+          }
+        } catch (e) {}
+
+        // 2. Offline fallback
+        const u = this.db.users.find(user => 
+          (user.email && user.email.toLowerCase() === cleanId) ||
+          (user.loginId && user.loginId.toLowerCase() === cleanId) ||
+          (user.mobile && user.mobile === cleanId)
+        );
+
+        if (!u) {
+          return { success: false, message: "Account not found." };
+        }
+
+        if (u.resetOtp !== otp.trim() || Date.now() > u.resetOtpExpires) {
+          return { success: false, message: "Invalid or expired verification code. Please request a new one." };
+        }
+
+        u.password = newPassword;
+        delete u.resetOtp;
+        delete u.resetOtpExpires;
+        this.saveLocalDB();
+
+        return { success: true, message: "Password updated successfully! You can now sign in with your new password." };
+      }
+
+      exportUsersCSV() {
+        const headers = ["Login ID", "Email ID", "Mobile Number", "Location", "Plan", "Saved Kundlis", "Credit Limit", "Registered Date"];
+        const rows = this.db.users.map(u => [
+          `"${(u.loginId || u.name || '').replace(/"/g, '""')}"`,
+          `"${(u.email || 'N/A').replace(/"/g, '""')}"`,
+          `"${(u.mobile || 'N/A').replace(/"/g, '""')}"`,
+          `"${(u.location || 'N/A').replace(/"/g, '""')}"`,
+          `"${(u.tier || 'free').replace(/"/g, '""')}"`,
+          (u.savedKundlis || []).length,
+          (u.maxCredits >= 999999 ? "Unlimited" : (u.maxCredits || 10)),
+          `"${(u.createdAt || '').replace(/"/g, '""')}"`
+        ]);
+
+        const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `indus_kundli_users_${Date.now()}.csv`;
+        link.click();
+        URL.revokeObjectURL(url);
+        showToast("User list exported to CSV / Excel spreadsheet!", "success");
       }
 
       async login(loginId, password) {
@@ -4817,25 +5006,37 @@
       filtered.forEach(u => {
         const isUnlimited = (u.tier === "unlimited_3000" || u.maxCredits >= 999999);
         const savedCount = (u.savedKundlis || []).length;
+        const userEmail = u.email || 'N/A';
+        const userMobile = u.mobile || 'N/A';
 
         const tr = document.createElement("tr");
-        tr.className = "hover:bg-slate-800/40 transition";
+        tr.className = "hover:bg-slate-800/40 transition text-xs";
         tr.innerHTML = `
-          <td class="py-2 px-3 font-semibold text-white">
+          <td class="py-2.5 px-3 font-semibold text-white">
             <div class="flex items-center gap-1.5">
               <span class="font-mono text-amber-300 font-bold">${u.loginId || u.name}</span>
               ${u.role === 'admin' ? '<span class="text-[9px] bg-purple-600 text-white px-1 rounded font-mono font-bold">ADMIN</span>' : ''}
             </div>
-            <span class="text-[10px] text-slate-400 block">📱 ${u.mobile || 'N/A'} • 📍 ${u.location || 'N/A'}</span>
           </td>
-          <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">Free Account</span></td>
-          <td class="py-2 px-3 font-mono font-bold text-amber-300">${savedCount}</td>
-          <td class="py-2 px-3 font-mono text-slate-300">${isUnlimited ? '∞' : u.maxCredits}</td>
-          <td class="py-2 px-3 text-right space-x-1 whitespace-nowrap">
+          <td class="py-2.5 px-3">
+            <a href="mailto:${userEmail}" class="text-blue-300 hover:underline flex items-center gap-1" title="Send email to user">
+              <span>✉️</span> ${userEmail}
+            </a>
+          </td>
+          <td class="py-2.5 px-3 font-mono text-slate-200">
+            <a href="tel:${userMobile}" class="text-emerald-300 hover:underline flex items-center gap-1" title="Call/Message user">
+              <span>📱</span> ${userMobile}
+            </a>
+          </td>
+          <td class="py-2.5 px-3 text-slate-300 text-[11px]">${u.location || 'N/A'}</td>
+          <td class="py-2.5 px-3 font-mono font-bold text-amber-300">
+            ${savedCount} / <span class="text-slate-400 font-normal">${isUnlimited ? '∞' : u.maxCredits}</span>
+          </td>
+          <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
             <button class="admin-add-10 px-2 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-[10px] font-bold cursor-pointer" data-id="${u.id}" title="Add +10 credits">
               +10 Slots
             </button>
-            ${u.role !== 'admin' ? `<button class="admin-del-user px-1.5 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-[10px] cursor-pointer" data-id="${u.id}">✕</button>` : ''}
+            ${u.role !== 'admin' ? `<button class="admin-del-user px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-[10px] cursor-pointer" data-id="${u.id}">Delete</button>` : ''}
           </td>
         `;
         tbody.appendChild(tr);
@@ -5010,23 +5211,102 @@
         });
       }
 
-      // Register Form Submit (Login ID + Mobile + Location + Password)
+      // Register Form Submit (Login ID + Email + Mobile + Location + Password)
       if (formReg) {
         formReg.addEventListener("submit", async (e) => {
           e.preventDefault();
           const loginId = document.getElementById("regLoginId").value;
+          const email = document.getElementById("regEmail") ? document.getElementById("regEmail").value : "";
           const mobile = document.getElementById("regMobile").value;
           const location = document.getElementById("regLocation").value;
           const pass = document.getElementById("regPassword").value;
 
-          const res = await indusAuth.register(loginId, mobile, location, pass);
+          const res = await indusAuth.register(loginId, email, mobile, location, pass);
           if (res.success) {
             document.getElementById("authModal").classList.add("hidden");
             updateIndusAuthUI();
-            showToast(`Account registered on server! 10 Kundli save slots active.`, "success");
+            showToast("🎉 Login Created Successfully! Welcome email dispatched to " + (email || loginId), "success");
           } else {
             showToast(res.message, "error");
           }
+        });
+      }
+
+      // Forgot Password Navigation & Handlers
+      const btnForgotPass = document.getElementById("btnForgotPass");
+      const forgotPassForm = document.getElementById("forgotPassForm");
+      const backToLoginBtn = document.getElementById("backToLoginBtn");
+      const forgotStep1 = document.getElementById("forgotStep1");
+      const forgotStep2 = document.getElementById("forgotStep2");
+      let activeForgotIdentifier = "";
+
+      if (btnForgotPass && forgotPassForm && formLogin) {
+        btnForgotPass.addEventListener("click", () => {
+          formLogin.classList.add("hidden");
+          if (formReg) formReg.classList.add("hidden");
+          if (formAdmin) formAdmin.classList.add("hidden");
+          forgotPassForm.classList.remove("hidden");
+          if (forgotStep1) forgotStep1.classList.remove("hidden");
+          if (forgotStep2) forgotStep2.classList.add("hidden");
+        });
+      }
+
+      if (backToLoginBtn && forgotPassForm && formLogin) {
+        backToLoginBtn.addEventListener("click", () => {
+          forgotPassForm.classList.add("hidden");
+          formLogin.classList.remove("hidden");
+        });
+      }
+
+      if (forgotPassForm) {
+        forgotPassForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const identifier = document.getElementById("forgotIdentifier").value;
+          activeForgotIdentifier = identifier;
+
+          const res = await indusAuth.forgotPassword(identifier);
+          if (res.success) {
+            document.getElementById("forgotTargetEmail").textContent = res.email;
+            if (forgotStep1) forgotStep1.classList.add("hidden");
+            if (forgotStep2) forgotStep2.classList.remove("hidden");
+            showToast(res.message, "success");
+          } else {
+            showToast(res.message, "error");
+          }
+        });
+      }
+
+      const btnConfirmResetPass = document.getElementById("btnConfirmResetPass");
+      if (btnConfirmResetPass) {
+        btnConfirmResetPass.addEventListener("click", async () => {
+          const otp = document.getElementById("forgotOtp").value;
+          const newPass = document.getElementById("forgotNewPass").value;
+
+          if (!otp || !newPass) {
+            showToast("Please enter the 6-digit code and new password.", "error");
+            return;
+          }
+
+          const res = await indusAuth.resetPassword(activeForgotIdentifier, otp, newPass);
+          if (res.success) {
+            showToast("Password reset successfully! You can now sign in with your new password.", "success");
+            if (forgotPassForm) forgotPassForm.classList.add("hidden");
+            if (formLogin) {
+              formLogin.classList.remove("hidden");
+              document.getElementById("loginId").value = activeForgotIdentifier;
+              document.getElementById("loginPassword").value = newPass;
+            }
+          } else {
+            showToast(res.message, "error");
+          }
+        });
+      }
+
+      // Admin Export Users to CSV Button
+      const adminExportCsvBtn = document.getElementById("adminExportCsvBtn");
+      if (adminExportCsvBtn) {
+        adminExportCsvBtn.addEventListener("click", () => {
+          indusAuth.exportUsersCSV();
         });
       }
 
