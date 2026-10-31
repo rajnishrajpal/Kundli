@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DivyaJyotish - Vedic Kundli, Divisional Charts, Ashtakavarga & Yoga Software</title>
+  <title>Indus Kundli App - Vedic Astrology, D1-D60 Divisional Charts & Kundli Software</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
@@ -101,7 +101,317 @@
     </div>
   </div>
 
-  <!-- Header -->
+
+  <!-- 1. AUTH MODAL (Sign In, Register, Admin Login) -->
+  <div id="authModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
+    <div class="bg-vedic-cardbg border border-vedic-gold/40 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-left">
+      <button id="closeAuthModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl p-1 rounded-lg bg-slate-800/60">✕</button>
+      
+      <div class="text-center mb-5">
+        <h3 class="font-cinzel text-xl font-bold text-amber-300">Indus Kundli Account</h3>
+        <p class="text-xs text-slate-400 mt-1">Sign in to save and manage your personal & client horoscopes</p>
+      </div>
+
+      <!-- Auth Tabs -->
+      <div class="flex border-b border-slate-800 mb-4 text-xs font-semibold">
+        <button id="authTabLogin" class="flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400">Sign In</button>
+        <button id="authTabRegister" class="flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent">Create Free Account</button>
+        <button id="authTabAdmin" class="flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent">Admin Access</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="space-y-3.5 text-xs">
+        <div>
+          <label class="block text-slate-300 mb-1">Email Address</label>
+          <input type="email" id="loginEmail" required placeholder="you@domain.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 mb-1">Password</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20">
+          Sign In to Indus Vault
+        </button>
+        <button type="button" id="guestLoginBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 py-1.5 rounded-lg text-[11px] transition">
+          Continue as Guest (Local 10-Kundli Storage)
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" class="space-y-3.5 text-xs hidden">
+        <div>
+          <label class="block text-slate-300 mb-1">Full Name</label>
+          <input type="text" id="regName" required placeholder="Acharya Rahul" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 mb-1">Email Address</label>
+          <input type="email" id="regEmail" required placeholder="rahul@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 mb-1">Create Password</label>
+          <input type="password" id="regPassword" required minlength="4" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+        </div>
+        <div class="p-2 rounded bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-300">
+          ✨ <strong>Free Plan Included:</strong> You will receive <strong>10 Kundli save credits</strong> immediately upon registration.
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20">
+          Create Account (10 Free Kundlis)
+        </button>
+      </form>
+
+      <!-- Admin Passcode Form -->
+      <form id="adminLoginForm" class="space-y-3.5 text-xs hidden">
+        <div class="p-2.5 rounded-lg bg-purple-950/40 border border-purple-500/30 text-[11px] text-purple-300 leading-relaxed">
+          🛡️ <strong>Master Admin Terminal:</strong> Enter the site master key to unlock user credit management, plan overrides, and database backups.
+        </div>
+        <div>
+          <label class="block text-slate-300 mb-1">Master Admin Passcode / PIN</label>
+          <input type="password" id="adminPasscode" required placeholder="Enter Admin PIN (Default: indusadmin2026 or 7788)" class="w-full bg-slate-900 border border-purple-500/50 rounded-lg px-3 py-2 text-white focus:border-purple-400 outline-none font-mono">
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 text-white font-bold py-2 rounded-lg transition shadow-md shadow-purple-500/20">
+          Unlock Master Admin Dashboard
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. SAVED KUNDLIS VAULT DRAWER / MODAL -->
+  <div id="savedKundlisModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
+    <div class="bg-vedic-cardbg border border-vedic-gold/40 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative text-left max-h-[90vh] flex flex-col">
+      <button id="closeSavedModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl p-1 rounded-lg bg-slate-800/60">✕</button>
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
+        <div>
+          <h3 class="font-cinzel text-lg font-bold text-amber-300 flex items-center gap-2">
+            <span>📁</span> Indus Kundli Vault
+          </h3>
+          <p class="text-xs text-slate-400">Access, reload, and print your saved horoscopes</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="vaultUsageIndicator" class="text-xs font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">0 / 10 Used</span>
+          <button id="vaultUpgradeBtn" class="hidden text-[11px] px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-semibold">Upgrade</button>
+        </div>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="mb-3">
+        <input type="text" id="savedKundliSearch" placeholder="🔍 Search saved horoscopes by name, place, or tag..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:border-amber-400 outline-none">
+      </div>
+
+      <!-- Kundli List -->
+      <div id="savedKundlisList" class="flex-1 overflow-y-auto space-y-2 pr-1 text-xs">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. SAVE KUNDLI CONFIRMATION MODAL -->
+  <div id="saveKundliModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
+    <div class="bg-vedic-cardbg border border-vedic-gold/40 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-left">
+      <button id="closeSavePromptModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl p-1 rounded-lg bg-slate-800/60">✕</button>
+      
+      <h3 class="font-cinzel text-lg font-bold text-amber-300 mb-2">Save Horoscope to Vault</h3>
+      <p class="text-xs text-slate-400 mb-4">Assign a tag and personal notes to archive this Kundli.</p>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-xs mb-4 space-y-1">
+        <p><strong class="text-slate-300">Native Name:</strong> <span id="savePromptName" class="text-amber-300 font-bold"></span></p>
+        <p><strong class="text-slate-300">Birth Details:</strong> <span id="savePromptDetails" class="text-slate-300"></span></p>
+        <p><strong class="text-slate-300">Place:</strong> <span id="savePromptPlace" class="text-slate-300"></span></p>
+      </div>
+
+      <form id="saveKundliForm" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 mb-1">Category / Tag</label>
+          <select id="saveKundliTag" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white outline-none">
+            <option value="Personal">Personal</option>
+            <option value="Family">Family Member</option>
+            <option value="Client">Astrology Client</option>
+            <option value="Matchmaking">Matchmaking (Kundli Milan)</option>
+            <option value="Research">Research / Case Study</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-300 mb-1">Consultation / Astrological Notes</label>
+          <textarea id="saveKundliNotes" rows="2" placeholder="e.g. Inquired about career promotion and Saturn Sade Sati remedies" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white outline-none"></textarea>
+        </div>
+
+        <div id="saveLimitStatusBox" class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300">
+          ✓ Ready to save. Available slots: <strong id="saveRemainingSlots">10</strong>
+        </div>
+
+        <div class="flex items-center gap-2 pt-2">
+          <button type="submit" id="confirmSaveBtn" class="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20">
+            Confirm & Save
+          </button>
+          <button type="button" id="cancelSaveBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. SUBSCRIPTION TIERS & UPGRADE MODAL -->
+  <div id="subscriptionModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
+    <div class="bg-vedic-cardbg border border-vedic-gold/40 rounded-2xl max-w-3xl w-full p-6 shadow-2xl relative text-left max-h-[92vh] overflow-y-auto">
+      <button id="closeSubModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl p-1 rounded-lg bg-slate-800/60">✕</button>
+      
+      <div class="text-center mb-6">
+        <h3 class="font-cinzel text-xl sm:text-2xl font-bold text-amber-300">Indus Kundli App Subscription Plans</h3>
+        <p class="text-xs text-slate-400 mt-1">Upgrade your Kundli storage limit and unlock professional consulting features</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs mb-6">
+        <!-- Tier 1: Free -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-800 text-slate-300">Free Tier</span>
+            <div class="mt-2 mb-3">
+              <span class="font-cinzel text-2xl font-bold text-white">₹0</span>
+              <span class="text-[11px] text-slate-400">/ forever</span>
+            </div>
+            <p class="text-amber-300 font-bold text-xs mb-3">10 Saved Kundlis</p>
+            <ul class="space-y-2 text-slate-300 text-[11px]">
+              <li class="flex items-center gap-1.5">✓ Full D1–D60 Divisional Charts</li>
+              <li class="flex items-center gap-1.5">✓ Parashara & Parivritti Traya</li>
+              <li class="flex items-center gap-1.5">✓ Sarvashtakavarga & BAV</li>
+              <li class="flex items-center gap-1.5">✓ 120-Yr Vimshottari Dasha</li>
+              <li class="flex items-center gap-1.5">✓ High-Resolution Printing</li>
+            </ul>
+          </div>
+          <button class="mt-4 w-full py-1.5 rounded-lg bg-slate-800 text-slate-400 cursor-default text-[11px] font-semibold">Current Default</button>
+        </div>
+
+        <!-- Tier 2: Rs 500 (100 Kundlis) -->
+        <div class="bg-gradient-to-b from-amber-950/30 to-slate-900 border-2 border-amber-500/60 rounded-xl p-4 flex flex-col justify-between shadow-lg shadow-amber-500/10 relative">
+          <span class="absolute -top-2.5 right-4 bg-amber-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Most Popular</span>
+          <div>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Astrologer Pro</span>
+            <div class="mt-2 mb-3">
+              <span class="font-cinzel text-2xl font-bold text-amber-300">₹500</span>
+              <span class="text-[11px] text-slate-400">/ one-time</span>
+            </div>
+            <p class="text-emerald-400 font-bold text-xs mb-3">100 Saved Kundlis (10x Space)</p>
+            <ul class="space-y-2 text-slate-300 text-[11px]">
+              <li class="flex items-center gap-1.5 text-amber-200">★ Up to 100 Client Profiles</li>
+              <li class="flex items-center gap-1.5">✓ Client Consultation Notes</li>
+              <li class="flex items-center gap-1.5">✓ Quick Search & Tagging</li>
+              <li class="flex items-center gap-1.5">✓ Commercial Horoscope Printing</li>
+              <li class="flex items-center gap-1.5">✓ Direct Admin Activation</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/919811000000?text=Hello%20Indus%20Jyotish,%20I%20want%20to%20upgrade%20to%20the%20Rs%20500%20Astrologer%20Pro%20Plan%20(100%20Kundlis)." target="_blank" class="mt-4 block text-center w-full py-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold text-xs transition shadow">
+            Upgrade to Pro (₹500)
+          </a>
+        </div>
+
+        <!-- Tier 3: Rs 3000 (Unlimited) -->
+        <div class="bg-gradient-to-b from-purple-950/30 to-slate-900 border border-purple-500/40 rounded-xl p-4 flex flex-col justify-between shadow-lg shadow-purple-500/10">
+          <div>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Master Consultant</span>
+            <div class="mt-2 mb-3">
+              <span class="font-cinzel text-2xl font-bold text-purple-300">₹3,000</span>
+              <span class="text-[11px] text-slate-400">/ lifetime VIP</span>
+            </div>
+            <p class="text-purple-300 font-bold text-xs mb-3">Unlimited Saved Kundlis (∞)</p>
+            <ul class="space-y-2 text-slate-300 text-[11px]">
+              <li class="flex items-center gap-1.5 text-purple-200">★ Unlimited Client Database</li>
+              <li class="flex items-center gap-1.5">✓ Master Astrologer VIP Badge</li>
+              <li class="flex items-center gap-1.5">✓ Export/Backup Entire Database</li>
+              <li class="flex items-center gap-1.5">✓ Commercial Consultation Rights</li>
+              <li class="flex items-center gap-1.5">✓ Priority WhatsApp Master Support</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/919811000000?text=Hello%20Indus%20Jyotish,%20I%20want%20to%20upgrade%20to%20the%20Rs%203000%20Master%20Consultant%20Plan%20(Unlimited%20Kundlis)." target="_blank" class="mt-4 block text-center w-full py-2 rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 text-white font-bold text-xs transition shadow">
+            Upgrade to Unlimited (₹3,000)
+          </a>
+        </div>
+      </div>
+
+      <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-center text-xs text-slate-400 space-y-1">
+        <p>💳 <strong>Instant Activation:</strong> Once requested, the Master Admin assigns your credits directly via the Master Admin Console.</p>
+        <p>Need support? Contact Indus Jyotish at <strong>admin@indusjyotish.in</strong> or WhatsApp <strong>+91 98110 00000</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. MASTER ADMIN CONSOLE MODAL -->
+  <div id="masterAdminModal" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4 backdrop-blur-md hidden">
+    <div class="bg-vedic-cardbg border-2 border-purple-500/50 rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative text-left max-h-[92vh] flex flex-col">
+      <button id="closeAdminModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl p-1 rounded-lg bg-slate-800/60">✕</button>
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-purple-500/30 pb-3 mb-4">
+        <div>
+          <h3 class="font-cinzel text-lg font-bold text-purple-300 flex items-center gap-2">
+            <span>🛡️</span> Indus Jyotish Master Admin Console
+          </h3>
+          <p class="text-xs text-slate-400">Manage user accounts, adjust credit allowances, and upgrade subscription tiers</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="adminExportDbBtn" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs flex items-center gap-1">
+            <span>💾</span> Export JSON
+          </button>
+          <button id="adminImportDbBtn" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs flex items-center gap-1">
+            <span>📂</span> Import JSON
+          </button>
+          <input type="file" id="adminImportFileInput" class="hidden" accept=".json">
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs mb-4">
+        <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-lg text-center">
+          <span class="text-[10px] text-slate-400 uppercase block">Total Users</span>
+          <strong id="adminStatUsers" class="text-base text-white">0</strong>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-lg text-center">
+          <span class="text-[10px] text-slate-400 uppercase block">Saved Kundlis</span>
+          <strong id="adminStatKundlis" class="text-base text-amber-300">0</strong>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-lg text-center">
+          <span class="text-[10px] text-slate-400 uppercase block">Free Tiers</span>
+          <strong id="adminStatFree" class="text-base text-slate-300">0</strong>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-lg text-center">
+          <span class="text-[10px] text-amber-400/80 uppercase block">Pro (₹500)</span>
+          <strong id="adminStatPro" class="text-base text-amber-400">0</strong>
+        </div>
+        <div class="bg-slate-900 border border-purple-500/30 p-2.5 rounded-lg text-center col-span-2 sm:col-span-1">
+          <span class="text-[10px] text-purple-300 uppercase block">VIP (₹3,000)</span>
+          <strong id="adminStatUnlimited" class="text-base text-purple-300">0</strong>
+        </div>
+      </div>
+
+      <!-- User Search & Filter -->
+      <div class="flex items-center gap-2 mb-3">
+        <input type="text" id="adminUserSearch" placeholder="🔍 Search users by name or email..." class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:border-purple-400 outline-none">
+        <button id="adminCreateUserBtn" class="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs whitespace-nowrap">
+          + Add User
+        </button>
+      </div>
+
+      <!-- Users Table -->
+      <div class="flex-1 overflow-y-auto border border-slate-800 rounded-xl">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-900 text-purple-300 text-[10px] uppercase font-bold tracking-wider sticky top-0">
+            <tr>
+              <th class="py-2.5 px-3">User</th>
+              <th class="py-2.5 px-3">Current Plan</th>
+              <th class="py-2.5 px-3">Kundlis Saved</th>
+              <th class="py-2.5 px-3">Credit Limit</th>
+              <th class="py-2.5 px-3 text-right">Admin Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminUserTableBody" class="divide-y divide-slate-800/80 font-sans">
+            <!-- Injected via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Header -->
   <header class="border-b border-vedic-border bg-vedic-cardbg/80 backdrop-blur-md sticky top-0 z-40 no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <div class="flex items-center gap-3.5">
@@ -111,14 +421,14 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="font-cinzel text-xl sm:text-2xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500">
-              DIVYA JYOTISH
+              INDUS KUNDLI APP
             </h1>
             <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 font-medium tracking-wider">
-              Vedic Kundli Studio
+              Indus Jyotish Studio
             </span>
           </div>
           <p class="text-xs text-slate-400 font-sanskrit tracking-wider hidden sm:block">
-            यतो धर्मस्ततो जयः • दीपः सर्वस्य शास्त्रस्य
+            यतो धर्मस्ततो जयः • दीपः सर्वस्य शास्त्रस्य • kundli.indusjyotish.in
           </p>
         </div>
       </div>
@@ -135,6 +445,27 @@
             <option value="einstein">🧠 Albert Einstein</option>
           </select>
         </div>
+
+        <!-- Saved Kundlis Button -->
+        <button id="headerVaultBtn" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition shadow">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+          <span class="hidden sm:inline">Saved</span>
+          <span id="headerVaultCount" class="px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold">0/10</span>
+        </button>
+
+        <!-- Auth / User Profile Button -->
+        <div id="headerAuthContainer">
+          <button id="headerAuthBtn" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-amber-300 transition shadow">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span>Sign In</span>
+          </button>
+        </div>
+
+        <!-- Master Admin Button -->
+        <button id="headerAdminBtn" class="hidden flex items-center gap-1.5 px-2.5 py-2 rounded-lg bg-purple-900/60 hover:bg-purple-900 border border-purple-500/50 text-xs font-bold text-purple-200 transition shadow">
+          <span>🛡️</span>
+          <span class="hidden md:inline">Master Admin</span>
+        </button>
 
         <!-- Print Button -->
         <button id="topPrintBtn" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-semibold text-xs sm:text-sm px-3.5 py-2 rounded-lg shadow-lg shadow-amber-500/20 flex items-center gap-1.5 transition">
@@ -156,8 +487,9 @@
         </div>
         <div class="flex items-center gap-2 text-xs text-slate-400">
           <span>Chart Style:</span>
-          <button id="toggleChartNorth" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold">North Indian</button>
-          <button id="toggleChartSouth" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white">South Indian</button>
+          <button id="toggleChartNorth" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold transition">North Indian</button>
+          <button id="toggleChartSouth" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition">South Indian</button>
+          <button id="toggleChartEast" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition">East Indian (Bengali)</button>
         </div>
       </div>
 
@@ -192,7 +524,11 @@
 
         <!-- Place of Birth with Search -->
         <div class="lg:col-span-3">
-          <label class="block text-xs font-medium text-slate-300 mb-1" for="birthPlaceSelect">Place of Birth</label>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-xs font-medium text-slate-300" for="birthPlaceSelect">Place of Birth</label>
+            <span class="text-[10px] text-amber-400 font-mono">200+ Cities & Global Hubs</span>
+          </div>
+          <input type="text" id="citySearchInput" placeholder="🔍 Search city (e.g. Faridabad, Pune, London, Dubai)..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 mb-1.5 focus:border-vedic-gold outline-none">
           <select id="birthPlaceSelect" class="w-full bg-slate-900/90 border border-vedic-border rounded-lg px-3 py-2 text-sm text-white focus:border-vedic-gold outline-none">
             <!-- Populated via JS -->
           </select>
@@ -285,6 +621,31 @@
           <div class="w-full bg-slate-800 rounded-full h-1.5 mt-1.5 overflow-hidden">
             <div id="bannerDashaProgress" class="bg-gradient-to-r from-amber-500 to-emerald-400 h-1.5 rounded-full" style="width: 65%"></div>
           </div>
+        </div>
+      </div>
+
+      <!-- Banner Action Toolbar: Save Kundli, Vault Counter, Active Plan & Upgrade -->
+      <div class="relative z-10 flex flex-wrap items-center justify-between gap-3 mt-4 pt-4 border-t border-slate-800/80 text-xs">
+        <div class="flex items-center gap-2">
+          <button id="bannerSaveKundliBtn" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20 transition active:scale-95 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+            <span>Save This Kundli</span>
+          </button>
+          <button id="bannerMyKundlisBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-medium transition cursor-pointer">
+            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+            <span>My Saved Kundlis</span>
+            <span id="savedCountBadge" class="ml-1 px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">0/10</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div id="bannerPlanStatus" class="flex items-center gap-2 text-[11px] text-slate-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Storage: <strong id="userTierName" class="text-amber-300">10 Saved Kundlis</strong></span>
+          </div>
+          <button id="bannerUpgradeBtn" class="hidden px-2.5 py-1 rounded-md bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-[11px] font-semibold transition cursor-pointer">
+            💎 Upgrade Tier
+          </button>
         </div>
       </div>
     </section>
@@ -838,11 +1199,11 @@
         <div class="text-center border-b-2 border-amber-800/60 pb-4">
           <div class="flex items-center justify-center gap-3 mb-1">
             <span class="text-2xl text-amber-700">ॐ</span>
-            <h2 class="font-cinzel text-2xl font-bold tracking-widest text-amber-900 uppercase">Janam Kundli Patrika</h2>
+            <h2 class="font-cinzel text-2xl font-bold tracking-widest text-amber-900 uppercase">INDUS KUNDLI APP</h2>
             <span class="text-2xl text-amber-700">卐</span>
           </div>
-          <p class="text-xs tracking-wider uppercase text-amber-800 font-sans font-semibold">Vedic Astrological Horoscope & Comprehensive Natal Analysis</p>
-          <p class="text-[10px] text-slate-600 italic font-sans mt-0.5">Calculated as per Chitrapaksha / Lahiri Nirayana Ephemeris</p>
+          <p class="text-xs tracking-wider uppercase text-amber-800 font-sans font-semibold">Official Vedic Janam Kundli Patrika • Indus Jyotish</p>
+          <p class="text-[10px] text-slate-600 font-mono mt-0.5">kundli.indusjyotish.in • www.indusjyotish.in • Lahiri Nirayana Ephemeris</p>
         </div>
 
         <!-- Jataka Bio Data & Panchanga -->
@@ -974,7 +1335,7 @@
 
         <!-- Document Footer -->
         <div class="border-t border-slate-300 pt-3 text-center text-[10px] text-slate-500 font-sans">
-          Divya Jyotish Vedic Software • Blessed with traditional Parashara astrological algorithms • Designed for spiritual clarity & guidance
+          Indus Kundli App • Powered by Indus Jyotish • Blessed with traditional Parashara astrological algorithms • kundli.indusjyotish.in
         </div>
 
       </div>
@@ -985,7 +1346,7 @@
   <!-- JAVASCRIPT LOGIC ENGINE -->
   <script>
     // Embedded Cities Data
-    const CITIES_DB = [{"name": "Faridabad, India", "lat": 28.4089, "lon": 77.3178, "tz": 5.5}, {"name": "New Delhi, India", "lat": 28.6139, "lon": 77.209, "tz": 5.5}, {"name": "Mumbai, India", "lat": 19.076, "lon": 72.8777, "tz": 5.5}, {"name": "Bengaluru, India", "lat": 12.9716, "lon": 77.5946, "tz": 5.5}, {"name": "Kolkata, India", "lat": 22.5726, "lon": 88.3639, "tz": 5.5}, {"name": "Chennai, India", "lat": 13.0827, "lon": 80.2707, "tz": 5.5}, {"name": "Hyderabad, India", "lat": 17.385, "lon": 78.4867, "tz": 5.5}, {"name": "Ahmedabad, India", "lat": 23.0225, "lon": 72.5714, "tz": 5.5}, {"name": "Pune, India", "lat": 18.5204, "lon": 73.8567, "tz": 5.5}, {"name": "Jaipur, India", "lat": 26.9124, "lon": 75.7873, "tz": 5.5}, {"name": "Lucknow, India", "lat": 26.8467, "lon": 80.9462, "tz": 5.5}, {"name": "Varanasi, India", "lat": 25.3176, "lon": 82.9739, "tz": 5.5}, {"name": "Patna, India", "lat": 25.5941, "lon": 85.1376, "tz": 5.5}, {"name": "Chandigarh, India", "lat": 30.7333, "lon": 76.7794, "tz": 5.5}, {"name": "Bhopal, India", "lat": 23.2599, "lon": 77.4126, "tz": 5.5}, {"name": "Indore, India", "lat": 22.7196, "lon": 75.8577, "tz": 5.5}, {"name": "Nagpur, India", "lat": 21.1458, "lon": 79.0882, "tz": 5.5}, {"name": "Surat, India", "lat": 21.1702, "lon": 72.8311, "tz": 5.5}, {"name": "Visakhapatnam, India", "lat": 17.6868, "lon": 83.2185, "tz": 5.5}, {"name": "Kochi, India", "lat": 9.9312, "lon": 76.2673, "tz": 5.5}, {"name": "Thiruvananthapuram, India", "lat": 8.5241, "lon": 76.9366, "tz": 5.5}, {"name": "Guwahati, India", "lat": 26.1445, "lon": 91.7362, "tz": 5.5}, {"name": "Bhubaneswar, India", "lat": 20.2961, "lon": 85.8245, "tz": 5.5}, {"name": "Dehradun, India", "lat": 30.3165, "lon": 78.0322, "tz": 5.5}, {"name": "Shimla, India", "lat": 31.1048, "lon": 77.1734, "tz": 5.5}, {"name": "Srinagar, India", "lat": 34.0837, "lon": 74.7973, "tz": 5.5}, {"name": "Amritsar, India", "lat": 31.634, "lon": 74.8723, "tz": 5.5}, {"name": "Agra, India", "lat": 27.1767, "lon": 78.0081, "tz": 5.5}, {"name": "Kanpur, India", "lat": 26.4499, "lon": 80.3319, "tz": 5.5}, {"name": "Prayagraj (Allahabad), India", "lat": 25.4358, "lon": 81.8463, "tz": 5.5}, {"name": "Ujjain, India", "lat": 23.1765, "lon": 75.7885, "tz": 5.5}, {"name": "Haridwar, India", "lat": 29.9457, "lon": 78.1642, "tz": 5.5}, {"name": "Rishikesh, India", "lat": 30.0869, "lon": 78.2676, "tz": 5.5}, {"name": "Ayodhya, India", "lat": 26.7922, "lon": 82.1998, "tz": 5.5}, {"name": "London, United Kingdom", "lat": 51.5074, "lon": -0.1278, "tz": 0.0}, {"name": "New York, USA", "lat": 40.7128, "lon": -74.006, "tz": -5.0}, {"name": "San Francisco, USA", "lat": 37.7749, "lon": -122.4194, "tz": -8.0}, {"name": "Chicago, USA", "lat": 41.8781, "lon": -87.6298, "tz": -6.0}, {"name": "Toronto, Canada", "lat": 43.6532, "lon": -79.3832, "tz": -5.0}, {"name": "Dubai, UAE", "lat": 25.2048, "lon": 55.2708, "tz": 4.0}, {"name": "Singapore", "lat": 1.3521, "lon": 103.8198, "tz": 8.0}, {"name": "Kuala Lumpur, Malaysia", "lat": 3.139, "lon": 101.6869, "tz": 8.0}, {"name": "Sydney, Australia", "lat": -33.8688, "lon": 151.2093, "tz": 10.0}, {"name": "Tokyo, Japan", "lat": 35.6762, "lon": 139.6503, "tz": 9.0}, {"name": "Kathmandu, Nepal", "lat": 27.7172, "lon": 85.324, "tz": 5.75}, {"name": "Colombo, Sri Lanka", "lat": 6.9271, "lon": 79.8612, "tz": 5.5}];
+    const CITIES_DB = [{"name": "Faridabad, Haryana, India", "lat": 28.4089, "lon": 77.3178, "tz": 5.5}, {"name": "New Delhi, Delhi, India", "lat": 28.6139, "lon": 77.209, "tz": 5.5}, {"name": "Gurugram (Gurgaon), Haryana, India", "lat": 28.4595, "lon": 77.0266, "tz": 5.5}, {"name": "Noida, Uttar Pradesh, India", "lat": 28.5355, "lon": 77.391, "tz": 5.5}, {"name": "Greater Noida, Uttar Pradesh, India", "lat": 28.4744, "lon": 77.504, "tz": 5.5}, {"name": "Ghaziabad, Uttar Pradesh, India", "lat": 28.6692, "lon": 77.4538, "tz": 5.5}, {"name": "Panipat, Haryana, India", "lat": 29.3909, "lon": 76.9635, "tz": 5.5}, {"name": "Sonipat, Haryana, India", "lat": 28.9931, "lon": 77.0151, "tz": 5.5}, {"name": "Karnal, Haryana, India", "lat": 29.6857, "lon": 76.9905, "tz": 5.5}, {"name": "Rohtak, Haryana, India", "lat": 28.8955, "lon": 76.6066, "tz": 5.5}, {"name": "Hisar, Haryana, India", "lat": 29.1492, "lon": 75.7217, "tz": 5.5}, {"name": "Ambala, Haryana, India", "lat": 30.3782, "lon": 76.7767, "tz": 5.5}, {"name": "Panchkula, Haryana, India", "lat": 30.6942, "lon": 76.8606, "tz": 5.5}, {"name": "Chandigarh, India", "lat": 30.7333, "lon": 76.7794, "tz": 5.5}, {"name": "Kurukshetra, Haryana, India", "lat": 29.9695, "lon": 76.8783, "tz": 5.5}, {"name": "Rewari, Haryana, India", "lat": 28.1928, "lon": 76.6191, "tz": 5.5}, {"name": "Yamunanagar, Haryana, India", "lat": 30.129, "lon": 77.2674, "tz": 5.5}, {"name": "Sirsa, Haryana, India", "lat": 29.5349, "lon": 75.0294, "tz": 5.5}, {"name": "Ludhiana, Punjab, India", "lat": 30.901, "lon": 75.8573, "tz": 5.5}, {"name": "Amritsar, Punjab, India", "lat": 31.634, "lon": 74.8723, "tz": 5.5}, {"name": "Jalandhar, Punjab, India", "lat": 31.326, "lon": 75.5762, "tz": 5.5}, {"name": "Patiala, Punjab, India", "lat": 30.3398, "lon": 76.3869, "tz": 5.5}, {"name": "Bathinda, Punjab, India", "lat": 30.211, "lon": 74.9455, "tz": 5.5}, {"name": "Mohali, Punjab, India", "lat": 30.7046, "lon": 76.7179, "tz": 5.5}, {"name": "Shimla, Himachal Pradesh, India", "lat": 31.1048, "lon": 77.1734, "tz": 5.5}, {"name": "Dharamshala, Himachal Pradesh, India", "lat": 32.219, "lon": 76.3234, "tz": 5.5}, {"name": "Kullu, Himachal Pradesh, India", "lat": 31.9579, "lon": 77.1095, "tz": 5.5}, {"name": "Manali, Himachal Pradesh, India", "lat": 32.2432, "lon": 77.1892, "tz": 5.5}, {"name": "Srinagar, Jammu & Kashmir, India", "lat": 34.0837, "lon": 74.7973, "tz": 5.5}, {"name": "Jammu, Jammu & Kashmir, India", "lat": 32.7266, "lon": 74.857, "tz": 5.5}, {"name": "Leh, Ladakh, India", "lat": 34.1526, "lon": 77.5771, "tz": 5.5}, {"name": "Dehradun, Uttarakhand, India", "lat": 30.3165, "lon": 78.0322, "tz": 5.5}, {"name": "Haridwar, Uttarakhand, India", "lat": 29.9457, "lon": 78.1642, "tz": 5.5}, {"name": "Rishikesh, Uttarakhand, India", "lat": 30.0869, "lon": 78.2676, "tz": 5.5}, {"name": "Nainital, Uttarakhand, India", "lat": 29.3919, "lon": 79.4542, "tz": 5.5}, {"name": "Haldwani, Uttarakhand, India", "lat": 29.2183, "lon": 79.513, "tz": 5.5}, {"name": "Kedarnath, Uttarakhand, India", "lat": 30.7352, "lon": 79.0669, "tz": 5.5}, {"name": "Badrinath, Uttarakhand, India", "lat": 30.7433, "lon": 79.4938, "tz": 5.5}, {"name": "Jaipur, Rajasthan, India", "lat": 26.9124, "lon": 75.7873, "tz": 5.5}, {"name": "Jodhpur, Rajasthan, India", "lat": 26.2389, "lon": 73.0243, "tz": 5.5}, {"name": "Udaipur, Rajasthan, India", "lat": 24.5854, "lon": 73.7125, "tz": 5.5}, {"name": "Kota, Rajasthan, India", "lat": 25.1804, "lon": 75.836, "tz": 5.5}, {"name": "Bikaner, Rajasthan, India", "lat": 28.0229, "lon": 73.3119, "tz": 5.5}, {"name": "Ajmer, Rajasthan, India", "lat": 26.4499, "lon": 74.6399, "tz": 5.5}, {"name": "Pushkar, Rajasthan, India", "lat": 26.4897, "lon": 74.5511, "tz": 5.5}, {"name": "Alwar, Rajasthan, India", "lat": 27.553, "lon": 76.6346, "tz": 5.5}, {"name": "Bhilwara, Rajasthan, India", "lat": 25.3407, "lon": 74.6313, "tz": 5.5}, {"name": "Mount Abu, Rajasthan, India", "lat": 24.5926, "lon": 72.7156, "tz": 5.5}, {"name": "Lucknow, Uttar Pradesh, India", "lat": 26.8467, "lon": 80.9462, "tz": 5.5}, {"name": "Kanpur, Uttar Pradesh, India", "lat": 26.4499, "lon": 80.3319, "tz": 5.5}, {"name": "Varanasi (Kashi), Uttar Pradesh, India", "lat": 25.3176, "lon": 82.9739, "tz": 5.5}, {"name": "Prayagraj (Allahabad), Uttar Pradesh, India", "lat": 25.4358, "lon": 81.8463, "tz": 5.5}, {"name": "Ayodhya, Uttar Pradesh, India", "lat": 26.7922, "lon": 82.1998, "tz": 5.5}, {"name": "Mathura, Uttar Pradesh, India", "lat": 27.4924, "lon": 77.6737, "tz": 5.5}, {"name": "Vrindavan, Uttar Pradesh, India", "lat": 27.5806, "lon": 77.7006, "tz": 5.5}, {"name": "Agra, Uttar Pradesh, India", "lat": 27.1767, "lon": 78.0081, "tz": 5.5}, {"name": "Meerut, Uttar Pradesh, India", "lat": 28.9845, "lon": 77.7064, "tz": 5.5}, {"name": "Gorakhpur, Uttar Pradesh, India", "lat": 26.7606, "lon": 83.3732, "tz": 5.5}, {"name": "Bareilly, Uttar Pradesh, India", "lat": 28.367, "lon": 79.4304, "tz": 5.5}, {"name": "Aligarh, Uttar Pradesh, India", "lat": 27.8974, "lon": 78.088, "tz": 5.5}, {"name": "Jhansi, Uttar Pradesh, India", "lat": 25.4484, "lon": 78.5685, "tz": 5.5}, {"name": "Moradabad, Uttar Pradesh, India", "lat": 28.8351, "lon": 78.7747, "tz": 5.5}, {"name": "Saharanpur, Uttar Pradesh, India", "lat": 29.9671, "lon": 77.551, "tz": 5.5}, {"name": "Patna, Bihar, India", "lat": 25.5941, "lon": 85.1376, "tz": 5.5}, {"name": "Gaya, Bihar, India", "lat": 24.7914, "lon": 85.0002, "tz": 5.5}, {"name": "Muzaffarpur, Bihar, India", "lat": 26.1209, "lon": 85.3647, "tz": 5.5}, {"name": "Bhagalpur, Bihar, India", "lat": 25.2425, "lon": 86.9842, "tz": 5.5}, {"name": "Darbhanga, Bihar, India", "lat": 26.1542, "lon": 85.8918, "tz": 5.5}, {"name": "Ranchi, Jharkhand, India", "lat": 23.3441, "lon": 85.3096, "tz": 5.5}, {"name": "Jamshedpur, Jharkhand, India", "lat": 22.8046, "lon": 86.2029, "tz": 5.5}, {"name": "Dhanbad, Jharkhand, India", "lat": 23.7957, "lon": 86.4304, "tz": 5.5}, {"name": "Deoghar (Baidyanath), Jharkhand, India", "lat": 24.4826, "lon": 86.7001, "tz": 5.5}, {"name": "Bhopal, Madhya Pradesh, India", "lat": 23.2599, "lon": 77.4126, "tz": 5.5}, {"name": "Indore, Madhya Pradesh, India", "lat": 22.7196, "lon": 75.8577, "tz": 5.5}, {"name": "Ujjain (Mahakaleshwar), Madhya Pradesh, India", "lat": 23.1765, "lon": 75.7885, "tz": 5.5}, {"name": "Jabalpur, Madhya Pradesh, India", "lat": 23.1815, "lon": 79.9864, "tz": 5.5}, {"name": "Gwalior, Madhya Pradesh, India", "lat": 26.2183, "lon": 78.1828, "tz": 5.5}, {"name": "Omkareshwar, Madhya Pradesh, India", "lat": 22.2443, "lon": 76.1506, "tz": 5.5}, {"name": "Sagar, Madhya Pradesh, India", "lat": 23.8388, "lon": 78.7378, "tz": 5.5}, {"name": "Raipur, Chhattisgarh, India", "lat": 21.2514, "lon": 81.6296, "tz": 5.5}, {"name": "Bilaspur, Chhattisgarh, India", "lat": 22.0797, "lon": 82.1409, "tz": 5.5}, {"name": "Bhilai, Chhattisgarh, India", "lat": 21.1938, "lon": 81.3509, "tz": 5.5}, {"name": "Mumbai, Maharashtra, India", "lat": 19.076, "lon": 72.8777, "tz": 5.5}, {"name": "Pune, Maharashtra, India", "lat": 18.5204, "lon": 73.8567, "tz": 5.5}, {"name": "Nagpur, Maharashtra, India", "lat": 21.1458, "lon": 79.0882, "tz": 5.5}, {"name": "Thane, Maharashtra, India", "lat": 19.2183, "lon": 72.9781, "tz": 5.5}, {"name": "Nashik (Trimbak), Maharashtra, India", "lat": 19.9975, "lon": 73.7898, "tz": 5.5}, {"name": "Chhatrapati Sambhajinagar (Aurangabad), Maharashtra, India", "lat": 19.8762, "lon": 75.3433, "tz": 5.5}, {"name": "Shirdi, Maharashtra, India", "lat": 19.7667, "lon": 74.4764, "tz": 5.5}, {"name": "Kolhapur, Maharashtra, India", "lat": 16.705, "lon": 74.2433, "tz": 5.5}, {"name": "Solapur, Maharashtra, India", "lat": 17.6599, "lon": 75.9064, "tz": 5.5}, {"name": "Amravati, Maharashtra, India", "lat": 20.9374, "lon": 77.7796, "tz": 5.5}, {"name": "Ahmedabad, Gujarat, India", "lat": 23.0225, "lon": 72.5714, "tz": 5.5}, {"name": "Surat, Gujarat, India", "lat": 21.1702, "lon": 72.8311, "tz": 5.5}, {"name": "Vadodara, Gujarat, India", "lat": 22.3072, "lon": 73.1812, "tz": 5.5}, {"name": "Rajkot, Gujarat, India", "lat": 22.3039, "lon": 70.8022, "tz": 5.5}, {"name": "Gandhinagar, Gujarat, India", "lat": 23.2156, "lon": 72.6369, "tz": 5.5}, {"name": "Bhavnagar, Gujarat, India", "lat": 21.7645, "lon": 72.1519, "tz": 5.5}, {"name": "Jamnagar, Gujarat, India", "lat": 22.4707, "lon": 70.0577, "tz": 5.5}, {"name": "Dwarka, Gujarat, India", "lat": 22.2442, "lon": 68.9685, "tz": 5.5}, {"name": "Somnath (Veraval), Gujarat, India", "lat": 20.9015, "lon": 70.4022, "tz": 5.5}, {"name": "Panaji, Goa, India", "lat": 15.4909, "lon": 73.8278, "tz": 5.5}, {"name": "Kolkata, West Bengal, India", "lat": 22.5726, "lon": 88.3639, "tz": 5.5}, {"name": "Howrah, West Bengal, India", "lat": 22.5958, "lon": 88.2636, "tz": 5.5}, {"name": "Siliguri, West Bengal, India", "lat": 26.7271, "lon": 88.3953, "tz": 5.5}, {"name": "Asansol, West Bengal, India", "lat": 23.6739, "lon": 86.9524, "tz": 5.5}, {"name": "Durgapur, West Bengal, India", "lat": 23.5204, "lon": 87.3119, "tz": 5.5}, {"name": "Darjeeling, West Bengal, India", "lat": 27.041, "lon": 88.2663, "tz": 5.5}, {"name": "Bhubaneswar, Odisha, India", "lat": 20.2961, "lon": 85.8245, "tz": 5.5}, {"name": "Cuttack, Odisha, India", "lat": 20.4625, "lon": 85.8828, "tz": 5.5}, {"name": "Puri (Jagannath), Odisha, India", "lat": 19.8135, "lon": 85.8312, "tz": 5.5}, {"name": "Rourkela, Odisha, India", "lat": 22.2604, "lon": 84.8536, "tz": 5.5}, {"name": "Berhampur, Odisha, India", "lat": 19.3149, "lon": 84.7941, "tz": 5.5}, {"name": "Sambalpur, Odisha, India", "lat": 21.4669, "lon": 83.9812, "tz": 5.5}, {"name": "Guwahati (Kamakhya), Assam, India", "lat": 26.1445, "lon": 91.7362, "tz": 5.5}, {"name": "Silchar, Assam, India", "lat": 24.8333, "lon": 92.7789, "tz": 5.5}, {"name": "Dibrugarh, Assam, India", "lat": 27.4728, "lon": 94.912, "tz": 5.5}, {"name": "Shillong, Meghalaya, India", "lat": 25.5788, "lon": 91.8933, "tz": 5.5}, {"name": "Agartala, Tripura, India", "lat": 23.8315, "lon": 91.2868, "tz": 5.5}, {"name": "Imphal, Manipur, India", "lat": 24.817, "lon": 93.9368, "tz": 5.5}, {"name": "Aizawl, Mizoram, India", "lat": 23.7271, "lon": 92.7176, "tz": 5.5}, {"name": "Kohima, Nagaland, India", "lat": 25.6751, "lon": 94.1086, "tz": 5.5}, {"name": "Gangtok, Sikkim, India", "lat": 27.3314, "lon": 88.6138, "tz": 5.5}, {"name": "Bengaluru, Karnataka, India", "lat": 12.9716, "lon": 77.5946, "tz": 5.5}, {"name": "Mysuru (Mysore), Karnataka, India", "lat": 12.2958, "lon": 76.6394, "tz": 5.5}, {"name": "Mangaluru (Mangalore), Karnataka, India", "lat": 12.9141, "lon": 74.856, "tz": 5.5}, {"name": "Hubballi-Dharwad, Karnataka, India", "lat": 15.3647, "lon": 75.124, "tz": 5.5}, {"name": "Belagavi (Belgaum), Karnataka, India", "lat": 15.8497, "lon": 74.4977, "tz": 5.5}, {"name": "Udupi, Karnataka, India", "lat": 13.3409, "lon": 74.7421, "tz": 5.5}, {"name": "Hyderabad, Telangana, India", "lat": 17.385, "lon": 78.4867, "tz": 5.5}, {"name": "Warangal, Telangana, India", "lat": 17.9689, "lon": 79.5941, "tz": 5.5}, {"name": "Visakhapatnam, Andhra Pradesh, India", "lat": 17.6868, "lon": 83.2185, "tz": 5.5}, {"name": "Vijayawada, Andhra Pradesh, India", "lat": 16.5062, "lon": 80.648, "tz": 5.5}, {"name": "Guntur, Andhra Pradesh, India", "lat": 16.3067, "lon": 80.4365, "tz": 5.5}, {"name": "Tirupati (Balaji), Andhra Pradesh, India", "lat": 13.6288, "lon": 79.4192, "tz": 5.5}, {"name": "Nellore, Andhra Pradesh, India", "lat": 14.4426, "lon": 79.9865, "tz": 5.5}, {"name": "Kurnool, Andhra Pradesh, India", "lat": 15.8281, "lon": 78.0373, "tz": 5.5}, {"name": "Chennai, Tamil Nadu, India", "lat": 13.0827, "lon": 80.2707, "tz": 5.5}, {"name": "Coimbatore, Tamil Nadu, India", "lat": 11.0168, "lon": 76.9558, "tz": 5.5}, {"name": "Madurai, Tamil Nadu, India", "lat": 9.9252, "lon": 78.1198, "tz": 5.5}, {"name": "Tiruchirappalli (Trichy), Tamil Nadu, India", "lat": 10.7905, "lon": 78.7047, "tz": 5.5}, {"name": "Salem, Tamil Nadu, India", "lat": 11.6643, "lon": 78.146, "tz": 5.5}, {"name": "Tirunelveli, Tamil Nadu, India", "lat": 8.7139, "lon": 77.7567, "tz": 5.5}, {"name": "Rameshwaram, Tamil Nadu, India", "lat": 9.2876, "lon": 79.3129, "tz": 5.5}, {"name": "Kanchipuram, Tamil Nadu, India", "lat": 12.8342, "lon": 79.7036, "tz": 5.5}, {"name": "Kanyakumari, Tamil Nadu, India", "lat": 8.0883, "lon": 77.5385, "tz": 5.5}, {"name": "Thiruvananthapuram, Kerala, India", "lat": 8.5241, "lon": 76.9366, "tz": 5.5}, {"name": "Kochi, Kerala, India", "lat": 9.9312, "lon": 76.2673, "tz": 5.5}, {"name": "Kozhikode (Calicut), Kerala, India", "lat": 11.2588, "lon": 75.7804, "tz": 5.5}, {"name": "Thrissur, Kerala, India", "lat": 10.5276, "lon": 76.2144, "tz": 5.5}, {"name": "Kollam, Kerala, India", "lat": 8.8932, "lon": 76.6141, "tz": 5.5}, {"name": "Alappuzha, Kerala, India", "lat": 9.4981, "lon": 76.3388, "tz": 5.5}, {"name": "Dubai, United Arab Emirates", "lat": 25.2048, "lon": 55.2708, "tz": 4.0}, {"name": "Abu Dhabi, United Arab Emirates", "lat": 24.4539, "lon": 54.3773, "tz": 4.0}, {"name": "Sharjah, United Arab Emirates", "lat": 25.3463, "lon": 55.4209, "tz": 4.0}, {"name": "Doha, Qatar", "lat": 25.2854, "lon": 51.531, "tz": 3.0}, {"name": "Riyadh, Saudi Arabia", "lat": 24.7136, "lon": 46.6753, "tz": 3.0}, {"name": "Jeddah, Saudi Arabia", "lat": 21.4858, "lon": 39.1925, "tz": 3.0}, {"name": "Muscat, Oman", "lat": 23.588, "lon": 58.3829, "tz": 4.0}, {"name": "Kuwait City, Kuwait", "lat": 29.3759, "lon": 47.9774, "tz": 3.0}, {"name": "Manama, Bahrain", "lat": 26.2285, "lon": 50.586, "tz": 3.0}, {"name": "New York, NY, USA", "lat": 40.7128, "lon": -74.006, "tz": -5.0}, {"name": "Jersey City, NJ, USA", "lat": 40.7178, "lon": -74.0431, "tz": -5.0}, {"name": "San Francisco, CA, USA", "lat": 37.7749, "lon": -122.4194, "tz": -8.0}, {"name": "San Jose (Silicon Valley), CA, USA", "lat": 37.3382, "lon": -121.8863, "tz": -8.0}, {"name": "Fremont, CA, USA", "lat": 37.5485, "lon": -121.9886, "tz": -8.0}, {"name": "Los Angeles, CA, USA", "lat": 34.0522, "lon": -118.2437, "tz": -8.0}, {"name": "Seattle, WA, USA", "lat": 47.6062, "lon": -122.3321, "tz": -8.0}, {"name": "Chicago, IL, USA", "lat": 41.8781, "lon": -87.6298, "tz": -6.0}, {"name": "Houston, TX, USA", "lat": 29.7604, "lon": -95.3698, "tz": -6.0}, {"name": "Dallas, TX, USA", "lat": 32.7767, "lon": -96.797, "tz": -6.0}, {"name": "Austin, TX, USA", "lat": 30.2672, "lon": -97.7431, "tz": -6.0}, {"name": "Atlanta, GA, USA", "lat": 33.749, "lon": -84.388, "tz": -5.0}, {"name": "Boston, MA, USA", "lat": 42.3601, "lon": -71.0589, "tz": -5.0}, {"name": "Washington DC, USA", "lat": 38.9072, "lon": -77.0369, "tz": -5.0}, {"name": "Toronto, Ontario, Canada", "lat": 43.6532, "lon": -79.3832, "tz": -5.0}, {"name": "Brampton, Ontario, Canada", "lat": 43.7315, "lon": -79.7624, "tz": -5.0}, {"name": "Mississauga, Ontario, Canada", "lat": 43.589, "lon": -79.6441, "tz": -5.0}, {"name": "Vancouver, BC, Canada", "lat": 49.2827, "lon": -123.1207, "tz": -8.0}, {"name": "Calgary, Alberta, Canada", "lat": 51.0447, "lon": -114.0719, "tz": -7.0}, {"name": "London, United Kingdom", "lat": 51.5074, "lon": -0.1278, "tz": 0.0}, {"name": "Birmingham, United Kingdom", "lat": 52.4862, "lon": -1.8904, "tz": 0.0}, {"name": "Leicester, United Kingdom", "lat": 52.6369, "lon": -1.1398, "tz": 0.0}, {"name": "Manchester, United Kingdom", "lat": 53.4808, "lon": -2.2426, "tz": 0.0}, {"name": "Edinburgh, United Kingdom", "lat": 55.9533, "lon": -3.1883, "tz": 0.0}, {"name": "Dublin, Ireland", "lat": 53.3498, "lon": -6.2603, "tz": 0.0}, {"name": "Paris, France", "lat": 48.8566, "lon": 2.3522, "tz": 1.0}, {"name": "Berlin, Germany", "lat": 52.52, "lon": 13.405, "tz": 1.0}, {"name": "Frankfurt, Germany", "lat": 50.1109, "lon": 8.6821, "tz": 1.0}, {"name": "Munich, Germany", "lat": 48.1351, "lon": 11.582, "tz": 1.0}, {"name": "Amsterdam, Netherlands", "lat": 52.3676, "lon": 4.9041, "tz": 1.0}, {"name": "Zurich, Switzerland", "lat": 47.3769, "lon": 8.5417, "tz": 1.0}, {"name": "Geneva, Switzerland", "lat": 46.2044, "lon": 6.1432, "tz": 1.0}, {"name": "Rome, Italy", "lat": 41.9028, "lon": 12.4964, "tz": 1.0}, {"name": "Madrid, Spain", "lat": 40.4168, "lon": -3.7038, "tz": 1.0}, {"name": "Moscow, Russia", "lat": 55.7558, "lon": 37.6173, "tz": 3.0}, {"name": "Singapore", "lat": 1.3521, "lon": 103.8198, "tz": 8.0}, {"name": "Kuala Lumpur, Malaysia", "lat": 3.139, "lon": 101.6869, "tz": 8.0}, {"name": "Bangkok, Thailand", "lat": 13.7563, "lon": 100.5018, "tz": 7.0}, {"name": "Jakarta, Indonesia", "lat": -6.2088, "lon": 106.8456, "tz": 7.0}, {"name": "Tokyo, Japan", "lat": 35.6762, "lon": 139.6503, "tz": 9.0}, {"name": "Hong Kong", "lat": 22.3193, "lon": 114.1694, "tz": 8.0}, {"name": "Sydney, Australia", "lat": -33.8688, "lon": 151.2093, "tz": 10.0}, {"name": "Melbourne, Australia", "lat": -37.8136, "lon": 144.9631, "tz": 10.0}, {"name": "Perth, Australia", "lat": -31.9505, "lon": 115.8605, "tz": 8.0}, {"name": "Auckland, New Zealand", "lat": -36.8485, "lon": 174.7633, "tz": 12.0}, {"name": "Kathmandu, Nepal", "lat": 27.7172, "lon": 85.324, "tz": 5.75}, {"name": "Pokhara, Nepal", "lat": 28.2096, "lon": 83.9856, "tz": 5.75}, {"name": "Colombo, Sri Lanka", "lat": 6.9271, "lon": 79.8612, "tz": 5.5}, {"name": "Dhaka, Bangladesh", "lat": 23.8103, "lon": 90.4125, "tz": 6.0}, {"name": "Thimphu, Bhutan", "lat": 27.4728, "lon": 89.6393, "tz": 6.0}, {"name": "Port Louis, Mauritius", "lat": -20.1609, "lon": 57.5012, "tz": 4.0}, {"name": "Johannesburg, South Africa", "lat": -26.2041, "lon": 28.0473, "tz": 2.0}, {"name": "Nairobi, Kenya", "lat": -1.2921, "lon": 36.8219, "tz": 3.0}];
 
     // Rashi Metadata
     const RASHIS = [
@@ -2661,13 +3022,132 @@
     }
 
     // Unified Chart Render Dispatcher
+    
+    // East Indian (Bengali / Odia) Chart Renderer
+    function renderEastIndianChart(vargaKey, bodiesMap, containerId, isPrint = false) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const isD1 = vargaKey === "D1" && containerId === "chartD1Container" && !isPrint;
+      const rotBhava = isD1 ? d1RotatedBhava : 1;
+      const ascSign = bodiesMap.Lagna ? bodiesMap.Lagna.sign : 1;
+      const effectiveAscSign = rotBhava === 1 ? ascSign : (((ascSign - 1 + (rotBhava - 1)) % 12) + 1);
+
+      const size = isPrint ? 280 : 380;
+      const strokeClass = isPrint ? "print-chart-line" : "chart-line";
+      const boxClass = isPrint ? "print-chart-box" : "chart-box";
+
+      // Fixed Rashi positions in East Indian style (Anticlockwise starting with Aries at top center)
+      // 1: Aries (top center diamond)
+      // 2: Taurus (top-left triangle)
+      // 3: Gemini (upper-left corner triangle)
+      // 4: Cancer (left center diamond)
+      // 5: Leo (lower-left corner triangle)
+      // 6: Virgo (bottom-left triangle)
+      // 7: Libra (bottom center diamond)
+      // 8: Scorpio (bottom-right triangle)
+      // 9: Sagittarius (lower-right corner triangle)
+      // 10: Capricorn (right center diamond)
+      // 11: Aquarius (upper-right corner triangle)
+      // 12: Pisces (top-right triangle)
+
+      const signBodies = {};
+      for (let s = 1; s <= 12; s++) signBodies[s] = [];
+
+      Object.entries(bodiesMap).forEach(([name, b]) => {
+        if (signBodies[b.sign]) {
+          if (name === "Lagna") {
+            if (isD1 && rotBhava !== 1) {
+              signBodies[b.sign].push("NLg");
+            } else {
+              signBodies[b.sign].push("Lg");
+            }
+          } else {
+            signBodies[b.sign].push(name.slice(0, 2) + (b.isRetrograde ? "ᴿ" : ""));
+          }
+        }
+      });
+      if (isD1 && rotBhava !== 1) {
+        signBodies[effectiveAscSign].unshift("Lg");
+      }
+
+      const scale = size / 380;
+      const s = (v) => v * scale;
+
+      const signCenters = {
+        1: { numX: s(190), numY: s(75), textX: s(190), textY: s(105) },
+        2: { numX: s(110), numY: s(35), textX: s(95), textY: s(60) },
+        3: { numX: s(40), numY: s(95), textX: s(45), textY: s(125) },
+        4: { numX: s(75), numY: s(190), textX: s(105), textY: s(195) },
+        5: { numX: s(40), numY: s(285), textX: s(45), textY: s(255) },
+        6: { numX: s(110), numY: s(350), textX: s(95), textY: s(325) },
+        7: { numX: s(190), numY: s(310), textX: s(190), textY: s(275) },
+        8: { numX: s(275), numY: s(350), textX: s(285), textY: s(325) },
+        9: { numX: s(340), numY: s(285), textX: s(335), textY: s(255) },
+        10: { numX: s(310), numY: s(190), textX: s(275), textY: s(195) },
+        11: { numX: s(340), numY: s(95), textX: s(335), textY: s(125) },
+        12: { numX: s(275), numY: s(35), textX: s(285), textY: s(60) }
+      };
+
+      const signPolygons = {
+        1: `${s(190)},${s(0)} ${s(285)},${s(95)} ${s(190)},${s(190)} ${s(95)},${s(95)}`,
+        2: `${s(0)},${s(0)} ${s(190)},${s(0)} ${s(95)},${s(95)}`,
+        3: `${s(0)},${s(0)} ${s(95)},${s(95)} ${s(0)},${s(190)}`,
+        4: `${s(0)},${s(190)} ${s(95)},${s(95)} ${s(190)},${s(190)} ${s(95)},${s(285)}`,
+        5: `${s(0)},${s(190)} ${s(95)},${s(285)} ${s(0)},${s(380)}`,
+        6: `${s(0)},${s(380)} ${s(95)},${s(285)} ${s(190)},${s(380)}`,
+        7: `${s(190)},${s(190)} ${s(285)},${s(285)} ${s(190)},${s(380)} ${s(95)},${s(285)}`,
+        8: `${s(190)},${s(380)} ${s(285)},${s(285)} ${s(380)},${s(380)}`,
+        9: `${s(380)},${s(190)} ${s(285)},${s(285)} ${s(380)},${s(380)}`,
+        10: `${s(190)},${s(190)} ${s(285)},${s(95)} ${s(380)},${s(190)} ${s(285)},${s(285)}`,
+        11: `${s(380)},${s(0)} ${s(285)},${s(95)} ${s(380)},${s(190)}`,
+        12: `${s(190)},${s(0)} ${s(380)},${s(0)} ${s(285)},${s(95)}`
+      };
+
+      let svgHtml = `
+      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="select-none filter drop-shadow-md">
+        <rect x="2" y="2" width="${size - 4}" height="${size - 4}" class="${boxClass} ${strokeClass}" />
+        <line x1="2" y1="2" x2="${size - 2}" y2="${size - 2}" class="${strokeClass}" />
+        <line x1="${size - 2}" y1="2" x2="2" y2="${size - 2}" class="${strokeClass}" />
+        <polygon points="${size / 2},2 ${size - 2},${size / 2} ${size / 2},${size - 2} 2,${size / 2}" fill="none" class="${strokeClass}" />
+      `;
+
+      for (let sNum = 1; sNum <= 12; sNum++) {
+        const planetsInSign = signBodies[sNum] || [];
+        const pos = signCenters[sNum];
+        const poly = signPolygons[sNum];
+        const houseFromAsc = ((sNum - effectiveAscSign + 12) % 12) + 1;
+        const isLagnaSign = (sNum === effectiveAscSign);
+        const natalBhavaOfSign = ((sNum - ascSign + 12) % 12) + 1;
+
+        svgHtml += `
+        <g class="cursor-pointer group" 
+           onclick="window.openHouseInspectorBySign(${sNum})"
+           oncontextmenu="window.handleChartRightClick(event, ${isD1 ? natalBhavaOfSign : houseFromAsc}, '${vargaKey}', '${containerId}'); return false;">
+          <polygon points="${poly}" fill="${isLagnaSign ? (isPrint ? 'rgba(234, 88, 12, 0.08)' : 'rgba(234, 88, 12, 0.12)') : 'transparent'}" class="transition-colors duration-150 group-hover:fill-amber-500/15" />
+          <title>East Indian (Fixed Sign ${sNum}: ${RASHIS[sNum - 1].name}) • House ${houseFromAsc}${isLagnaSign ? ' [Lagna]' : ''}&#10;Left-click: Inspect significations&#10;Right-click: Rotate chart</title>
+          <text x="${pos.numX}" y="${pos.numY}" text-anchor="middle" class="${isPrint ? 'font-serif text-[10px] fill-slate-700 font-bold' : 'chart-sign-num pointer-events-none group-hover:fill-amber-300'}">
+            ${RASHIS[sNum - 1].short} <tspan class="text-[9px] ${isLagnaSign ? 'fill-orange-400 font-bold' : 'fill-slate-400'}">H${houseFromAsc}</tspan>
+          </text>
+          <text x="${pos.textX}" y="${pos.textY}" text-anchor="middle" class="${isPrint ? 'font-sans text-[9px] fill-slate-900 font-bold' : 'chart-planet-tag fill-amber-200 pointer-events-none'}">
+            ${planetsInSign.join(" ")}
+          </text>
+        </g>`;
+      }
+
+      svgHtml += `</svg>`;
+      container.innerHTML = svgHtml;
+    }
+
     function renderChart(vargaKey, containerId, isPrint = false) {
       if (!currentChartData) return;
       const vargaData = currentChartData.vargas[vargaKey] || currentChartData.vargas.D1;
       if (currentChartStyle === "north") {
         renderNorthIndianChart(vargaKey, vargaData, containerId, isPrint);
-      } else {
+      } else if (currentChartStyle === "south") {
         renderSouthIndianChart(vargaKey, vargaData, containerId, isPrint);
+      } else if (currentChartStyle === "east") {
+        renderEastIndianChart(vargaKey, vargaData, containerId, isPrint);
       }
     }
 
@@ -3411,24 +3891,930 @@
       showToast("Kundli generated successfully!", "success");
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      const citySelect = document.getElementById("birthPlaceSelect");
-      CITIES_DB.forEach((c, idx) => {
-        const opt = document.createElement("option");
-        opt.value = idx;
-        opt.textContent = c.name;
-        if (c.name.includes("Faridabad")) opt.selected = true;
-        citySelect.appendChild(opt);
+    
+    // =========================================================================
+    // INDUS KUNDLI APP — AUTHENTICATION, VAULT & MASTER ADMIN ENGINE
+    // =========================================================================
+    const INDUS_STORAGE_KEY = "indus_kundli_app_db_v1";
+
+    const DEFAULT_INDUS_DB = {
+      users: [
+        {
+          id: "usr_admin",
+          name: "Indus Master Admin",
+          email: "admin@indusjyotish.in",
+          password: "indusadmin2026",
+          role: "admin",
+          tier: "unlimited_3000",
+          tierName: "Master Consultant (Unlimited)",
+          maxCredits: 999999,
+          savedKundlis: [],
+          createdAt: new Date().toLocaleDateString()
+        },
+        {
+          id: "usr_default",
+          name: "Indus Seeker",
+          email: "seeker@indusjyotish.in",
+          password: "free",
+          role: "user",
+          tier: "free",
+          tierName: "Free Tier (10 Kundlis)",
+          maxCredits: 10,
+          savedKundlis: [],
+          createdAt: new Date().toLocaleDateString()
+        }
+      ],
+      currentUserId: "usr_default"
+    };
+
+    class IndusAuthManager {
+      constructor() {
+        this.db = this.loadDB();
+      }
+
+      loadDB() {
+        try {
+          const raw = localStorage.getItem(INDUS_STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && Array.isArray(parsed.users) && parsed.users.length > 0) {
+              return parsed;
+            }
+          }
+        } catch (e) {
+          console.warn("Using default Indus DB:", e);
+        }
+        this.saveDB(DEFAULT_INDUS_DB);
+        return JSON.parse(JSON.stringify(DEFAULT_INDUS_DB));
+      }
+
+      saveDB(db = this.db) {
+        try {
+          localStorage.setItem(INDUS_STORAGE_KEY, JSON.stringify(db));
+        } catch (e) {
+          console.error("Error saving Indus DB:", e);
+        }
+      }
+
+      getCurrentUser() {
+        const u = this.db.users.find(x => x.id === this.db.currentUserId);
+        return u || this.db.users[0];
+      }
+
+      register(name, email, password) {
+        const existing = this.db.users.find(x => x.email.toLowerCase() === email.toLowerCase());
+        if (existing) {
+          return { success: false, message: "An account with this email already exists." };
+        }
+        const newUser = {
+          id: "usr_" + Date.now(),
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          password: password,
+          role: "user",
+          tier: "free",
+          tierName: "Free Tier (10 Kundlis)",
+          maxCredits: 10,
+          savedKundlis: [],
+          createdAt: new Date().toLocaleDateString()
+        };
+        this.db.users.push(newUser);
+        this.db.currentUserId = newUser.id;
+        this.saveDB();
+        return { success: true, user: newUser };
+      }
+
+      login(email, password) {
+        const u = this.db.users.find(x => x.email.toLowerCase() === email.toLowerCase().trim());
+        if (!u || u.password !== password) {
+          return { success: false, message: "Invalid email or password." };
+        }
+        this.db.currentUserId = u.id;
+        this.saveDB();
+        return { success: true, user: u };
+      }
+
+      adminLogin(passcode) {
+        const clean = passcode.trim();
+        if (clean === "indusadmin2026" || clean === "7788" || clean === "admin") {
+          let admin = this.db.users.find(x => x.role === "admin");
+          if (!admin) {
+            admin = DEFAULT_INDUS_DB.users[0];
+            this.db.users.unshift(admin);
+          }
+          this.db.currentUserId = admin.id;
+          this.saveDB();
+          return { success: true, user: admin };
+        }
+        return { success: false, message: "Invalid Master Admin Passcode / PIN." };
+      }
+
+      logout() {
+        // Switch back to guest default user
+        let defaultUser = this.db.users.find(x => x.id === "usr_default");
+        if (!defaultUser) defaultUser = this.db.users[0];
+        this.db.currentUserId = defaultUser.id;
+        this.saveDB();
+        return defaultUser;
+      }
+
+      saveKundli(kundliData) {
+        const user = this.getCurrentUser();
+        const count = user.savedKundlis.length;
+        if (user.tier !== "unlimited_3000" && count >= user.maxCredits) {
+          return {
+            success: false,
+            error: "limit_reached",
+            count,
+            max: user.maxCredits,
+            tier: user.tier,
+            tierName: user.tierName
+          };
+        }
+        const newRecord = {
+          id: "knd_" + Date.now(),
+          ...kundliData,
+          savedAt: new Date().toLocaleString()
+        };
+        user.savedKundlis.unshift(newRecord);
+        this.saveDB();
+        return {
+          success: true,
+          record: newRecord,
+          count: user.savedKundlis.length,
+          max: user.maxCredits
+        };
+      }
+
+      deleteKundli(kundliId) {
+        const user = this.getCurrentUser();
+        const initialLen = user.savedKundlis.length;
+        user.savedKundlis = user.savedKundlis.filter(k => k.id !== kundliId);
+        this.saveDB();
+        return user.savedKundlis.length < initialLen;
+      }
+
+      // Master Admin Operations
+      adminSetTier(userId, tierKey) {
+        const u = this.db.users.find(x => x.id === userId);
+        if (!u) return false;
+        u.tier = tierKey;
+        if (tierKey === "free") {
+          u.maxCredits = 10;
+          u.tierName = "Free Tier (10 Kundlis)";
+        } else if (tierKey === "pro_500") {
+          u.maxCredits = 100;
+          u.tierName = "Astrologer Pro (100 Kundlis)";
+        } else if (tierKey === "unlimited_3000") {
+          u.maxCredits = 999999;
+          u.tierName = "Master Consultant (Unlimited)";
+        }
+        this.saveDB();
+        return true;
+      }
+
+      adminAddCredits(userId, amount) {
+        const u = this.db.users.find(x => x.id === userId);
+        if (!u) return false;
+        u.maxCredits = (u.maxCredits || 10) + amount;
+        this.saveDB();
+        return true;
+      }
+
+      adminDeleteUser(userId) {
+        if (userId === "usr_admin") return false; // Prevent deleting master admin
+        this.db.users = this.db.users.filter(x => x.id !== userId);
+        if (this.db.currentUserId === userId) {
+          this.db.currentUserId = this.db.users[0].id;
+        }
+        this.saveDB();
+        return true;
+      }
+
+      exportBackup() {
+        return JSON.stringify(this.db, null, 2);
+      }
+
+      importBackup(jsonString) {
+        try {
+          const parsed = JSON.parse(jsonString);
+          if (parsed && Array.isArray(parsed.users)) {
+            this.db = parsed;
+            this.saveDB();
+            return true;
+          }
+        } catch (e) {
+          console.error("Invalid import format:", e);
+        }
+        return false;
+      }
+    }
+
+    const indusAuth = new IndusAuthManager();
+
+    // UI Helper Functions
+    function updateIndusAuthUI() {
+      const user = indusAuth.getCurrentUser();
+      const isAdmin = (user.role === "admin");
+      const count = user.savedKundlis.length;
+      const isUnlimited = (user.tier === "unlimited_3000" || user.maxCredits >= 999999);
+      const limitStr = isUnlimited ? "Unlimited" : `${count}/${user.maxCredits}`;
+
+      // Update Header
+      const headerAuthContainer = document.getElementById("headerAuthContainer");
+      if (headerAuthContainer) {
+        headerAuthContainer.innerHTML = `
+          <button id="headerProfileBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-amber-300 transition shadow">
+            <span class="w-2 h-2 rounded-full ${isAdmin ? 'bg-purple-400' : 'bg-emerald-400'}"></span>
+            <span class="truncate max-w-[100px] sm:max-w-[130px]">${user.name}</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-mono">${count}/10</span>
+          </button>
+        `;
+        document.getElementById("headerProfileBtn").addEventListener("click", () => {
+          openSavedKundlisModal();
+        });
+      }
+
+      const headerAdminBtn = document.getElementById("headerAdminBtn");
+      if (headerAdminBtn) {
+        if (isAdmin) {
+          headerAdminBtn.classList.remove("hidden");
+        } else {
+          headerAdminBtn.classList.add("hidden");
+        }
+      }
+
+      const headerVaultCount = document.getElementById("headerVaultCount");
+      if (headerVaultCount) {
+        headerVaultCount.textContent = limitStr;
+      }
+
+      // Update Banner Toolbar
+      const savedCountBadge = document.getElementById("savedCountBadge");
+      if (savedCountBadge) {
+        savedCountBadge.textContent = limitStr;
+      }
+
+      const userTierName = document.getElementById("userTierName");
+      if (userTierName) {
+        userTierName.textContent = isUnlimited ? "Unlimited VIP" : `${user.maxCredits || 10} Saved Kundlis`;
+      }
+
+      const vaultUsageIndicator = document.getElementById("vaultUsageIndicator");
+      if (vaultUsageIndicator) {
+        vaultUsageIndicator.textContent = `${count} of ${isUnlimited ? '∞' : user.maxCredits} Used`;
+      }
+    }
+
+    function openSavedKundlisModal() {
+      const user = indusAuth.getCurrentUser();
+      const modal = document.getElementById("savedKundlisModal");
+      const list = document.getElementById("savedKundlisList");
+      const searchInput = document.getElementById("savedKundliSearch");
+      if (searchInput) searchInput.value = "";
+
+      renderSavedKundlisList();
+      modal.classList.remove("hidden");
+    }
+
+    function renderSavedKundlisList(filterText = "") {
+      const user = indusAuth.getCurrentUser();
+      const list = document.getElementById("savedKundlisList");
+      list.innerHTML = "";
+
+      const query = filterText.toLowerCase().trim();
+      const filtered = user.savedKundlis.filter(k => {
+        if (!query) return true;
+        return (
+          (k.name && k.name.toLowerCase().includes(query)) ||
+          (k.placeName && k.placeName.toLowerCase().includes(query)) ||
+          (k.tag && k.tag.toLowerCase().includes(query)) ||
+          (k.notes && k.notes.toLowerCase().includes(query))
+        );
       });
 
-      citySelect.addEventListener("change", (e) => {
-        const c = CITIES_DB[e.target.value];
-        if (c) {
-          document.getElementById("customLat").value = c.lat;
-          document.getElementById("customLon").value = c.lon;
-          document.getElementById("customTZ").value = c.tz;
-        }
+      if (filtered.length === 0) {
+        list.innerHTML = `
+          <div class="text-center py-8 text-slate-400">
+            <span class="text-3xl block mb-2">📁</span>
+            <p class="font-semibold text-slate-300">No saved Kundlis found</p>
+            <p class="text-[11px] text-slate-500 mt-1">Calculate a horoscope and click "Save This Kundli" to archive it here.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(k => {
+        const card = document.createElement("div");
+        card.className = "p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/40 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+        card.innerHTML = `
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <strong class="text-white text-sm font-cinzel">${k.name}</strong>
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">${k.tag || 'Personal'}</span>
+              <span class="text-[10px] text-slate-500">${k.savedAt}</span>
+            </div>
+            <p class="text-slate-300 text-[11px]">
+              📅 ${k.day}/${k.month}/${k.year} • ⏰ ${String(k.hour).padStart(2,'0')}:${String(k.minute).padStart(2,'0')} • 📍 ${k.placeName}
+            </p>
+            ${k.notes ? `<p class="text-[10px] text-slate-400 italic">"${k.notes}"</p>` : ''}
+          </div>
+          <div class="flex items-center gap-1.5 self-end sm:self-center">
+            <button class="btn-load-kundli px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-semibold flex items-center gap-1" data-id="${k.id}">
+              <span>⚡</span> Load
+            </button>
+            <button class="btn-print-kundli px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-semibold flex items-center gap-1" data-id="${k.id}">
+              <span>🖨️</span> Print
+            </button>
+            <button class="btn-del-kundli px-2 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[11px] transition" data-id="${k.id}">
+              ✕
+            </button>
+          </div>
+        `;
+        list.appendChild(card);
       });
+
+      // Attach event listeners to card action buttons
+      list.querySelectorAll(".btn-load-kundli").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const kid = btn.getAttribute("data-id");
+          const kRec = user.savedKundlis.find(x => x.id === kid);
+          if (kRec) {
+            loadKundliRecord(kRec);
+            document.getElementById("savedKundlisModal").classList.add("hidden");
+            showToast(`Loaded Kundli for ${kRec.name}!`, "success");
+          }
+        });
+      });
+
+      list.querySelectorAll(".btn-print-kundli").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const kid = btn.getAttribute("data-id");
+          const kRec = user.savedKundlis.find(x => x.id === kid);
+          if (kRec) {
+            loadKundliRecord(kRec);
+            document.getElementById("savedKundlisModal").classList.add("hidden");
+            setTimeout(() => window.print(), 350);
+          }
+        });
+      });
+
+      list.querySelectorAll(".btn-del-kundli").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const kid = btn.getAttribute("data-id");
+          if (confirm("Are you sure you want to delete this saved horoscope? This will free up 1 slot in your vault.")) {
+            indusAuth.deleteKundli(kid);
+            updateIndusAuthUI();
+            renderSavedKundlisList(document.getElementById("savedKundliSearch").value);
+            showToast("Horoscope removed from vault.", "info");
+          }
+        });
+      });
+    }
+
+    function loadKundliRecord(kRec) {
+      document.getElementById("nativeName").value = kRec.name || "";
+      document.getElementById("nativeGender").value = kRec.gender || "Male";
+      document.getElementById("birthYear").value = kRec.year || 1995;
+      document.getElementById("birthMonth").value = kRec.month || 10;
+      document.getElementById("birthDay").value = kRec.day || 24;
+      document.getElementById("birthHour").value = kRec.hour || 14;
+      document.getElementById("birthMinute").value = kRec.minute || 30;
+      document.getElementById("birthSecond").value = kRec.second || 0;
+      document.getElementById("customLat").value = kRec.lat || 28.4089;
+      document.getElementById("customLon").value = kRec.lon || 77.3178;
+      document.getElementById("customTZ").value = kRec.tz || 5.5;
+      if (document.getElementById("ayanamshaSelect")) {
+        document.getElementById("ayanamshaSelect").value = kRec.ayanamshaType || "lahiri";
+      }
+
+      // Trigger recalculation immediately
+      triggerCalculation();
+    }
+
+    function openSaveKundliPromptModal() {
+      if (!currentChartData || !currentChartData.meta) {
+        showToast("Please calculate a horoscope first before saving.", "error");
+        return;
+      }
+
+      const user = indusAuth.getCurrentUser();
+      const meta = currentChartData.meta;
+      const isUnlimited = (user.tier === "unlimited_3000" || user.maxCredits >= 999999);
+      const isAtLimit = (!isUnlimited && user.savedKundlis.length >= user.maxCredits);
+
+      document.getElementById("savePromptName").textContent = meta.name;
+      document.getElementById("savePromptDetails").textContent = `${meta.day}/${meta.month}/${meta.year} at ${meta.hour}:${meta.minute}`;
+      document.getElementById("savePromptPlace").textContent = meta.placeName;
+
+      const box = document.getElementById("saveLimitStatusBox");
+      const confirmBtn = document.getElementById("confirmSaveBtn");
+
+      if (isAtLimit) {
+        box.className = "p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-[11px] text-rose-300";
+        box.innerHTML = `
+          ⚠️ <strong>Storage Limit Reached (${user.savedKundlis.length}/${user.maxCredits} Kundlis):</strong><br>
+          You have reached the maximum storage capacity of ${user.maxCredits} saved horoscopes. To save a new horoscope, please delete an older one from your Saved Kundlis vault.
+        `;
+        confirmBtn.disabled = true;
+        confirmBtn.className = "flex-1 bg-slate-800 text-slate-500 font-bold py-2 rounded-lg cursor-not-allowed";
+      } else {
+        const remaining = isUnlimited ? "Unlimited" : (user.maxCredits - user.savedKundlis.length);
+        box.className = "p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300";
+        box.innerHTML = `✓ Ready to archive. Remaining available slots: <strong>${remaining}</strong>`;
+        confirmBtn.disabled = false;
+        confirmBtn.className = "flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20";
+      }
+
+      document.getElementById("saveKundliModal").classList.remove("hidden");
+    }
+
+    function openSubscriptionModal() {
+      document.getElementById("subscriptionModal").classList.remove("hidden");
+    }
+
+    function openMasterAdminModal() {
+      const user = indusAuth.getCurrentUser();
+      if (user.role !== "admin") {
+        const pin = prompt("Enter Master Admin Passcode / PIN:");
+        if (!pin) return;
+        const res = indusAuth.adminLogin(pin);
+        if (!res.success) {
+          showToast("Incorrect Master Admin Passcode.", "error");
+          return;
+        }
+        updateIndusAuthUI();
+        showToast("Master Admin privileges unlocked!", "success");
+      }
+
+      renderAdminDashboard();
+      document.getElementById("masterAdminModal").classList.remove("hidden");
+    }
+
+    function renderAdminDashboard(filterText = "") {
+      const db = indusAuth.db;
+      const totalUsers = db.users.length;
+      let totalKundlis = 0;
+      let freeCount = 0;
+      let proCount = 0;
+      let unlimitedCount = 0;
+
+      db.users.forEach(u => {
+        totalKundlis += (u.savedKundlis || []).length;
+        if (u.tier === "unlimited_3000") unlimitedCount++;
+        else if (u.tier === "pro_500") proCount++;
+        else freeCount++;
+      });
+
+      document.getElementById("adminStatUsers").textContent = totalUsers;
+      document.getElementById("adminStatKundlis").textContent = totalKundlis;
+      document.getElementById("adminStatFree").textContent = freeCount;
+      document.getElementById("adminStatPro").textContent = proCount;
+      document.getElementById("adminStatUnlimited").textContent = unlimitedCount;
+
+      const tbody = document.getElementById("adminUserTableBody");
+      tbody.innerHTML = "";
+
+      const query = filterText.toLowerCase().trim();
+      const filtered = db.users.filter(u => {
+        if (!query) return true;
+        return (
+          u.name.toLowerCase().includes(query) ||
+          u.email.toLowerCase().includes(query) ||
+          u.tier.toLowerCase().includes(query)
+        );
+      });
+
+      filtered.forEach(u => {
+        const isUnlimited = (u.tier === "unlimited_3000" || u.maxCredits >= 999999);
+        const savedCount = (u.savedKundlis || []).length;
+        const tierBadge = isUnlimited 
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">VIP Unlimited (₹3000)</span>`
+          : u.tier === "pro_500"
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Pro (₹500 / 100)</span>`
+          : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">Free (10 Max)</span>`;
+
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-slate-800/40 transition";
+        tr.innerHTML = `
+          <td class="py-2 px-3 font-semibold text-white">
+            <div class="flex items-center gap-1.5">
+              <span>${u.name}</span>
+              ${u.role === 'admin' ? '<span class="text-[9px] bg-purple-600 text-white px-1 rounded font-mono font-bold">ADMIN</span>' : ''}
+            </div>
+            <span class="text-[10px] text-slate-400 block">${u.email}</span>
+          </td>
+          <td class="py-2 px-3">${tierBadge}</td>
+          <td class="py-2 px-3 font-mono font-bold text-amber-300">${savedCount}</td>
+          <td class="py-2 px-3 font-mono text-slate-300">${isUnlimited ? '∞' : u.maxCredits}</td>
+          <td class="py-2 px-3 text-right space-x-1 whitespace-nowrap">
+            <button class="admin-set-pro px-2 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-[10px] font-bold" data-id="${u.id}" title="Set 100 credits">
+              ₹500
+            </button>
+            <button class="admin-set-vip px-2 py-1 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-[10px] font-bold" data-id="${u.id}" title="Set Unlimited credits">
+              ₹3000
+            </button>
+            <button class="admin-set-free px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px]" data-id="${u.id}" title="Reset to Free (10)">
+              Free
+            </button>
+            <button class="admin-add-10 px-2 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-[10px] font-bold" data-id="${u.id}" title="Add +10 credits">
+              +10
+            </button>
+            ${u.role !== 'admin' ? `<button class="admin-del-user px-1.5 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-[10px]" data-id="${u.id}">✕</button>` : ''}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Attach admin table action listeners
+      tbody.querySelectorAll(".admin-set-pro").forEach(b => {
+        b.addEventListener("click", () => {
+          indusAuth.adminSetTier(b.getAttribute("data-id"), "pro_500");
+          renderAdminDashboard(document.getElementById("adminUserSearch").value);
+          updateIndusAuthUI();
+          showToast("User upgraded to Astrologer Pro (100 credits)!", "success");
+        });
+      });
+
+      tbody.querySelectorAll(".admin-set-vip").forEach(b => {
+        b.addEventListener("click", () => {
+          indusAuth.adminSetTier(b.getAttribute("data-id"), "unlimited_3000");
+          renderAdminDashboard(document.getElementById("adminUserSearch").value);
+          updateIndusAuthUI();
+          showToast("User upgraded to Master Consultant (Unlimited)!", "success");
+        });
+      });
+
+      tbody.querySelectorAll(".admin-set-free").forEach(b => {
+        b.addEventListener("click", () => {
+          indusAuth.adminSetTier(b.getAttribute("data-id"), "free");
+          renderAdminDashboard(document.getElementById("adminUserSearch").value);
+          updateIndusAuthUI();
+          showToast("User reset to Free Tier (10 credits).", "info");
+        });
+      });
+
+      tbody.querySelectorAll(".admin-add-10").forEach(b => {
+        b.addEventListener("click", () => {
+          indusAuth.adminAddCredits(b.getAttribute("data-id"), 10);
+          renderAdminDashboard(document.getElementById("adminUserSearch").value);
+          updateIndusAuthUI();
+          showToast("+10 Kundli save credits added to user account!", "success");
+        });
+      });
+
+      tbody.querySelectorAll(".admin-del-user").forEach(b => {
+        b.addEventListener("click", () => {
+          const uid = b.getAttribute("data-id");
+          if (confirm("Are you sure you want to delete this user and all their saved horoscopes?")) {
+            indusAuth.adminDeleteUser(uid);
+            renderAdminDashboard(document.getElementById("adminUserSearch").value);
+            updateIndusAuthUI();
+            showToast("User account deleted.", "info");
+          }
+        });
+      });
+    }
+
+    // Modal Attachments & DOM Handlers
+    function setupIndusKundliAppEvents() {
+      updateIndusAuthUI();
+
+      // Header Button Handlers
+      const headerVaultBtn = document.getElementById("headerVaultBtn");
+      if (headerVaultBtn) {
+        headerVaultBtn.addEventListener("click", openSavedKundlisModal);
+      }
+
+      const headerAuthBtn = document.getElementById("headerAuthBtn");
+      if (headerAuthBtn) {
+        headerAuthBtn.addEventListener("click", () => {
+          document.getElementById("authModal").classList.remove("hidden");
+        });
+      }
+
+      const headerAdminBtn = document.getElementById("headerAdminBtn");
+      if (headerAdminBtn) {
+        headerAdminBtn.addEventListener("click", openMasterAdminModal);
+      }
+
+      // Banner Toolbar Button Handlers
+      const bannerSaveKundliBtn = document.getElementById("bannerSaveKundliBtn");
+      if (bannerSaveKundliBtn) {
+        bannerSaveKundliBtn.addEventListener("click", openSaveKundliPromptModal);
+      }
+
+      const bannerMyKundlisBtn = document.getElementById("bannerMyKundlisBtn");
+      if (bannerMyKundlisBtn) {
+        bannerMyKundlisBtn.addEventListener("click", openSavedKundlisModal);
+      }
+
+      const bannerUpgradeBtn = document.getElementById("bannerUpgradeBtn");
+      if (bannerUpgradeBtn) {
+        bannerUpgradeBtn.addEventListener("click", openSubscriptionModal);
+      }
+
+      const vaultUpgradeBtn = document.getElementById("vaultUpgradeBtn");
+      if (vaultUpgradeBtn) {
+        vaultUpgradeBtn.addEventListener("click", () => {
+          document.getElementById("savedKundlisModal").classList.add("hidden");
+          openSubscriptionModal();
+        });
+      }
+
+      // Search Saved Kundlis
+      const savedKundliSearch = document.getElementById("savedKundliSearch");
+      if (savedKundliSearch) {
+        savedKundliSearch.addEventListener("input", (e) => {
+          renderSavedKundlisList(e.target.value);
+        });
+      }
+
+      // Save Kundli Form Submit
+      const saveKundliForm = document.getElementById("saveKundliForm");
+      if (saveKundliForm) {
+        saveKundliForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (!currentChartData || !currentChartData.meta) return;
+
+          const meta = currentChartData.meta;
+          const tag = document.getElementById("saveKundliTag").value || "Personal";
+          const notes = document.getElementById("saveKundliNotes").value || "";
+
+          const res = indusAuth.saveKundli({
+            name: meta.name,
+            gender: meta.gender,
+            year: meta.year,
+            month: meta.month,
+            day: meta.day,
+            hour: meta.hour,
+            minute: meta.minute,
+            second: meta.second,
+            placeName: meta.placeName,
+            lat: meta.lat,
+            lon: meta.lon,
+            tz: meta.tz,
+            ayanamshaType: meta.ayanamshaType,
+            tag,
+            notes
+          });
+
+          if (res.success) {
+            document.getElementById("saveKundliModal").classList.add("hidden");
+            updateIndusAuthUI();
+            showToast(`Horoscope for ${meta.name} saved! (${res.count}/${res.max >= 999999 ? '∞' : res.max} used)`, "success");
+          } else if (res.error === "limit_reached") {
+            showToast(`Vault limit reached (${res.count}/${res.max}). Please delete an older Kundli to save a new one.`, "error");
+          }
+        });
+      }
+
+      // Auth Tabs Navigation
+      const tabLogin = document.getElementById("authTabLogin");
+      const tabReg = document.getElementById("authTabRegister");
+      const tabAdmin = document.getElementById("authTabAdmin");
+      const formLogin = document.getElementById("loginForm");
+      const formReg = document.getElementById("registerForm");
+      const formAdmin = document.getElementById("adminLoginForm");
+
+      if (tabLogin && tabReg && tabAdmin) {
+        tabLogin.addEventListener("click", () => {
+          tabLogin.className = "flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400";
+          tabReg.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent";
+          tabAdmin.className = "flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent";
+          formLogin.classList.remove("hidden");
+          formReg.classList.add("hidden");
+          formAdmin.classList.add("hidden");
+        });
+
+        tabReg.addEventListener("click", () => {
+          tabReg.className = "flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400";
+          tabLogin.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent";
+          tabAdmin.className = "flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent";
+          formReg.classList.remove("hidden");
+          formLogin.classList.add("hidden");
+          formAdmin.classList.add("hidden");
+        });
+
+        tabAdmin.addEventListener("click", () => {
+          tabAdmin.className = "flex-1 py-2 text-center text-purple-400 border-b-2 border-purple-400";
+          tabLogin.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent";
+          tabReg.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent";
+          formAdmin.classList.remove("hidden");
+          formLogin.classList.add("hidden");
+          formReg.classList.add("hidden");
+        });
+      }
+
+      // Login Form Submit
+      if (formLogin) {
+        formLogin.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("loginEmail").value;
+          const pass = document.getElementById("loginPassword").value;
+          const res = indusAuth.login(email, pass);
+          if (res.success) {
+            document.getElementById("authModal").classList.add("hidden");
+            updateIndusAuthUI();
+            showToast(`Welcome back, ${res.user.name}!`, "success");
+          } else {
+            showToast(res.message, "error");
+          }
+        });
+      }
+
+      // Register Form Submit
+      if (formReg) {
+        formReg.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = document.getElementById("regName").value;
+          const email = document.getElementById("regEmail").value;
+          const pass = document.getElementById("regPassword").value;
+          const res = indusAuth.register(name, email, pass);
+          if (res.success) {
+            document.getElementById("authModal").classList.add("hidden");
+            updateIndusAuthUI();
+            showToast(`Account created! You have 10 free Kundli save credits.`, "success");
+          } else {
+            showToast(res.message, "error");
+          }
+        });
+      }
+
+      // Admin Form Submit
+      if (formAdmin) {
+        formAdmin.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const pin = document.getElementById("adminPasscode").value;
+          const res = indusAuth.adminLogin(pin);
+          if (res.success) {
+            document.getElementById("authModal").classList.add("hidden");
+            updateIndusAuthUI();
+            showToast("Master Admin authenticated!", "success");
+            openMasterAdminModal();
+          } else {
+            showToast(res.message, "error");
+          }
+        });
+      }
+
+      // Guest Login
+      const guestLoginBtn = document.getElementById("guestLoginBtn");
+      if (guestLoginBtn) {
+        guestLoginBtn.addEventListener("click", () => {
+          document.getElementById("authModal").classList.add("hidden");
+          updateIndusAuthUI();
+          showToast("Using local storage account (10 Free Kundli credits active).", "info");
+        });
+      }
+
+      // Admin User Search
+      const adminUserSearch = document.getElementById("adminUserSearch");
+      if (adminUserSearch) {
+        adminUserSearch.addEventListener("input", (e) => {
+          renderAdminDashboard(e.target.value);
+        });
+      }
+
+      // Admin Export JSON
+      const adminExportDbBtn = document.getElementById("adminExportDbBtn");
+      if (adminExportDbBtn) {
+        adminExportDbBtn.addEventListener("click", () => {
+          const jsonStr = indusAuth.exportBackup();
+          const blob = new Blob([jsonStr], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `indus_kundli_backup_${Date.now()}.json`;
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast("Database backup exported to JSON file!", "success");
+        });
+      }
+
+      // Admin Import JSON
+      const adminImportDbBtn = document.getElementById("adminImportDbBtn");
+      const adminImportFileInput = document.getElementById("adminImportFileInput");
+      if (adminImportDbBtn && adminImportFileInput) {
+        adminImportDbBtn.addEventListener("click", () => {
+          adminImportFileInput.click();
+        });
+
+        adminImportFileInput.addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            const ok = indusAuth.importBackup(evt.target.result);
+            if (ok) {
+              updateIndusAuthUI();
+              renderAdminDashboard();
+              showToast("Indus Database successfully restored!", "success");
+            } else {
+              showToast("Invalid JSON backup file.", "error");
+            }
+          };
+          reader.readAsText(file);
+        });
+      }
+
+      // Admin Add User Manually
+      const adminCreateUserBtn = document.getElementById("adminCreateUserBtn");
+      if (adminCreateUserBtn) {
+        adminCreateUserBtn.addEventListener("click", () => {
+          const name = prompt("Enter client/user full name:");
+          if (!name) return;
+          const email = prompt("Enter user email address:");
+          if (!email) return;
+          const tierChoice = prompt("Select Tier: 1 = Free (10 credits), 2 = Astrologer Pro (100 credits), 3 = Master Consultant (Unlimited)", "1");
+          let tier = "free";
+          if (tierChoice === "2") tier = "pro_500";
+          if (tierChoice === "3") tier = "unlimited_3000";
+
+          const res = indusAuth.register(name, email, "indus123");
+          if (res.success) {
+            indusAuth.adminSetTier(res.user.id, tier);
+            renderAdminDashboard();
+            showToast(`User ${name} created with ${tier} tier!`, "success");
+          } else {
+            showToast(res.message, "error");
+          }
+        });
+      }
+
+      // Close Modal Buttons
+      const closeAuth = document.getElementById("closeAuthModalBtn");
+      if (closeAuth) closeAuth.addEventListener("click", () => document.getElementById("authModal").classList.add("hidden"));
+
+      const closeSaved = document.getElementById("closeSavedModalBtn");
+      if (closeSaved) closeSaved.addEventListener("click", () => document.getElementById("savedKundlisModal").classList.add("hidden"));
+
+      const closeSavePrompt = document.getElementById("closeSavePromptModalBtn");
+      if (closeSavePrompt) closeSavePrompt.addEventListener("click", () => document.getElementById("saveKundliModal").classList.add("hidden"));
+
+      const cancelSave = document.getElementById("cancelSaveBtn");
+      if (cancelSave) cancelSave.addEventListener("click", () => document.getElementById("saveKundliModal").classList.add("hidden"));
+
+      const closeSub = document.getElementById("closeSubModalBtn");
+      if (closeSub) closeSub.addEventListener("click", () => document.getElementById("subscriptionModal").classList.add("hidden"));
+
+      const closeAdmin = document.getElementById("closeAdminModalBtn");
+      if (closeAdmin) closeAdmin.addEventListener("click", () => document.getElementById("masterAdminModal").classList.add("hidden"));
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const citySelect = document.getElementById("birthPlaceSelect");
+      const citySearch = document.getElementById("citySearchInput");
+
+      const populateCities = (filterText = "") => {
+        if (!citySelect) return;
+        citySelect.innerHTML = "";
+        const q = filterText.toLowerCase().trim();
+        let firstMatchIdx = -1;
+
+        CITIES_DB.forEach((c, idx) => {
+          if (!q || c.name.toLowerCase().includes(q)) {
+            const opt = document.createElement("option");
+            opt.value = idx;
+            opt.textContent = c.name;
+            if (firstMatchIdx === -1) firstMatchIdx = idx;
+            if (!q && c.name.includes("Faridabad")) {
+              opt.selected = true;
+              firstMatchIdx = idx;
+            }
+            citySelect.appendChild(opt);
+          }
+        });
+
+        if (firstMatchIdx !== -1 && citySelect.options.length > 0) {
+          const selIdx = citySelect.value || firstMatchIdx;
+          const c = CITIES_DB[selIdx];
+          if (c) {
+            document.getElementById("customLat").value = c.lat;
+            document.getElementById("customLon").value = c.lon;
+            document.getElementById("customTZ").value = c.tz;
+          }
+        }
+      };
+
+      populateCities();
+
+      if (citySearch) {
+        citySearch.addEventListener("input", (e) => {
+          populateCities(e.target.value);
+        });
+      }
+
+      if (citySelect) {
+        citySelect.addEventListener("change", (e) => {
+          const c = CITIES_DB[e.target.value];
+          if (c) {
+            document.getElementById("customLat").value = c.lat;
+            document.getElementById("customLon").value = c.lon;
+            document.getElementById("customTZ").value = c.tz;
+          }
+        });
+      }
 
       document.getElementById("presetSelect").addEventListener("change", (e) => {
         if (e.target.value) {
@@ -3443,26 +4829,26 @@
 
       const btnNorth = document.getElementById("toggleChartNorth");
       const btnSouth = document.getElementById("toggleChartSouth");
+      const btnEast = document.getElementById("toggleChartEast");
 
-      btnNorth.addEventListener("click", () => {
-        currentChartStyle = "north";
-        btnNorth.className = "px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold";
-        btnSouth.className = "px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white";
+      const updateChartStyleButtons = (activeStyle) => {
+        currentChartStyle = activeStyle;
+        const activeClass = "px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold transition";
+        const inactiveClass = "px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition";
+
+        if (btnNorth) btnNorth.className = activeStyle === "north" ? activeClass : inactiveClass;
+        if (btnSouth) btnSouth.className = activeStyle === "south" ? activeClass : inactiveClass;
+        if (btnEast) btnEast.className = activeStyle === "east" ? activeClass : inactiveClass;
+
         renderChart("D1", "chartD1Container", false);
         renderChart("D9", "chartD9Container", false);
-        const vKey = document.getElementById("vargaSelector").value || "D9";
+        const vKey = document.getElementById("vargaSelector") ? document.getElementById("vargaSelector").value : "D9";
         renderChart(vKey, "vargaMainChartContainer", false);
-      });
+      };
 
-      btnSouth.addEventListener("click", () => {
-        currentChartStyle = "south";
-        btnSouth.className = "px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold";
-        btnNorth.className = "px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white";
-        renderChart("D1", "chartD1Container", false);
-        renderChart("D9", "chartD9Container", false);
-        const vKey = document.getElementById("vargaSelector").value || "D9";
-        renderChart(vKey, "vargaMainChartContainer", false);
-      });
+      if (btnNorth) btnNorth.addEventListener("click", () => updateChartStyleButtons("north"));
+      if (btnSouth) btnSouth.addEventListener("click", () => updateChartStyleButtons("south"));
+      if (btnEast) btnEast.addEventListener("click", () => updateChartStyleButtons("east"));
 
       document.querySelectorAll(".nav-tab").forEach(tab => {
         tab.addEventListener("click", () => {
@@ -3588,6 +4974,7 @@
         });
       }
 
+      setupIndusKundliAppEvents();
       triggerCalculation();
     });
   </script>
