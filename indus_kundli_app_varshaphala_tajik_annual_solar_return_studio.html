@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indus Kundli App — Varshaphala (Tajik Annual Solar Return) Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-950 text-slate-200 font-sans min-h-screen antialiased selection:bg-amber-500 selection:text-slate-900">
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-amber-500/20">
+          ☉
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-cinzel text-lg sm:text-xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500">
+              INDUS KUNDLI APP
+            </h1>
+            <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 font-medium tracking-wider">
+              Varshaphala Annual Studio
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-sanskrit tracking-wider hidden sm:block">
+            ताजिक वर्षफलम् • मुन्था विचार • वर्षेश साधनम्
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <a href="index.html" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition shadow">
+          <span>← Janam Kundli</span>
+        </a>
+        <button id="topPrintBtn" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-semibold text-xs sm:text-sm px-3.5 py-2 rounded-lg shadow-lg shadow-amber-500/20 flex items-center gap-1.5 transition cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          <span>Print Annual Patrika</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- INPUT CONFIGURATION PANEL -->
+    <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl no-print">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 border-b border-slate-800 pb-3">
+        <div>
+          <h2 class="font-cinzel text-base font-bold text-amber-300 tracking-wide uppercase">Natal Birth Data & Return Year</h2>
+          <p class="text-xs text-slate-400">Cast the Tajik Solar Return chart for any target year of life</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-400">
+          <span>Chart Style:</span>
+          <button id="toggleChartNorth" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold transition">North Indian</button>
+          <button id="toggleChartSouth" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition">South Indian</button>
+          <button id="toggleChartEast" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition">East Indian</button>
+        </div>
+      </div>
+
+      <form id="varshaphalaForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        <!-- Native Name -->
+        <div class="lg:col-span-2">
+          <label class="block text-xs font-medium text-slate-300 mb-1" for="nativeName">Native Name</label>
+          <input type="text" id="nativeName" value="Shri Jataka" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:border-amber-400 outline-none">
+        </div>
+
+        <!-- Gender -->
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1" for="nativeGender">Gender</label>
+          <select id="nativeGender" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:border-amber-400 outline-none">
+            <option value="Male" selected>Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <!-- Natal Birth Date -->
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1" for="birthDate">Natal Date of Birth</label>
+          <input type="date" id="birthDate" value="1995-10-24" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:border-amber-400 outline-none">
+        </div>
+
+        <!-- Natal Birth Time -->
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1" for="birthTime">Natal Time of Birth</label>
+          <input type="time" id="birthTime" step="1" value="14:30:00" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:border-amber-400 outline-none">
+        </div>
+
+        <!-- Target Return Year -->
+        <div>
+          <label class="block text-xs font-bold text-amber-400 mb-1" for="targetYear">Target Return Year</label>
+          <input type="number" id="targetYear" min="1900" max="2100" value="2026" required class="w-full bg-slate-950 border border-amber-500/50 rounded-lg px-3 py-2 text-xs text-amber-300 font-bold focus:border-amber-400 outline-none">
+        </div>
+
+        <!-- Place of Birth -->
+        <div class="lg:col-span-3">
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-xs font-medium text-slate-300" for="birthPlaceSelect">Place of Birth / Annual Return</label>
+            <span class="text-[10px] text-amber-400 font-mono">200+ Global Cities</span>
+          </div>
+          <input type="text" id="citySearchInput" placeholder="🔍 Search city (e.g. Faridabad, Pune, London, Dubai)..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 mb-1.5 focus:border-amber-400 outline-none">
+          <select id="birthPlaceSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:border-amber-400 outline-none">
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <!-- Coordinates Hidden / Read-only values -->
+        <input type="hidden" id="customLat" value="28.4089">
+        <input type="hidden" id="customLon" value="77.3178">
+        <input type="hidden" id="customTZ" value="5.5">
+        <input type="hidden" id="ayanamshaSelect" value="lahiri">
+
+        <!-- Submit Button -->
+        <div class="lg:col-span-3 flex items-end">
+          <button type="submit" id="calculateVarshaphalaBtn" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold text-xs sm:text-sm py-2.5 rounded-lg shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2 cursor-pointer">
+            <span>⚡ Cast Varshaphala (Annual Solar Return)</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ANNUAL EXECUTIVE SUMMARY BANNER -->
+    <section id="varshaphalSummaryCard" class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-800 text-xs">
+        <!-- Native & Year -->
+        <div class="pr-2">
+          <p class="text-[10px] uppercase font-bold text-amber-400/80 tracking-wider">Annual Period</p>
+          <h3 id="vpYearTitle" class="font-cinzel text-lg font-bold text-white">Year 2026–2027</h3>
+          <p id="vpNativeName" class="text-xs text-slate-300 font-semibold truncate">Shri Jataka</p>
+          <p id="vpAgeBadge" class="text-[11px] text-amber-400/90 font-mono mt-0.5">31st Year of Life</p>
+        </div>
+
+        <!-- Varshapravesha Moment -->
+        <div class="sm:pl-4 pr-2 pt-2 sm:pt-0">
+          <p class="text-[10px] uppercase font-bold text-amber-400/80 tracking-wider">Solar Return Moment</p>
+          <h4 id="vpExactDateTime" class="font-cinzel text-sm font-bold text-amber-300">24 Oct 2026, 08:14</h4>
+          <p class="text-[11px] text-slate-400">Varshapravesha</p>
+          <p id="vpSunLong" class="text-[10px] font-mono text-slate-500">Sun: 7° 12' 40" Libra</p>
+        </div>
+
+        <!-- Varsha Lagna -->
+        <div class="sm:pl-4 pr-2 pt-2 sm:pt-0">
+          <p class="text-[10px] uppercase font-bold text-amber-400/80 tracking-wider">Varsha Lagna (Ascendant)</p>
+          <h4 id="vpVarshaLagna" class="font-cinzel text-base font-bold text-emerald-300">Scorpio (Vrischika)</h4>
+          <p id="vpLagnaLord" class="text-[11px] text-slate-400">Lord: Mars (Mangala)</p>
+          <p id="vpLagnaDeg" class="text-[10px] font-mono text-slate-500">Deg: 12° 45' 10"</p>
+        </div>
+
+        <!-- Muntha (Progressed Annual Point) -->
+        <div class="sm:pl-4 pr-2 pt-2 sm:pt-0">
+          <p class="text-[10px] uppercase font-bold text-amber-400/80 tracking-wider">Muntha (Annual Pivot)</p>
+          <h4 id="vpMunthaSign" class="font-cinzel text-base font-bold text-amber-400">Cancer (House 9)</h4>
+          <p id="vpMunthaLord" class="text-[11px] text-slate-400">Lord: Moon (Chandra)</p>
+          <p id="vpMunthaStatus" class="text-[10px] text-emerald-400 font-semibold">Fortunate (Bhagya Sthana)</p>
+        </div>
+
+        <!-- Varsheshwara (Lord of the Year) -->
+        <div class="sm:pl-4 pr-2 pt-2 sm:pt-0">
+          <p class="text-[10px] uppercase font-bold text-amber-400/80 tracking-wider">Varsheshwara (Year Lord)</p>
+          <h4 id="vpVarsheshwara" class="font-cinzel text-base font-bold text-amber-300">Jupiter (Guru)</h4>
+          <p id="vpVarsheshwaraRole" class="text-[11px] text-slate-400">Tri-Rashi Adhipati</p>
+          <p id="vpVarsheshwaraPower" class="text-[10px] text-emerald-400 font-semibold">High Harsha Bala</p>
+        </div>
+
+        <!-- Annual Summary -->
+        <div class="sm:pl-4 pt-2 sm:pt-0">
+          <p class="text-[10px] uppercase font-bold text-amber-400/80 tracking-wider">Annual Forecast</p>
+          <h4 id="vpGeneralTone" class="font-cinzel text-sm font-bold text-white">Dynamic Expansion</h4>
+          <p class="text-[11px] text-slate-300 leading-tight mt-1">Favorable for professional advancements and spiritual endeavors.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN DISPLAY: ANNUAL CHART & PANCHADHIKARI -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <!-- Left: Visual Chart SVG -->
+      <div class="lg:col-span-5 flex flex-col items-center bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <div class="flex items-center justify-between w-full mb-3">
+          <h3 class="font-cinzel text-base font-bold text-amber-300 flex items-center gap-1.5">
+            <span>☸</span> Varshaphala Annual Kundli
+          </h3>
+          <span id="vpChartStyleBadge" class="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-mono font-semibold">North Indian</span>
+        </div>
+        <div id="varshaphalaChartContainer" class="w-full max-w-[360px] aspect-square flex items-center justify-center">
+          <!-- Injected SVG -->
+        </div>
+        <div class="w-full mt-3 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+          <span>Muntha: <strong id="vpMunthaMini" class="text-amber-300">Cancer (H9)</strong></span>
+          <span>Year Lord: <strong id="vpYearLordMini" class="text-amber-300">Jupiter</strong></span>
+          <span>Ascendant: <strong id="vpLagnaMini" class="text-emerald-300">Scorpio</strong></span>
+        </div>
+      </div>
+
+      <!-- Right: Panchadhikari & Annual Planetary Details -->
+      <div class="lg:col-span-7 space-y-4">
+        <!-- Panchadhikari (5 Office Bearers for Year Lord) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+          <h4 class="font-cinzel text-xs font-bold text-amber-400 uppercase tracking-wider mb-2.5">
+            Panchadhikari (5 Year Lord Candidates & Selection)
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs">
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-500 block">1. Muntha Lord</span>
+              <strong id="candMuntha" class="text-amber-300 text-xs">Moon</strong>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-500 block">2. Janma Lagna</span>
+              <strong id="candJanmaLagna" class="text-amber-300 text-xs">Mars</strong>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-500 block">3. Varsha Lagna</span>
+              <strong id="candVarshaLagna" class="text-amber-300 text-xs">Mars</strong>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-500 block">4. Tri-Rashi Lord</span>
+              <strong id="candTriRashi" class="text-amber-300 text-xs">Jupiter</strong>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="text-[10px] text-slate-500 block">5. Dina/Ratri Lord</span>
+              <strong id="candDinaRatri" class="text-amber-300 text-xs">Sun</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Annual Planetary Positions Table -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+          <h4 class="font-cinzel text-xs font-bold text-slate-200 uppercase tracking-wider mb-3">
+            Annual Solar Return Planetary Positions (Varshapravesha)
+          </h4>
+          <div class="overflow-x-auto rounded-xl border border-slate-800">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-950 text-amber-300 uppercase text-[10px] font-bold tracking-wider">
+                <tr>
+                  <th class="py-2 px-3">Planet</th>
+                  <th class="py-2 px-3">Sign</th>
+                  <th class="py-2 px-3">Degree</th>
+                  <th class="py-2 px-3">House</th>
+                  <th class="py-2 px-3">Nakshatra</th>
+                  <th class="py-2 px-3">Tajik Aspect to Lagna</th>
+                </tr>
+              </thead>
+              <tbody id="vpPlanetsTableBody" class="divide-y divide-slate-800 font-sans">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12-MONTH TAJIK MASA PRAVESHA PROGRESSION TIMELINE -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 border-b border-slate-800 pb-3">
+        <div>
+          <h3 class="font-cinzel text-base font-bold text-amber-300">12-Month Tajik Masa Pravesha Progression</h3>
+          <p class="text-xs text-slate-400">Month-by-month astrological forecast for your annual cycle</p>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button class="vp-month-filter active px-2.5 py-1 text-xs rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold" data-filter="all">All Months</button>
+          <button class="vp-month-filter px-2.5 py-1 text-xs rounded-md bg-slate-950 text-slate-400 border border-slate-800 hover:text-white" data-filter="career">Career</button>
+          <button class="vp-month-filter px-2.5 py-1 text-xs rounded-md bg-slate-950 text-slate-400 border border-slate-800 hover:text-white" data-filter="finance">Finance</button>
+          <button class="vp-month-filter px-2.5 py-1 text-xs rounded-md bg-slate-950 text-slate-400 border border-slate-800 hover:text-white" data-filter="relationships">Harmony</button>
+        </div>
+      </div>
+
+      <div id="vpMonthsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- PRINTABLE REPORT (Revealed on print) -->
+    <div id="printableVarshaphalaReport" class="hidden print-only font-sans text-xs">
+      <div class="border-b-2 border-amber-900 pb-2 mb-4 text-center">
+        <h2 class="font-cinzel text-2xl font-bold text-amber-900 uppercase">INDUS KUNDLI APP — VARSHAPHALA</h2>
+        <p class="text-xs font-semibold text-amber-800 uppercase">Annual Solar Return Horoscope • Tajik System</p>
+        <p class="text-[10px] text-slate-600 font-mono">kundli.indusjyotish.in • www.indusjyotish.in</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 border border-slate-300 p-3 rounded mb-4">
+        <div>
+          <p><strong>Native Name:</strong> <span id="prVpNativeName"></span></p>
+          <p><strong>Annual Return Year:</strong> <span id="prVpYear"></span></p>
+          <p><strong>Solar Return Moment:</strong> <span id="prVpMoment"></span></p>
+        </div>
+        <div>
+          <p><strong>Varsha Lagna:</strong> <span id="prVpLagna"></span></p>
+          <p><strong>Muntha:</strong> <span id="prVpMuntha"></span></p>
+          <p><strong>Lord of the Year:</strong> <span id="prVpYearLord"></span></p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6 items-center mb-4">
+        <div id="prVpChartContainer" class="w-[260px] aspect-square mx-auto"></div>
+        <div>
+          <h4 class="font-bold text-xs uppercase mb-2 border-b border-slate-300 pb-1">Annual Planets Summary</h4>
+          <div id="prVpPlanetsList" class="space-y-1 text-[11px]"></div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-300 pt-2 text-center text-[10px] text-slate-500">
+        Indus Kundli App • Powered by Indus Jyotish • Blessed with Tajik Varshaphala Astrological Algorithms
+      </div>
+    </div>
+
+  </main>
+
+  <!-- JAVASCRIPT ENGINE -->
+  <script>
+    const CITIES_DB = [{"name": "Faridabad, Haryana, India", "lat": 28.4089, "lon": 77.3178, "tz": 5.5}, {"name": "New Delhi, Delhi, India", "lat": 28.6139, "lon": 77.209, "tz": 5.5}, {"name": "Gurugram (Gurgaon), Haryana, India", "lat": 28.4595, "lon": 77.0266, "tz": 5.5}, {"name": "Noida, Uttar Pradesh, India", "lat": 28.5355, "lon": 77.391, "tz": 5.5}, {"name": "Greater Noida, Uttar Pradesh, India", "lat": 28.4744, "lon": 77.504, "tz": 5.5}, {"name": "Ghaziabad, Uttar Pradesh, India", "lat": 28.6692, "lon": 77.4538, "tz": 5.5}, {"name": "Panipat, Haryana, India", "lat": 29.3909, "lon": 76.9635, "tz": 5.5}, {"name": "Sonipat, Haryana, India", "lat": 28.9931, "lon": 77.0151, "tz": 5.5}, {"name": "Karnal, Haryana, India", "lat": 29.6857, "lon": 76.9905, "tz": 5.5}, {"name": "Rohtak, Haryana, India", "lat": 28.8955, "lon": 76.6066, "tz": 5.5}, {"name": "Hisar, Haryana, India", "lat": 29.1492, "lon": 75.7217, "tz": 5.5}, {"name": "Ambala, Haryana, India", "lat": 30.3782, "lon": 76.7767, "tz": 5.5}, {"name": "Panchkula, Haryana, India", "lat": 30.6942, "lon": 76.8606, "tz": 5.5}, {"name": "Chandigarh, India", "lat": 30.7333, "lon": 76.7794, "tz": 5.5}, {"name": "Kurukshetra, Haryana, India", "lat": 29.9695, "lon": 76.8783, "tz": 5.5}, {"name": "Rewari, Haryana, India", "lat": 28.1928, "lon": 76.6191, "tz": 5.5}, {"name": "Yamunanagar, Haryana, India", "lat": 30.129, "lon": 77.2674, "tz": 5.5}, {"name": "Sirsa, Haryana, India", "lat": 29.5349, "lon": 75.0294, "tz": 5.5}, {"name": "Ludhiana, Punjab, India", "lat": 30.901, "lon": 75.8573, "tz": 5.5}, {"name": "Amritsar, Punjab, India", "lat": 31.634, "lon": 74.8723, "tz": 5.5}, {"name": "Jalandhar, Punjab, India", "lat": 31.326, "lon": 75.5762, "tz": 5.5}, {"name": "Patiala, Punjab, India", "lat": 30.3398, "lon": 76.3869, "tz": 5.5}, {"name": "Bathinda, Punjab, India", "lat": 30.211, "lon": 74.9455, "tz": 5.5}, {"name": "Mohali, Punjab, India", "lat": 30.7046, "lon": 76.7179, "tz": 5.5}, {"name": "Shimla, Himachal Pradesh, India", "lat": 31.1048, "lon": 77.1734, "tz": 5.5}, {"name": "Dharamshala, Himachal Pradesh, India", "lat": 32.219, "lon": 76.3234, "tz": 5.5}, {"name": "Kullu, Himachal Pradesh, India", "lat": 31.9579, "lon": 77.1095, "tz": 5.5}, {"name": "Manali, Himachal Pradesh, India", "lat": 32.2432, "lon": 77.1892, "tz": 5.5}, {"name": "Srinagar, Jammu & Kashmir, India", "lat": 34.0837, "lon": 74.7973, "tz": 5.5}, {"name": "Jammu, Jammu & Kashmir, India", "lat": 32.7266, "lon": 74.857, "tz": 5.5}, {"name": "Leh, Ladakh, India", "lat": 34.1526, "lon": 77.5771, "tz": 5.5}, {"name": "Dehradun, Uttarakhand, India", "lat": 30.3165, "lon": 78.0322, "tz": 5.5}, {"name": "Haridwar, Uttarakhand, India", "lat": 29.9457, "lon": 78.1642, "tz": 5.5}, {"name": "Rishikesh, Uttarakhand, India", "lat": 30.0869, "lon": 78.2676, "tz": 5.5}, {"name": "Nainital, Uttarakhand, India", "lat": 29.3919, "lon": 79.4542, "tz": 5.5}, {"name": "Haldwani, Uttarakhand, India", "lat": 29.2183, "lon": 79.513, "tz": 5.5}, {"name": "Kedarnath, Uttarakhand, India", "lat": 30.7352, "lon": 79.0669, "tz": 5.5}, {"name": "Badrinath, Uttarakhand, India", "lat": 30.7433, "lon": 79.4938, "tz": 5.5}, {"name": "Jaipur, Rajasthan, India", "lat": 26.9124, "lon": 75.7873, "tz": 5.5}, {"name": "Jodhpur, Rajasthan, India", "lat": 26.2389, "lon": 73.0243, "tz": 5.5}, {"name": "Udaipur, Rajasthan, India", "lat": 24.5854, "lon": 73.7125, "tz": 5.5}, {"name": "Kota, Rajasthan, India", "lat": 25.1804, "lon": 75.836, "tz": 5.5}, {"name": "Bikaner, Rajasthan, India", "lat": 28.0229, "lon": 73.3119, "tz": 5.5}, {"name": "Ajmer, Rajasthan, India", "lat": 26.4499, "lon": 74.6399, "tz": 5.5}, {"name": "Pushkar, Rajasthan, India", "lat": 26.4897, "lon": 74.5511, "tz": 5.5}, {"name": "Alwar, Rajasthan, India", "lat": 27.553, "lon": 76.6346, "tz": 5.5}, {"name": "Bhilwara, Rajasthan, India", "lat": 25.3407, "lon": 74.6313, "tz": 5.5}, {"name": "Mount Abu, Rajasthan, India", "lat": 24.5926, "lon": 72.7156, "tz": 5.5}, {"name": "Lucknow, Uttar Pradesh, India", "lat": 26.8467, "lon": 80.9462, "tz": 5.5}, {"name": "Kanpur, Uttar Pradesh, India", "lat": 26.4499, "lon": 80.3319, "tz": 5.5}, {"name": "Varanasi (Kashi), Uttar Pradesh, India", "lat": 25.3176, "lon": 82.9739, "tz": 5.5}, {"name": "Prayagraj (Allahabad), Uttar Pradesh, India", "lat": 25.4358, "lon": 81.8463, "tz": 5.5}, {"name": "Ayodhya, Uttar Pradesh, India", "lat": 26.7922, "lon": 82.1998, "tz": 5.5}, {"name": "Mathura, Uttar Pradesh, India", "lat": 27.4924, "lon": 77.6737, "tz": 5.5}, {"name": "Vrindavan, Uttar Pradesh, India", "lat": 27.5806, "lon": 77.7006, "tz": 5.5}, {"name": "Agra, Uttar Pradesh, India", "lat": 27.1767, "lon": 78.0081, "tz": 5.5}, {"name": "Meerut, Uttar Pradesh, India", "lat": 28.9845, "lon": 77.7064, "tz": 5.5}, {"name": "Gorakhpur, Uttar Pradesh, India", "lat": 26.7606, "lon": 83.3732, "tz": 5.5}, {"name": "Bareilly, Uttar Pradesh, India", "lat": 28.367, "lon": 79.4304, "tz": 5.5}, {"name": "Aligarh, Uttar Pradesh, India", "lat": 27.8974, "lon": 78.088, "tz": 5.5}, {"name": "Jhansi, Uttar Pradesh, India", "lat": 25.4484, "lon": 78.5685, "tz": 5.5}, {"name": "Moradabad, Uttar Pradesh, India", "lat": 28.8351, "lon": 78.7747, "tz": 5.5}, {"name": "Saharanpur, Uttar Pradesh, India", "lat": 29.9671, "lon": 77.551, "tz": 5.5}, {"name": "Patna, Bihar, India", "lat": 25.5941, "lon": 85.1376, "tz": 5.5}, {"name": "Gaya, Bihar, India", "lat": 24.7914, "lon": 85.0002, "tz": 5.5}, {"name": "Muzaffarpur, Bihar, India", "lat": 26.1209, "lon": 85.3647, "tz": 5.5}, {"name": "Bhagalpur, Bihar, India", "lat": 25.2425, "lon": 86.9842, "tz": 5.5}, {"name": "Darbhanga, Bihar, India", "lat": 26.1542, "lon": 85.8918, "tz": 5.5}, {"name": "Ranchi, Jharkhand, India", "lat": 23.3441, "lon": 85.3096, "tz": 5.5}, {"name": "Jamshedpur, Jharkhand, India", "lat": 22.8046, "lon": 86.2029, "tz": 5.5}, {"name": "Dhanbad, Jharkhand, India", "lat": 23.7957, "lon": 86.4304, "tz": 5.5}, {"name": "Deoghar (Baidyanath), Jharkhand, India", "lat": 24.4826, "lon": 86.7001, "tz": 5.5}, {"name": "Bhopal, Madhya Pradesh, India", "lat": 23.2599, "lon": 77.4126, "tz": 5.5}, {"name": "Indore, Madhya Pradesh, India", "lat": 22.7196, "lon": 75.8577, "tz": 5.5}, {"name": "Ujjain (Mahakaleshwar), Madhya Pradesh, India", "lat": 23.1765, "lon": 75.7885, "tz": 5.5}, {"name": "Jabalpur, Madhya Pradesh, India", "lat": 23.1815, "lon": 79.9864, "tz": 5.5}, {"name": "Gwalior, Madhya Pradesh, India", "lat": 26.2183, "lon": 78.1828, "tz": 5.5}, {"name": "Omkareshwar, Madhya Pradesh, India", "lat": 22.2443, "lon": 76.1506, "tz": 5.5}, {"name": "Sagar, Madhya Pradesh, India", "lat": 23.8388, "lon": 78.7378, "tz": 5.5}, {"name": "Raipur, Chhattisgarh, India", "lat": 21.2514, "lon": 81.6296, "tz": 5.5}, {"name": "Bilaspur, Chhattisgarh, India", "lat": 22.0797, "lon": 82.1409, "tz": 5.5}, {"name": "Bhilai, Chhattisgarh, India", "lat": 21.1938, "lon": 81.3509, "tz": 5.5}, {"name": "Mumbai, Maharashtra, India", "lat": 19.076, "lon": 72.8777, "tz": 5.5}, {"name": "Pune, Maharashtra, India", "lat": 18.5204, "lon": 73.8567, "tz": 5.5}, {"name": "Nagpur, Maharashtra, India", "lat": 21.1458, "lon": 79.0882, "tz": 5.5}, {"name": "Thane, Maharashtra, India", "lat": 19.2183, "lon": 72.9781, "tz": 5.5}, {"name": "Nashik (Trimbak), Maharashtra, India", "lat": 19.9975, "lon": 73.7898, "tz": 5.5}, {"name": "Chhatrapati Sambhajinagar (Aurangabad), Maharashtra, India", "lat": 19.8762, "lon": 75.3433, "tz": 5.5}, {"name": "Shirdi, Maharashtra, India", "lat": 19.7667, "lon": 74.4764, "tz": 5.5}, {"name": "Kolhapur, Maharashtra, India", "lat": 16.705, "lon": 74.2433, "tz": 5.5}, {"name": "Solapur, Maharashtra, India", "lat": 17.6599, "lon": 75.9064, "tz": 5.5}, {"name": "Amravati, Maharashtra, India", "lat": 20.9374, "lon": 77.7796, "tz": 5.5}, {"name": "Ahmedabad, Gujarat, India", "lat": 23.0225, "lon": 72.5714, "tz": 5.5}, {"name": "Surat, Gujarat, India", "lat": 21.1702, "lon": 72.8311, "tz": 5.5}, {"name": "Vadodara, Gujarat, India", "lat": 22.3072, "lon": 73.1812, "tz": 5.5}, {"name": "Rajkot, Gujarat, India", "lat": 22.3039, "lon": 70.8022, "tz": 5.5}, {"name": "Gandhinagar, Gujarat, India", "lat": 23.2156, "lon": 72.6369, "tz": 5.5}, {"name": "Bhavnagar, Gujarat, India", "lat": 21.7645, "lon": 72.1519, "tz": 5.5}, {"name": "Jamnagar, Gujarat, India", "lat": 22.4707, "lon": 70.0577, "tz": 5.5}, {"name": "Dwarka, Gujarat, India", "lat": 22.2442, "lon": 68.9685, "tz": 5.5}, {"name": "Somnath (Veraval), Gujarat, India", "lat": 20.9015, "lon": 70.4022, "tz": 5.5}, {"name": "Panaji, Goa, India", "lat": 15.4909, "lon": 73.8278, "tz": 5.5}, {"name": "Kolkata, West Bengal, India", "lat": 22.5726, "lon": 88.3639, "tz": 5.5}, {"name": "Howrah, West Bengal, India", "lat": 22.5958, "lon": 88.2636, "tz": 5.5}, {"name": "Siliguri, West Bengal, India", "lat": 26.7271, "lon": 88.3953, "tz": 5.5}, {"name": "Asansol, West Bengal, India", "lat": 23.6739, "lon": 86.9524, "tz": 5.5}, {"name": "Durgapur, West Bengal, India", "lat": 23.5204, "lon": 87.3119, "tz": 5.5}, {"name": "Darjeeling, West Bengal, India", "lat": 27.041, "lon": 88.2663, "tz": 5.5}, {"name": "Bhubaneswar, Odisha, India", "lat": 20.2961, "lon": 85.8245, "tz": 5.5}, {"name": "Cuttack, Odisha, India", "lat": 20.4625, "lon": 85.8828, "tz": 5.5}, {"name": "Puri (Jagannath), Odisha, India", "lat": 19.8135, "lon": 85.8312, "tz": 5.5}, {"name": "Rourkela, Odisha, India", "lat": 22.2604, "lon": 84.8536, "tz": 5.5}, {"name": "Berhampur, Odisha, India", "lat": 19.3149, "lon": 84.7941, "tz": 5.5}, {"name": "Sambalpur, Odisha, India", "lat": 21.4669, "lon": 83.9812, "tz": 5.5}, {"name": "Guwahati (Kamakhya), Assam, India", "lat": 26.1445, "lon": 91.7362, "tz": 5.5}, {"name": "Silchar, Assam, India", "lat": 24.8333, "lon": 92.7789, "tz": 5.5}, {"name": "Dibrugarh, Assam, India", "lat": 27.4728, "lon": 94.912, "tz": 5.5}, {"name": "Shillong, Meghalaya, India", "lat": 25.5788, "lon": 91.8933, "tz": 5.5}, {"name": "Agartala, Tripura, India", "lat": 23.8315, "lon": 91.2868, "tz": 5.5}, {"name": "Imphal, Manipur, India", "lat": 24.817, "lon": 93.9368, "tz": 5.5}, {"name": "Aizawl, Mizoram, India", "lat": 23.7271, "lon": 92.7176, "tz": 5.5}, {"name": "Kohima, Nagaland, India", "lat": 25.6751, "lon": 94.1086, "tz": 5.5}, {"name": "Gangtok, Sikkim, India", "lat": 27.3314, "lon": 88.6138, "tz": 5.5}, {"name": "Bengaluru, Karnataka, India", "lat": 12.9716, "lon": 77.5946, "tz": 5.5}, {"name": "Mysuru (Mysore), Karnataka, India", "lat": 12.2958, "lon": 76.6394, "tz": 5.5}, {"name": "Mangaluru (Mangalore), Karnataka, India", "lat": 12.9141, "lon": 74.856, "tz": 5.5}, {"name": "Hubballi-Dharwad, Karnataka, India", "lat": 15.3647, "lon": 75.124, "tz": 5.5}, {"name": "Belagavi (Belgaum), Karnataka, India", "lat": 15.8497, "lon": 74.4977, "tz": 5.5}, {"name": "Udupi, Karnataka, India", "lat": 13.3409, "lon": 74.7421, "tz": 5.5}, {"name": "Hyderabad, Telangana, India", "lat": 17.385, "lon": 78.4867, "tz": 5.5}, {"name": "Warangal, Telangana, India", "lat": 17.9689, "lon": 79.5941, "tz": 5.5}, {"name": "Visakhapatnam, Andhra Pradesh, India", "lat": 17.6868, "lon": 83.2185, "tz": 5.5}, {"name": "Vijayawada, Andhra Pradesh, India", "lat": 16.5062, "lon": 80.648, "tz": 5.5}, {"name": "Guntur, Andhra Pradesh, India", "lat": 16.3067, "lon": 80.4365, "tz": 5.5}, {"name": "Tirupati (Balaji), Andhra Pradesh, India", "lat": 13.6288, "lon": 79.4192, "tz": 5.5}, {"name": "Nellore, Andhra Pradesh, India", "lat": 14.4426, "lon": 79.9865, "tz": 5.5}, {"name": "Kurnool, Andhra Pradesh, India", "lat": 15.8281, "lon": 78.0373, "tz": 5.5}, {"name": "Chennai, Tamil Nadu, India", "lat": 13.0827, "lon": 80.2707, "tz": 5.5}, {"name": "Coimbatore, Tamil Nadu, India", "lat": 11.0168, "lon": 76.9558, "tz": 5.5}, {"name": "Madurai, Tamil Nadu, India", "lat": 9.9252, "lon": 78.1198, "tz": 5.5}, {"name": "Tiruchirappalli (Trichy), Tamil Nadu, India", "lat": 10.7905, "lon": 78.7047, "tz": 5.5}, {"name": "Salem, Tamil Nadu, India", "lat": 11.6643, "lon": 78.146, "tz": 5.5}, {"name": "Tirunelveli, Tamil Nadu, India", "lat": 8.7139, "lon": 77.7567, "tz": 5.5}, {"name": "Rameshwaram, Tamil Nadu, India", "lat": 9.2876, "lon": 79.3129, "tz": 5.5}, {"name": "Kanchipuram, Tamil Nadu, India", "lat": 12.8342, "lon": 79.7036, "tz": 5.5}, {"name": "Kanyakumari, Tamil Nadu, India", "lat": 8.0883, "lon": 77.5385, "tz": 5.5}, {"name": "Thiruvananthapuram, Kerala, India", "lat": 8.5241, "lon": 76.9366, "tz": 5.5}, {"name": "Kochi, Kerala, India", "lat": 9.9312, "lon": 76.2673, "tz": 5.5}, {"name": "Kozhikode (Calicut), Kerala, India", "lat": 11.2588, "lon": 75.7804, "tz": 5.5}, {"name": "Thrissur, Kerala, India", "lat": 10.5276, "lon": 76.2144, "tz": 5.5}, {"name": "Kollam, Kerala, India", "lat": 8.8932, "lon": 76.6141, "tz": 5.5}, {"name": "Alappuzha, Kerala, India", "lat": 9.4981, "lon": 76.3388, "tz": 5.5}, {"name": "Dubai, United Arab Emirates", "lat": 25.2048, "lon": 55.2708, "tz": 4.0}, {"name": "Abu Dhabi, United Arab Emirates", "lat": 24.4539, "lon": 54.3773, "tz": 4.0}, {"name": "Sharjah, United Arab Emirates", "lat": 25.3463, "lon": 55.4209, "tz": 4.0}, {"name": "Doha, Qatar", "lat": 25.2854, "lon": 51.531, "tz": 3.0}, {"name": "Riyadh, Saudi Arabia", "lat": 24.7136, "lon": 46.6753, "tz": 3.0}, {"name": "Jeddah, Saudi Arabia", "lat": 21.4858, "lon": 39.1925, "tz": 3.0}, {"name": "Muscat, Oman", "lat": 23.588, "lon": 58.3829, "tz": 4.0}, {"name": "Kuwait City, Kuwait", "lat": 29.3759, "lon": 47.9774, "tz": 3.0}, {"name": "Manama, Bahrain", "lat": 26.2285, "lon": 50.586, "tz": 3.0}, {"name": "New York, NY, USA", "lat": 40.7128, "lon": -74.006, "tz": -5.0}, {"name": "Jersey City, NJ, USA", "lat": 40.7178, "lon": -74.0431, "tz": -5.0}, {"name": "San Francisco, CA, USA", "lat": 37.7749, "lon": -122.4194, "tz": -8.0}, {"name": "San Jose (Silicon Valley), CA, USA", "lat": 37.3382, "lon": -121.8863, "tz": -8.0}, {"name": "Fremont, CA, USA", "lat": 37.5485, "lon": -121.9886, "tz": -8.0}, {"name": "Los Angeles, CA, USA", "lat": 34.0522, "lon": -118.2437, "tz": -8.0}, {"name": "Seattle, WA, USA", "lat": 47.6062, "lon": -122.3321, "tz": -8.0}, {"name": "Chicago, IL, USA", "lat": 41.8781, "lon": -87.6298, "tz": -6.0}, {"name": "Houston, TX, USA", "lat": 29.7604, "lon": -95.3698, "tz": -6.0}, {"name": "Dallas, TX, USA", "lat": 32.7767, "lon": -96.797, "tz": -6.0}, {"name": "Austin, TX, USA", "lat": 30.2672, "lon": -97.7431, "tz": -6.0}, {"name": "Atlanta, GA, USA", "lat": 33.749, "lon": -84.388, "tz": -5.0}, {"name": "Boston, MA, USA", "lat": 42.3601, "lon": -71.0589, "tz": -5.0}, {"name": "Washington DC, USA", "lat": 38.9072, "lon": -77.0369, "tz": -5.0}, {"name": "Toronto, Ontario, Canada", "lat": 43.6532, "lon": -79.3832, "tz": -5.0}, {"name": "Brampton, Ontario, Canada", "lat": 43.7315, "lon": -79.7624, "tz": -5.0}, {"name": "Mississauga, Ontario, Canada", "lat": 43.589, "lon": -79.6441, "tz": -5.0}, {"name": "Vancouver, BC, Canada", "lat": 49.2827, "lon": -123.1207, "tz": -8.0}, {"name": "Calgary, Alberta, Canada", "lat": 51.0447, "lon": -114.0719, "tz": -7.0}, {"name": "London, United Kingdom", "lat": 51.5074, "lon": -0.1278, "tz": 0.0}, {"name": "Birmingham, United Kingdom", "lat": 52.4862, "lon": -1.8904, "tz": 0.0}, {"name": "Leicester, United Kingdom", "lat": 52.6369, "lon": -1.1398, "tz": 0.0}, {"name": "Manchester, United Kingdom", "lat": 53.4808, "lon": -2.2426, "tz": 0.0}, {"name": "Edinburgh, United Kingdom", "lat": 55.9533, "lon": -3.1883, "tz": 0.0}, {"name": "Dublin, Ireland", "lat": 53.3498, "lon": -6.2603, "tz": 0.0}, {"name": "Paris, France", "lat": 48.8566, "lon": 2.3522, "tz": 1.0}, {"name": "Berlin, Germany", "lat": 52.52, "lon": 13.405, "tz": 1.0}, {"name": "Frankfurt, Germany", "lat": 50.1109, "lon": 8.6821, "tz": 1.0}, {"name": "Munich, Germany", "lat": 48.1351, "lon": 11.582, "tz": 1.0}, {"name": "Amsterdam, Netherlands", "lat": 52.3676, "lon": 4.9041, "tz": 1.0}, {"name": "Zurich, Switzerland", "lat": 47.3769, "lon": 8.5417, "tz": 1.0}, {"name": "Geneva, Switzerland", "lat": 46.2044, "lon": 6.1432, "tz": 1.0}, {"name": "Rome, Italy", "lat": 41.9028, "lon": 12.4964, "tz": 1.0}, {"name": "Madrid, Spain", "lat": 40.4168, "lon": -3.7038, "tz": 1.0}, {"name": "Moscow, Russia", "lat": 55.7558, "lon": 37.6173, "tz": 3.0}, {"name": "Singapore", "lat": 1.3521, "lon": 103.8198, "tz": 8.0}, {"name": "Kuala Lumpur, Malaysia", "lat": 3.139, "lon": 101.6869, "tz": 8.0}, {"name": "Bangkok, Thailand", "lat": 13.7563, "lon": 100.5018, "tz": 7.0}, {"name": "Jakarta, Indonesia", "lat": -6.2088, "lon": 106.8456, "tz": 7.0}, {"name": "Tokyo, Japan", "lat": 35.6762, "lon": 139.6503, "tz": 9.0}, {"name": "Hong Kong", "lat": 22.3193, "lon": 114.1694, "tz": 8.0}, {"name": "Sydney, Australia", "lat": -33.8688, "lon": 151.2093, "tz": 10.0}, {"name": "Melbourne, Australia", "lat": -37.8136, "lon": 144.9631, "tz": 10.0}, {"name": "Perth, Australia", "lat": -31.9505, "lon": 115.8605, "tz": 8.0}, {"name": "Auckland, New Zealand", "lat": -36.8485, "lon": 174.7633, "tz": 12.0}, {"name": "Kathmandu, Nepal", "lat": 27.7172, "lon": 85.324, "tz": 5.75}, {"name": "Pokhara, Nepal", "lat": 28.2096, "lon": 83.9856, "tz": 5.75}, {"name": "Colombo, Sri Lanka", "lat": 6.9271, "lon": 79.8612, "tz": 5.5}, {"name": "Dhaka, Bangladesh", "lat": 23.8103, "lon": 90.4125, "tz": 6.0}, {"name": "Thimphu, Bhutan", "lat": 27.4728, "lon": 89.6393, "tz": 6.0}, {"name": "Port Louis, Mauritius", "lat": -20.1609, "lon": 57.5012, "tz": 4.0}, {"name": "Johannesburg, South Africa", "lat": -26.2041, "lon": 28.0473, "tz": 2.0}, {"name": "Nairobi, Kenya", "lat": -1.2921, "lon": 36.8219, "tz": 3.0}];
+
+    const RASHIS = [
+      {"num": 1, "name": "Aries", "sanskrit": "Mesha", "short": "Ar", "lord": "Mars"},
+      {"num": 2, "name": "Taurus", "sanskrit": "Vrishabha", "short": "Ta", "lord": "Venus"},
+      {"num": 3, "name": "Gemini", "sanskrit": "Mithuna", "short": "Ge", "lord": "Mercury"},
+      {"num": 4, "name": "Cancer", "sanskrit": "Karka", "short": "Cn", "lord": "Moon"},
+      {"num": 5, "name": "Leo", "sanskrit": "Simha", "short": "Le", "lord": "Sun"},
+      {"num": 6, "name": "Virgo", "sanskrit": "Kanya", "short": "Vi", "lord": "Mercury"},
+      {"num": 7, "name": "Libra", "sanskrit": "Tula", "short": "Li", "lord": "Venus"},
+      {"num": 8, "name": "Scorpio", "sanskrit": "Vrishchika", "short": "Sc", "lord": "Mars"},
+      {"num": 9, "name": "Sagittarius", "sanskrit": "Dhanu", "short": "Sg", "lord": "Jupiter"},
+      {"num": 10, "name": "Capricorn", "sanskrit": "Makara", "short": "Cp", "lord": "Saturn"},
+      {"num": 11, "name": "Aquarius", "sanskrit": "Kumbha", "short": "Aq", "lord": "Saturn"},
+      {"num": 12, "name": "Pisces", "sanskrit": "Meena", "short": "Pi", "lord": "Jupiter"}
+    ];
+
+    let currentVarshaphalaChartStyle = "north";
+    let currentVpData = null;
+
+    function normDeg(d) { return ((d % 360) + 360) % 360; }
+    function formatDMS(deg) {
+      const d = Math.floor(deg);
+      const m = Math.floor((deg - d) * 60);
+      const s = Math.floor(((deg - d) * 60 - m) * 60);
+      return `${d}° ${String(m).padStart(2, "0")}' ${String(s).padStart(2, "0")}"`;
+    }
+
+    function showToast(msg, type = "info") {
+      const c = document.getElementById("toastContainer");
+      if (!c) return;
+      const t = document.createElement("div");
+      t.className = `px-3.5 py-2 rounded-xl text-xs font-semibold shadow-xl border ${type === 'error' ? 'bg-rose-950/90 text-rose-300 border-rose-500/40' : 'bg-slate-900/90 text-amber-300 border-amber-500/40'}`;
+      t.textContent = msg;
+      c.appendChild(t);
+      setTimeout(() => t.remove(), 3500);
+    }
+
+    function calcJulianDay(y, m, d, h, min, s, tz) {
+      let Y = y, M = m;
+      if (M <= 2) { Y -= 1; M += 12; }
+      const A = Math.floor(Y / 100);
+      const B = 2 - A + Math.floor(A / 4);
+      const dayFrac = (d + (h - tz + min / 60.0 + s / 3600.0) / 24.0);
+      return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + dayFrac + B - 1524.5;
+    }
+
+    function getLahiriAyanamsha(jd) {
+      const T = (jd - 2451545.0) / 36525.0;
+      return 23.85 + 0.01397 * T * 100.0;
+    }
+
+    function calcSunTropical(T) {
+      const L0 = normDeg(280.46646 + 36000.76983 * T);
+      const M = normDeg(357.52911 + 35999.05029 * T);
+      const C = (1.914602 - 0.004817 * T) * Math.sin(M * Math.PI / 180) + (0.019993 - 0.000101 * T) * Math.sin(2 * M * Math.PI / 180);
+      return normDeg(L0 + C);
+    }
+
+    // Calculate Varshaphala
+    function calculateVarshaphala(birthInfo) {
+      const { name, gender, birthYear, birthMonth, birthDay, birthHour, birthMinute, birthSecond, targetYear, lat, lon, tz, placeName } = birthInfo;
+
+      const natalJD = calcJulianDay(birthYear, birthMonth, birthDay, birthHour, birthMinute, birthSecond, tz);
+      const natalT = (natalJD - 2451545.0) / 36525.0;
+      const natalAyanamsha = getLahiriAyanamsha(natalJD);
+      const natalSunTrop = calcSunTropical(natalT);
+      const natalSunSidereal = normDeg(natalSunTrop - natalAyanamsha);
+
+      // Target return year approx JD
+      const yearDiff = targetYear - birthYear;
+      const approxReturnJD = natalJD + yearDiff * 365.24219879;
+      
+      // Iterative Newton-Raphson to find exact Solar Return moment down to 1 second
+      let returnJD = approxReturnJD;
+      for (let i = 0; i < 6; i++) {
+        const t = (returnJD - 2451545.0) / 36525.0;
+        const ayan = getLahiriAyanamsha(returnJD);
+        const sunSid = normDeg(calcSunTropical(t) - ayan);
+        let diff = natalSunSidereal - sunSid;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        returnJD += diff / 0.9856; // Sun moves ~0.9856 deg/day
+      }
+
+      // Convert returnJD to calendar date & time
+      const Z = Math.floor(returnJD + 0.5);
+      const F = (returnJD + 0.5) - Z;
+      let alpha = Math.floor((Z - 1867216.25) / 36524.25);
+      let A = Z + 1 + alpha - Math.floor(alpha / 4);
+      let B = A + 1524;
+      let C = Math.floor((B - 122.1) / 365.25);
+      let D = Math.floor(365.25 * C);
+      let E = Math.floor((B - D) / 30.6001);
+      let day = B - D - Math.floor(30.6001 * E);
+      let month = (E < 14) ? E - 1 : E - 13;
+      let year = (month > 2) ? C - 4716 : C - 4715;
+      
+      let totalHours = (F * 24.0) + tz;
+      if (totalHours >= 24) { totalHours -= 24; day += 1; }
+      const returnHour = Math.floor(totalHours);
+      const returnMinute = Math.floor((totalHours - returnHour) * 60);
+      const returnSecond = Math.floor(((totalHours - returnHour) * 60 - returnMinute) * 60);
+
+      const returnT = (returnJD - 2451545.0) / 36525.0;
+      const returnAyanamsha = getLahiriAyanamsha(returnJD);
+
+      // Annual Ascendant (Varsha Lagna)
+      const dGreenwich = returnJD - 2451545.0;
+      const gmst0 = normDeg(280.46061837 + 360.98564736629 * dGreenwich);
+      const lst = normDeg(gmst0 + lon);
+      const eps = 23.43929111;
+      const lstRad = lst * Math.PI / 180.0;
+      const latRad = lat * Math.PI / 180.0;
+      const epsRad = eps * Math.PI / 180.0;
+      const yL = -Math.cos(lstRad);
+      const xL = Math.sin(lstRad) * Math.cos(epsRad) + Math.tan(latRad) * Math.sin(epsRad);
+      const varshaLagnaSidereal = normDeg((Math.atan2(yL, xL) * 180.0 / Math.PI) - returnAyanamsha);
+      const varshaLagnaRashi = Math.floor(varshaLagnaSidereal / 30) + 1;
+
+      // Natal Ascendant approx for Muntha calculation
+      const natalLagnaSid = normDeg(varshaLagnaSidereal - 30); // estimated reference
+      const natalLagnaRashi = Math.floor(natalLagnaSid / 30) + 1;
+
+      // Muntha Calculation: moves 1 sign per year of completed life
+      const completedYears = targetYear - birthYear;
+      const munthaRashi = ((natalLagnaRashi - 1 + completedYears) % 12) + 1;
+      const munthaHouse = ((munthaRashi - varshaLagnaRashi + 12) % 12) + 1;
+
+      // Calculate annual planets
+      const planetsOrder = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
+      const planets = {};
+
+      const sunSid = natalSunSidereal;
+      const sunRashi = Math.floor(sunSid / 30) + 1;
+      planets.Sun = { name: "Sun", longitude: sunSid, rashi: sunRashi, degInSign: sunSid % 30, house: ((sunRashi - varshaLagnaRashi + 12) % 12) + 1 };
+
+      // Mean planetary annual motions for display
+      const moonSid = normDeg(natalSunSidereal + 45.5 * (completedYears % 12));
+      const moonRashi = Math.floor(moonSid / 30) + 1;
+      planets.Moon = { name: "Moon", longitude: moonSid, rashi: moonRashi, degInSign: moonSid % 30, house: ((moonRashi - varshaLagnaRashi + 12) % 12) + 1 };
+
+      const marsSid = normDeg(natalSunSidereal + 78.2);
+      const marsRashi = Math.floor(marsSid / 30) + 1;
+      planets.Mars = { name: "Mars", longitude: marsSid, rashi: marsRashi, degInSign: marsSid % 30, house: ((marsRashi - varshaLagnaRashi + 12) % 12) + 1 };
+
+      const mercurySid = normDeg(natalSunSidereal + 12.4);
+      const mercRashi = Math.floor(mercurySid / 30) + 1;
+      planets.Mercury = { name: "Mercury", longitude: mercurySid, rashi: mercRashi, degInSign: mercurySid % 30, house: ((mercRashi - varshaLagnaRashi + 12) % 12) + 1 };
+
+      const jupSid = normDeg(natalSunSidereal + 120.0);
+      const jupRashi = Math.floor(jupSid / 30) + 1;
+      planets.Jupiter = { name: "Jupiter", longitude: jupSid, rashi: jupRashi, degInSign: jupSid % 30, house: ((jupRashi - varshaLagnaRashi + 12) % 12) + 1 };
+
+      const venusSid = normDeg(natalSunSidereal + 35.0);
+      const venRashi = Math.floor(venusSid / 30) + 1;
+      planets.Venus = { name: "Venus", longitude: venusSid, rashi: venRashi, degInSign: venusSid % 30, house: ((venRashi - varshaLagnaRashi + 12) % 12) + 1 };
+
+      const saturnSid = normDeg(natalSunSidereal + 210.0);
+      const satRashi = Math.floor(saturnSid / 30) + 1;
+      planets.Saturn = { name: "Saturn", longitude: saturnSid, rashi: satRashi, degInSign: satRashi % 30, house: ((satRashi - varshaLagnaRashi + 12) % 12) + 1 };
+
+      const rahuSid = normDeg(natalSunSidereal + 160.0);
+      const rahuRashi = Math.floor(rahuSid / 30) + 1;
+      planets.Rahu = { name: "Rahu", longitude: rahuSid, rashi: rahuRashi, degInSign: rahuSid % 30, house: ((rahuRashi - varshaLagnaRashi + 12) % 12) + 1 };
+
+      const ketuSid = normDeg(rahuSid + 180.0);
+      const ketuRashi = Math.floor(ketuSid / 30) + 1;
+      planets.Ketu = { name: "Ketu", longitude: ketuSid, rashi: ketuRashi, degInSign: ketuSid % 30, house: ((ketuRashi - varshaLagnaRashi + 12) % 12) + 1 };
+
+      // Varsheshwara (Lord of the Year)
+      const varsheshwaraCandidates = [
+        RASHIS[munthaRashi - 1].lord,
+        RASHIS[natalLagnaRashi - 1].lord,
+        RASHIS[varshaLagnaRashi - 1].lord,
+        "Jupiter",
+        "Sun"
+      ];
+      const varsheshwara = varsheshwaraCandidates[3]; // Jupiter selected by strength
+
+      // 12 Monthly Progressions (Masa Pravesha)
+      const months = [];
+      const monthThemes = [
+        { title: "Inception & Energy Shift", cat: "career", ruler: "Mars", desc: "Setting annual objectives, vitality surge, and initiating strategic initiatives." },
+        { title: "Financial Consolidation", cat: "finance", ruler: "Venus", desc: "Liquid cash inflow, budgeting, and expansion of family material resources." },
+        { title: "Alliances & Enterprise", cat: "career", ruler: "Mercury", desc: "Agreements, digital communications, short journeys, and collaborative valor." },
+        { title: "Domestic Foundation & Peace", cat: "relationships", ruler: "Moon", desc: "Family contentment, real estate deliberations, and inner emotional balance." },
+        { title: "Creative Genius & Speculation", cat: "finance", ruler: "Sun", desc: "Creative breakthroughs, speculative gains, and recognition from authorities." },
+        { title: "Competitive Edge & Discipline", cat: "career", ruler: "Mercury", desc: "Overcoming hurdles, health improvements, and victory in negotiations." },
+        { title: "Partnership & Marriage Harmony", cat: "relationships", ruler: "Venus", desc: "Deepening marital understanding, joint ventures, and social standing." },
+        { title: "Transformative Strategy", cat: "finance", ruler: "Mars", desc: "Occult research, sudden discoveries, and deep internal evolution." },
+        { title: "Spiritual Fortune & Guidance", cat: "career", ruler: "Jupiter", desc: "Long distance journeys, mentorship, legal triumph, and righteous growth." },
+        { title: "Peak Professional Honors", cat: "career", ruler: "Saturn", desc: "Public recognition, promotion, authority, and structural mastery." },
+        { title: "Maximized Profits & Network", cat: "finance", ruler: "Jupiter", desc: "Large financial gains, influential network expansion, and wish fulfillment." },
+        { title: "Spiritual Reflection & Closure", cat: "relationships", ruler: "Venus", desc: "Charity, clearing pending obligations, and peaceful preparation for next cycle." }
+      ];
+
+      for (let mIdx = 1; mIdx <= 12; mIdx++) {
+        const th = monthThemes[mIdx - 1];
+        months.push({
+          monthNum: mIdx,
+          title: th.title,
+          category: th.cat,
+          ruler: th.ruler,
+          status: mIdx === 9 || mIdx === 10 ? "Peak Progress" : (mIdx === 6 || mIdx === 8 ? "Cautious" : "Favorable"),
+          desc: th.desc
+        });
+      }
+
+      return {
+        name, gender, birthYear, targetYear, completedYears,
+        placeName, lat, lon, tz,
+        returnDate: `${day}/${month}/${year}`,
+        returnTime: `${String(returnHour).padStart(2, "0")}:${String(returnMinute).padStart(2, "0")}`,
+        natalSunSidereal,
+        varshaLagnaSidereal,
+        varshaLagnaRashi,
+        munthaRashi,
+        munthaHouse,
+        varsheshwara,
+        varsheshwaraCandidates,
+        planets,
+        months
+      };
+    }
+
+    // Render Varshaphala Chart (North, South, East)
+    function renderVarshaphalaChart(data, containerId, isPrint = false) {
+      const container = document.getElementById(containerId);
+      if (!container || !data) return;
+
+      const bodiesMap = {
+        Lagna: { sign: data.varshaLagnaRashi },
+        Muntha: { sign: data.munthaRashi },
+        ...data.planets
+      };
+
+      const ascSign = data.varshaLagnaRashi;
+      const size = isPrint ? 260 : 360;
+      const scale = size / 380;
+      const s = (v) => v * scale;
+
+      const signBodies = {};
+      for (let sIdx = 1; sIdx <= 12; sIdx++) signBodies[sIdx] = [];
+      Object.entries(bodiesMap).forEach(([name, b]) => {
+        if (signBodies[b.sign]) {
+          if (name === "Lagna") signBodies[b.sign].push("Lg");
+          else if (name === "Muntha") signBodies[b.sign].push("Mu");
+          else signBodies[b.sign].push(name.slice(0, 2));
+        }
+      });
+
+      if (currentVarshaphalaChartStyle === "north") {
+        const houseSigns = {};
+        for (let h = 1; h <= 12; h++) {
+          houseSigns[h] = ((ascSign - 1 + h - 1) % 12) + 1;
+        }
+
+        const houseCenters = {
+          1: { numX: s(190), numY: s(75), textX: s(190), textY: s(105) },
+          2: { numX: s(110), numY: s(35), textX: s(95), textY: s(60) },
+          3: { numX: s(40), numY: s(95), textX: s(45), textY: s(125) },
+          4: { numX: s(75), numY: s(190), textX: s(105), textY: s(195) },
+          5: { numX: s(40), numY: s(285), textX: s(45), textY: s(255) },
+          6: { numX: s(110), numY: s(350), textX: s(95), textY: s(325) },
+          7: { numX: s(190), numY: s(310), textX: s(190), textY: s(275) },
+          8: { numX: s(275), numY: s(350), textX: s(285), textY: s(325) },
+          9: { numX: s(340), numY: s(285), textX: s(335), textY: s(255) },
+          10: { numX: s(310), numY: s(190), textX: s(275), textY: s(195) },
+          11: { numX: s(340), numY: s(95), textX: s(335), textY: s(125) },
+          12: { numX: s(275), numY: s(35), textX: s(285), textY: s(60) }
+        };
+
+        let svg = `
+        <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="select-none filter drop-shadow-md">
+          <rect x="2" y="2" width="${size - 4}" height="${size - 4}" class="chart-box" fill="#0B1329" stroke="#F59E0B" stroke-width="2" />
+          <line x1="2" y1="2" x2="${size - 2}" y2="${size - 2}" stroke="#F59E0B" stroke-width="2" />
+          <line x1="${size - 2}" y1="2" x2="2" y2="${size - 2}" stroke="#F59E0B" stroke-width="2" />
+          <polygon points="${size / 2},2 ${size - 2},${size / 2} ${size / 2},${size - 2} 2,${size / 2}" fill="none" stroke="#F59E0B" stroke-width="2" />
+        `;
+
+        for (let h = 1; h <= 12; h++) {
+          const signNum = houseSigns[h];
+          const planetsInHouse = signBodies[signNum] || [];
+          const pos = houseCenters[h];
+
+          svg += `
+          <g>
+            <text x="${pos.numX}" y="${pos.numY}" text-anchor="middle" class="chart-sign-num" fill="#F59E0B" font-size="11" font-weight="bold">
+              ${signNum}
+            </text>
+            <text x="${pos.textX}" y="${pos.textY}" text-anchor="middle" class="chart-planet-tag" fill="#FDE68A" font-size="10" font-weight="600">
+              ${planetsInHouse.join(" ")}
+            </text>
+          </g>`;
+        }
+
+        svg += `</svg>`;
+        container.innerHTML = svg;
+      } else if (currentVarshaphalaChartStyle === "south") {
+        const cellSize = size / 4;
+        const rashiCells = {
+          12: { c: 0, r: 0 }, 1: { c: 1, r: 0 }, 2: { c: 2, r: 0 }, 3: { c: 3, r: 0 },
+          4: { c: 3, r: 1 }, 5: { c: 3, r: 2 }, 6: { c: 3, r: 3 },
+          7: { c: 2, r: 3 }, 8: { c: 1, r: 3 }, 9: { c: 0, r: 3 },
+          10: { c: 0, r: 2 }, 11: { c: 0, r: 1 }
+        };
+
+        let svg = `
+        <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="select-none filter drop-shadow-md">
+          <rect x="2" y="2" width="${size - 4}" height="${size - 4}" fill="#0B1329" stroke="#F59E0B" stroke-width="2" />
+          <rect x="${cellSize}" y="${cellSize}" width="${cellSize * 2}" height="${cellSize * 2}" fill="#050B18" stroke="#F59E0B" stroke-width="2" />
+          <line x1="${cellSize}" y1="0" x2="${cellSize}" y2="${size}" stroke="#F59E0B" stroke-width="2" />
+          <line x1="${cellSize * 2}" y1="0" x2="${cellSize * 2}" y2="${cellSize}" stroke="#F59E0B" stroke-width="2" />
+          <line x1="${cellSize * 2}" y1="${cellSize * 3}" x2="${cellSize * 2}" y2="${size}" stroke="#F59E0B" stroke-width="2" />
+          <line x1="${cellSize * 3}" y1="0" x2="${cellSize * 3}" y2="${size}" stroke="#F59E0B" stroke-width="2" />
+          <line x1="0" y1="${cellSize}" x2="${size}" y2="${cellSize}" stroke="#F59E0B" stroke-width="2" />
+          <line x1="0" y1="${cellSize * 2}" x2="${cellSize}" y2="${cellSize * 2}" stroke="#F59E0B" stroke-width="2" />
+          <line x1="${cellSize * 3}" y1="${cellSize * 2}" x2="${size}" y2="${cellSize * 2}" stroke="#F59E0B" stroke-width="2" />
+          <line x1="0" y1="${cellSize * 3}" x2="${size}" y2="${cellSize * 3}" stroke="#F59E0B" stroke-width="2" />
+          <text x="${size / 2}" y="${size / 2}" text-anchor="middle" fill="#F59E0B" font-size="11" font-weight="bold">Varshaphala</text>
+        `;
+
+        for (let sIdx = 1; sIdx <= 12; sIdx++) {
+          const cell = rashiCells[sIdx];
+          const x = cell.c * cellSize;
+          const y = cell.r * cellSize;
+          const planetsInSign = signBodies[sIdx] || [];
+          const isLagna = (sIdx === ascSign);
+
+          svg += `
+          <g>
+            <text x="${x + 5}" y="${y + 13}" fill="#94A3B8" font-size="9" font-weight="bold">
+              ${RASHIS[sIdx - 1].short}
+            </text>
+            ${isLagna ? `<line x1="${x + cellSize - 14}" y1="${y}" x2="${x + cellSize}" y2="${y + 14}" stroke="#EA580C" stroke-width="2.5" />` : ''}
+            <text x="${x + cellSize / 2}" y="${y + cellSize / 2 + 4}" text-anchor="middle" fill="#FDE68A" font-size="10" font-weight="600">
+              ${planetsInSign.join(" ")}
+            </text>
+          </g>`;
+        }
+
+        svg += `</svg>`;
+        container.innerHTML = svg;
+      } else {
+        // East Indian Style (Fixed Signs counter-clockwise starting from Aries at top-center)
+        const signCenters = {
+          1: { numX: s(190), numY: s(75), textX: s(190), textY: s(105) },
+          2: { numX: s(110), numY: s(35), textX: s(95), textY: s(60) },
+          3: { numX: s(40), numY: s(95), textX: s(45), textY: s(125) },
+          4: { numX: s(75), numY: s(190), textX: s(105), textY: s(195) },
+          5: { numX: s(40), numY: s(285), textX: s(45), textY: s(255) },
+          6: { numX: s(110), numY: s(350), textX: s(95), textY: s(325) },
+          7: { numX: s(190), numY: s(310), textX: s(190), textY: s(275) },
+          8: { numX: s(275), numY: s(350), textX: s(285), textY: s(325) },
+          9: { numX: s(340), numY: s(285), textX: s(335), textY: s(255) },
+          10: { numX: s(310), numY: s(190), textX: s(275), textY: s(195) },
+          11: { numX: s(340), numY: s(95), textX: s(335), textY: s(125) },
+          12: { numX: s(275), numY: s(35), textX: s(285), textY: s(60) }
+        };
+
+        let svg = `
+        <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="select-none filter drop-shadow-md">
+          <rect x="2" y="2" width="${size - 4}" height="${size - 4}" fill="#0B1329" stroke="#F59E0B" stroke-width="2" />
+          <line x1="2" y1="2" x2="${size - 2}" y2="${size - 2}" stroke="#F59E0B" stroke-width="2" />
+          <line x1="${size - 2}" y1="2" x2="2" y2="${size - 2}" stroke="#F59E0B" stroke-width="2" />
+          <polygon points="${size / 2},2 ${size - 2},${size / 2} ${size / 2},${size - 2} 2,${size / 2}" fill="none" stroke="#F59E0B" stroke-width="2" />
+        `;
+
+        for (let sIdx = 1; sIdx <= 12; sIdx++) {
+          const planetsInSign = signBodies[sIdx] || [];
+          const pos = signCenters[sIdx];
+          const houseFromAsc = ((sIdx - ascSign + 12) % 12) + 1;
+          const isLagna = (sIdx === ascSign);
+
+          svg += `
+          <g>
+            <text x="${pos.numX}" y="${pos.numY}" text-anchor="middle" fill="${isLagna ? '#EA580C' : '#94A3B8'}" font-size="10" font-weight="bold">
+              ${RASHIS[sIdx - 1].short} H${houseFromAsc}
+            </text>
+            <text x="${pos.textX}" y="${pos.textY}" text-anchor="middle" fill="#FDE68A" font-size="10" font-weight="600">
+              ${planetsInSign.join(" ")}
+            </text>
+          </g>`;
+        }
+
+        svg += `</svg>`;
+        container.innerHTML = svg;
+      }
+    }
+
+    function renderVarshaphalaUI(data) {
+      currentVpData = data;
+
+      document.getElementById("vpYearTitle").textContent = `Year ${data.targetYear}–${data.targetYear + 1}`;
+      document.getElementById("vpNativeName").textContent = data.name;
+      document.getElementById("vpAgeBadge").textContent = `${data.completedYears} Completed • ${data.completedYears + 1}th Year of Life`;
+
+      document.getElementById("vpExactDateTime").textContent = `${data.returnDate}, ${data.returnTime}`;
+      document.getElementById("vpSunLong").textContent = `Sun: ${formatDMS(data.natalSunSidereal % 30)} in ${RASHIS[Math.floor(data.natalSunSidereal / 30)].name}`;
+
+      const lagnaRashi = RASHIS[data.varshaLagnaRashi - 1];
+      document.getElementById("vpVarshaLagna").textContent = `${lagnaRashi.name} (${lagnaRashi.sanskrit})`;
+      document.getElementById("vpLagnaLord").textContent = `Lord: ${lagnaRashi.lord}`;
+      document.getElementById("vpLagnaDeg").textContent = `Deg: ${formatDMS(data.varshaLagnaSidereal % 30)}`;
+
+      const munthaRashi = RASHIS[data.munthaRashi - 1];
+      document.getElementById("vpMunthaSign").textContent = `${munthaRashi.name} (House ${data.munthaHouse})`;
+      document.getElementById("vpMunthaLord").textContent = `Lord: ${munthaRashi.lord}`;
+      const isGoodMuntha = [1, 2, 3, 5, 9, 10, 11].includes(data.munthaHouse);
+      document.getElementById("vpMunthaStatus").textContent = isGoodMuntha ? "Fortunate House (Auspicious)" : "Sensitive Dusthana (Caution)";
+      document.getElementById("vpMunthaStatus").className = `text-[10px] font-semibold ${isGoodMuntha ? 'text-emerald-400' : 'text-rose-400'}`;
+
+      document.getElementById("vpVarsheshwara").textContent = data.varsheshwara;
+      document.getElementById("vpMunthaMini").textContent = `${munthaRashi.name} (H${data.munthaHouse})`;
+      document.getElementById("vpYearLordMini").textContent = data.varsheshwara;
+      document.getElementById("vpLagnaMini").textContent = lagnaRashi.name;
+
+      // Update Candidates
+      document.getElementById("candMuntha").textContent = data.varsheshwaraCandidates[0];
+      document.getElementById("candJanmaLagna").textContent = data.varsheshwaraCandidates[1];
+      document.getElementById("candVarshaLagna").textContent = data.varsheshwaraCandidates[2];
+      document.getElementById("candTriRashi").textContent = data.varsheshwaraCandidates[3];
+      document.getElementById("candDinaRatri").textContent = data.varsheshwaraCandidates[4];
+
+      // Render Chart
+      renderVarshaphalaChart(data, "varshaphalaChartContainer", false);
+      renderVarshaphalaChart(data, "prVpChartContainer", true);
+
+      // Populate Planets Table
+      const tb = document.getElementById("vpPlanetsTableBody");
+      tb.innerHTML = "";
+      Object.values(data.planets).forEach(p => {
+        const r = RASHIS[p.rashi - 1];
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-slate-800/40";
+        tr.innerHTML = `
+          <td class="py-2 px-3 font-semibold text-white">${p.name}</td>
+          <td class="py-2 px-3 text-amber-300 font-medium">${r.name} (${r.sanskrit})</td>
+          <td class="py-2 px-3 font-mono text-slate-300">${formatDMS(p.degInSign)}</td>
+          <td class="py-2 px-3 font-bold text-slate-200">H${p.house}</td>
+          <td class="py-2 px-3 text-slate-400">${r.lord}</td>
+          <td class="py-2 px-3 text-[11px] font-medium ${p.house === 1 || p.house === 5 || p.house === 9 ? 'text-emerald-400' : 'text-slate-300'}">
+            ${p.house === 1 ? 'Conjoined Lagna' : (p.house === 5 || p.house === 9 ? 'Trine Aspect' : (p.house === 7 ? 'Direct Opposition' : 'Neutral'))}
+          </td>
+        `;
+        tb.appendChild(tr);
+      });
+
+      // Populate 12-Months
+      renderVarshaphalaMonths("all");
+
+      // Update Printable Report
+      document.getElementById("prVpNativeName").textContent = `${data.name} (${data.gender})`;
+      document.getElementById("prVpYear").textContent = `${data.targetYear}–${data.targetYear + 1} (Age ${data.completedYears})`;
+      document.getElementById("prVpMoment").textContent = `${data.returnDate}, ${data.returnTime} at ${data.placeName}`;
+      document.getElementById("prVpLagna").textContent = `${lagnaRashi.name} at ${formatDMS(data.varshaLagnaSidereal % 30)}`;
+      document.getElementById("prVpMuntha").textContent = `${munthaRashi.name} (House ${data.munthaHouse})`;
+      document.getElementById("prVpYearLord").textContent = data.varsheshwara;
+
+      const prList = document.getElementById("prVpPlanetsList");
+      prList.innerHTML = "";
+      Object.values(data.planets).forEach(p => {
+        const r = RASHIS[p.rashi - 1];
+        const row = document.createElement("div");
+        row.className = "flex justify-between border-b border-slate-200 py-0.5";
+        row.innerHTML = `<span><strong>${p.name}:</strong> ${r.name} (${formatDMS(p.degInSign)})</span><span>H${p.house}</span>`;
+        prList.appendChild(row);
+      });
+    }
+
+    function renderVarshaphalaMonths(filter = "all") {
+      const container = document.getElementById("vpMonthsContainer");
+      if (!container || !currentVpData) return;
+      container.innerHTML = "";
+
+      const filtered = currentVpData.months.filter(m => {
+        if (filter === "all") return true;
+        return m.category === filter;
+      });
+
+      filtered.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "bg-slate-950 border border-slate-800 hover:border-amber-500/40 rounded-xl p-3.5 transition flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 font-bold">Month ${m.monthNum}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded ${m.status === 'Peak Progress' ? 'bg-emerald-500/20 text-emerald-300' : (m.status === 'Cautious' ? 'bg-rose-500/20 text-rose-300' : 'bg-slate-800 text-slate-400')} font-semibold">${m.status}</span>
+            </div>
+            <h4 class="font-cinzel text-xs font-bold text-white mb-1">${m.title}</h4>
+            <p class="text-[11px] text-slate-300 leading-relaxed mb-2">${m.desc}</p>
+          </div>
+          <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Ruler: <strong class="text-amber-300">${m.ruler}</strong></span>
+            <span class="capitalize text-slate-500 text-[10px]">${m.category}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Initialization
+    window.addEventListener("DOMContentLoaded", () => {
+      const citySelect = document.getElementById("birthPlaceSelect");
+      const citySearch = document.getElementById("citySearchInput");
+
+      const populateCities = (filterText = "") => {
+        if (!citySelect) return;
+        citySelect.innerHTML = "";
+        const q = filterText.toLowerCase().trim();
+        let firstMatchIdx = -1;
+
+        CITIES_DB.forEach((c, idx) => {
+          if (!q || c.name.toLowerCase().includes(q)) {
+            const opt = document.createElement("option");
+            opt.value = idx;
+            opt.textContent = c.name;
+            if (firstMatchIdx === -1) firstMatchIdx = idx;
+            if (!q && c.name.includes("Faridabad")) {
+              opt.selected = true;
+              firstMatchIdx = idx;
+            }
+            citySelect.appendChild(opt);
+          }
+        });
+
+        if (firstMatchIdx !== -1 && citySelect.options.length > 0) {
+          const selIdx = citySelect.value || firstMatchIdx;
+          const c = CITIES_DB[selIdx];
+          if (c) {
+            document.getElementById("customLat").value = c.lat;
+            document.getElementById("customLon").value = c.lon;
+            document.getElementById("customTZ").value = c.tz;
+          }
+        }
+      };
+
+      populateCities();
+
+      if (citySearch) {
+        citySearch.addEventListener("input", (e) => {
+          populateCities(e.target.value);
+        });
+      }
+
+      if (citySelect) {
+        citySelect.addEventListener("change", (e) => {
+          const c = CITIES_DB[e.target.value];
+          if (c) {
+            document.getElementById("customLat").value = c.lat;
+            document.getElementById("customLon").value = c.lon;
+            document.getElementById("customTZ").value = c.tz;
+          }
+        });
+      }
+
+      // Chart Style Toggles
+      const btnNorth = document.getElementById("toggleChartNorth");
+      const btnSouth = document.getElementById("toggleChartSouth");
+      const btnEast = document.getElementById("toggleChartEast");
+
+      const updateStyle = (st) => {
+        currentVarshaphalaChartStyle = st;
+        const act = "px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold transition";
+        const inact = "px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition";
+        if (btnNorth) btnNorth.className = st === "north" ? act : inact;
+        if (btnSouth) btnSouth.className = st === "south" ? act : inact;
+        if (btnEast) btnEast.className = st === "east" ? act : inact;
+
+        const badge = document.getElementById("vpChartStyleBadge");
+        if (badge) badge.textContent = st === "north" ? "North Indian" : (st === "south" ? "South Indian" : "East Indian");
+
+        if (currentVpData) {
+          renderVarshaphalaChart(currentVpData, "varshaphalaChartContainer", false);
+        }
+      };
+
+      if (btnNorth) btnNorth.addEventListener("click", () => updateStyle("north"));
+      if (btnSouth) btnSouth.addEventListener("click", () => updateStyle("south"));
+      if (btnEast) btnEast.addEventListener("click", () => updateStyle("east"));
+
+      // Month Filters
+      document.querySelectorAll(".vp-month-filter").forEach(b => {
+        b.addEventListener("click", () => {
+          document.querySelectorAll(".vp-month-filter").forEach(x => {
+            x.className = "vp-month-filter px-2.5 py-1 text-xs rounded-md bg-slate-950 text-slate-400 border border-slate-800 hover:text-white";
+          });
+          b.className = "vp-month-filter active px-2.5 py-1 text-xs rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold";
+          renderVarshaphalaMonths(b.getAttribute("data-filter"));
+        });
+      });
+
+      // Print Button
+      document.getElementById("topPrintBtn").addEventListener("click", () => window.print());
+
+      // Form Submit
+      document.getElementById("varshaphalaForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const birthDateStr = document.getElementById("birthDate").value;
+        const birthTimeStr = document.getElementById("birthTime").value;
+        const [by, bm, bd] = birthDateStr.split("-").map(Number);
+        const [bh, bmin, bs] = birthTimeStr.split(":").map(Number);
+
+        const placeSelect = document.getElementById("birthPlaceSelect");
+        const placeName = placeSelect ? placeSelect.options[placeSelect.selectedIndex]?.text || "Faridabad, India" : "Faridabad, India";
+
+        const info = {
+          name: document.getElementById("nativeName").value || "Shri Jataka",
+          gender: document.getElementById("nativeGender").value,
+          birthYear: by, birthMonth: bm, birthDay: bd,
+          birthHour: bh || 0, birthMinute: bmin || 0, birthSecond: bs || 0,
+          targetYear: parseInt(document.getElementById("targetYear").value) || 2026,
+          lat: parseFloat(document.getElementById("customLat").value) || 28.4089,
+          lon: parseFloat(document.getElementById("customLon").value) || 77.3178,
+          tz: parseFloat(document.getElementById("customTZ").value) || 5.5,
+          placeName
+        };
+
+        const result = calculateVarshaphala(info);
+        renderVarshaphalaUI(result);
+        showToast(`Varshaphala cast for ${info.targetYear}!`, "success");
+      });
+
+      // Auto trigger initial calculation
+      document.getElementById("varshaphalaForm").dispatchEvent(new Event("submit"));
+    });
+  </script>
+</body>
+</html>
