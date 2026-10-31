@@ -505,9 +505,13 @@
               <span class="text-slate-600">|</span>
               <span class="text-slate-400 font-sans">Ayanamsha:</span>
               <select id="ayanamshaSelect" class="bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-amber-300 font-mono text-xs">
-                <option value="lahiri" selected>Lahiri (Chitrapaksha)</option>
+                <option value="lahiri" selected>Lahiri (Chitrapaksha - Indian Std)</option>
+                <option value="krishnamurti">KP (Krishnamurti Paddhati)</option>
                 <option value="raman">B.V. Raman</option>
-                <option value="krishnamurti">KP (Krishnamurti)</option>
+                <option value="yukteshwar">Sri Yukteshwar (Holy Science)</option>
+                <option value="fagan_bradley">Fagan-Bradley (Western Sidereal)</option>
+                <option value="deluce">De Luce</option>
+                <option value="ushashashi">Usha-Shashi</option>
               </select>
             </div>
           </div>
@@ -1731,13 +1735,97 @@
       return jd;
     }
 
-    // Lahiri Ayanamsha
+    // 7 Classical & Sidereal Ayanamsas (matching Flatlib const.AY_*)
     function getAyanamsha(jd, system = "lahiri") {
       const T = (jd - 2451545.0) / 36525.0;
-      if (system === "tropical") return 0.0;
-      if (system === "raman") return 22.46 + 1.396971 * T;
-      if (system === "kp") return 23.8266 + 1.396971 * T;
-      return 23.85694 + 1.396971 * T + 0.000308 * (T * T);
+      const baseLahiri = 23.85694 + 1.396971 * T + 0.000308 * (T * T);
+      const sys = (system || "lahiri").toLowerCase().trim();
+      if (sys === "tropical" || sys === "sayana") return 0.0;
+      if (sys === "krishnamurti" || sys === "kp") return baseLahiri - 0.09778; // const.AY_KRISHNAMURTI
+      if (sys === "raman") return baseLahiri - 1.41667;                        // const.AY_RAMAN
+      if (sys === "yukteshwar") return baseLahiri - 0.90000;                   // const.AY_YUKTESHWAR
+      if (sys === "fagan_bradley" || sys === "faganbradley") return baseLahiri + 0.90417; // const.AY_FAGAN_BRADLEY
+      if (sys === "deluce") return baseLahiri - 2.61667;                       // const.AY_DELUCE
+      if (sys === "ushashashi") return baseLahiri - 0.35833;                   // const.AY_USHASHASHI
+      return baseLahiri;                                                       // const.AY_LAHIRI
+    }
+
+    // KP (Krishnamurti Paddhati) Sub-Lord & Sub-Sub-Lord Engine
+    const KP_DASHA_LORDS = [
+      { name: "Ketu", years: 7 },
+      { name: "Venus", years: 20 },
+      { name: "Sun", years: 6 },
+      { name: "Moon", years: 10 },
+      { name: "Mars", years: 7 },
+      { name: "Rahu", years: 18 },
+      { name: "Jupiter", years: 16 },
+      { name: "Saturn", years: 19 },
+      { name: "Mercury", years: 17 }
+    ];
+
+    function getKPSignificators(lon) {
+      const norm = normDeg(lon);
+      const rashiLords = ["Mars", "Venus", "Mercury", "Moon", "Sun", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Saturn", "Jupiter"];
+      const rashiIdx = Math.floor(norm / 30);
+      const signLord = rashiLords[rashiIdx];
+
+      const nakArc = 360.0 / 27.0; // 13° 20' = 800 arcmin
+      const nakIdx = Math.floor(norm / nakArc);
+      const starLord = KP_DASHA_LORDS[nakIdx % 9].name;
+
+      const degInNak = norm % nakArc;
+      const minInNak = degInNak * 60.0;
+
+      const starLordIdx = KP_DASHA_LORDS.findIndex(l => l.name === starLord);
+      let accumMin = 0.0;
+      let subLord = starLord;
+      let subSubLord = starLord;
+
+      for (let i = 0; i < 9; i++) {
+        const currIdx = (starLordIdx + i) % 9;
+        const currLord = KP_DASHA_LORDS[currIdx];
+        const subSpan = (currLord.years / 120.0) * 800.0;
+        if (minInNak >= accumMin && minInNak < accumMin + subSpan + 1e-7) {
+          subLord = currLord.name;
+          const minInSub = minInNak - accumMin;
+          const subLordIdx = KP_DASHA_LORDS.findIndex(l => l.name === subLord);
+          let accumSSL = 0.0;
+          for (let j = 0; j < 9; j++) {
+            const sslIdx = (subLordIdx + j) % 9;
+            const sslLord = KP_DASHA_LORDS[sslIdx];
+            const sslSpan = (sslLord.years / 120.0) * subSpan;
+            if (minInSub >= accumSSL && minInSub < accumSSL + sslSpan + 1e-7) {
+              subSubLord = sslLord.name;
+              break;
+            }
+            accumSSL += sslSpan;
+          }
+          break;
+        }
+        accumMin += subSpan;
+      }
+
+      return {
+        signLord,
+        starLord,
+        subLord,
+        subSubLord
+      };
+    }
+
+    // BNN (Bhrigu Nandi Nadi) Directional Alignment Helper
+    const BNN_DIRECTIONS = {
+      East: { name: "East (Dharma / Fire)", signs: [1, 5, 9] },
+      South: { name: "South (Artha / Earth)", signs: [2, 6, 10] },
+      West: { name: "West (Kama / Air)", signs: [3, 7, 11] },
+      North: { name: "North (Moksha / Water)", signs: [4, 8, 12] }
+    };
+
+    function getBNNDirection(signNum) {
+      if ([1, 5, 9].includes(signNum)) return "East";
+      if ([2, 6, 10].includes(signNum)) return "South";
+      if ([3, 7, 11].includes(signNum)) return "West";
+      return "North";
     }
 
     // Kepler equation solver
@@ -6041,6 +6129,11 @@ function calculateUpaGrahas(sunLon, lagnaLon, hour, minute, second, sunriseHour 
         d1Reset.addEventListener("click", () => {
           window.setD1Rotation(1);
         });
+      }
+
+            const ayanSelect = document.getElementById("ayanamshaSelect");
+      if (ayanSelect) {
+        ayanSelect.addEventListener("change", () => triggerCalculation());
       }
 
       initLocationHierarchy();
