@@ -1,0 +1,5 @@
+# Indus Kundli App & Jyotish Engine Requirements
+# The application and engine are self-contained and run on standard Python 3.8+.
+# For extended Flatlib chart generation, KP cusps, and Swiss Ephemeris:
+flatlib>=0.2.3
+pyswisseph>=2.10.3.1
