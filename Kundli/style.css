@@ -1,0 +1,168 @@
+/* ==========================================================================
+   INDUS KUNDLI APP — CORE STYLESHEET (style.css)
+   Vedic Astrology & Varshaphala Annual Solar Return Studio
+   ========================================================================== */
+
+/* --- 1. CSS Variables & Theme Tokens --- */
+:root {
+  --vedic-gold: #F59E0B;
+  --vedic-lightgold: #FDE68A;
+  --vedic-darkgold: #B45309;
+  --vedic-maroon: #881337;
+  --vedic-saffron: #EA580C;
+  --vedic-navy: #0B1329;
+  --vedic-deepbg: #050B18;
+  --vedic-cardbg: #0F1A30;
+  --vedic-border: #1F2E4D;
+}
+
+/* --- 2. Base Element Styling --- */
+body {
+  background-color: var(--vedic-deepbg);
+  color: #E2E8F0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ensure all select inputs, options, and lists maintain dark slate styling across all OS browsers */
+select, select option, select optgroup {
+  background-color: #0F1A30 !important;
+  color: #F8FAFC !important;
+}
+
+select:focus option:checked {
+  background-color: #D97706 !important;
+  color: #0F172A !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050B18;
+}
+::-webkit-scrollbar-thumb {
+  background: #2A3C63;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F59E0B;
+}
+
+/* --- 3. SVG Chart High-Contrast Lines & Vector Styles --- */
+svg line, svg polygon, svg rect {
+  vector-effect: non-scaling-stroke;
+}
+
+.chart-line, svg line.chart-line, svg polygon.chart-line, svg rect.chart-line {
+  stroke: #F59E0B !important;
+  stroke-width: 2px !important;
+  stroke-opacity: 1 !important;
+}
+
+.chart-box, svg rect.chart-box {
+  fill: #0B1329 !important;
+  stroke: #F59E0B !important;
+  stroke-width: 2px !important;
+}
+
+.chart-sign-num, svg text.chart-sign-num {
+  fill: #F59E0B !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.chart-house-num, svg text.chart-house-num {
+  font-family: 'Cinzel', serif !important;
+  fill: #94A3B8 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+.chart-planet-tag, svg text.chart-planet-tag {
+  fill: #FDE68A !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.chart-planet-tag:hover {
+  fill: #FFFFFF !important;
+  filter: drop-shadow(0 0 6px #F59E0B);
+}
+
+/* Glow pulse animation for active elements */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
+}
+.glow-gold {
+  animation: glowPulse 3s infinite;
+}
+
+/* --- 4. Print Layout Rules (@media print) --- */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 10pt !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-page-break {
+    page-break-before: always !important;
+  }
+  .print-box {
+    border: 1px solid #9CA3AF !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+  }
+  .print-chart-line {
+    stroke: #374151 !important;
+    stroke-width: 1.5 !important;
+  }
+  .print-chart-box {
+    fill: #f9fafb !important;
+  }
+  .print-text-dark {
+    color: #111827 !important;
+  }
+  .print-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+  .print-table th {
+    background: #f3f4f6 !important;
+    color: #111827 !important;
+    border: 1px solid #d1d5db !important;
+    padding: 4px 6px !important;
+  }
+  .print-table td {
+    border: 1px solid #e5e7eb !important;
+    color: #1f2937 !important;
+    padding: 4px 6px !important;
+  }
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
