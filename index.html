@@ -54,7 +54,28 @@
     ::-webkit-scrollbar-thumb:hover { background: #F59E0B; }
 
     /* SVG Chart Styles */
-    .chart-line { stroke: #D97706; stroke-width: 1.5; }
+    /* SVG Chart High-Contrast Lines & Colors */
+    svg line, svg polygon, svg rect {
+      vector-effect: non-scaling-stroke;
+    }
+    .chart-line, svg line.chart-line, svg polygon.chart-line, svg rect.chart-line {
+      stroke: #F59E0B !important;
+      stroke-width: 2px !important;
+      stroke-opacity: 1 !important;
+    }
+    .chart-box, svg rect.chart-box {
+      fill: #0B1329 !important;
+      stroke: #F59E0B !important;
+      stroke-width: 2px !important;
+    }
+    .chart-sign-num, svg text.chart-sign-num {
+      fill: #F59E0B !important;
+      font-weight: 700 !important;
+    }
+    .chart-planet-tag, svg text.chart-planet-tag {
+      fill: #FDE68A !important;
+      font-weight: 600 !important;
+    }
     .chart-box { fill: #0B1329; }
     .print-chart-line { stroke: #374151; stroke-width: 1.5; }
     .print-chart-box { fill: #f9fafb; }
@@ -673,18 +694,15 @@
         <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         <span>Lagna & Navamsha (D1 & D9)</span>
       </button>
-      <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-vargas">
+
       <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-allvargas">
         <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-        <span>All Divisional Charts (Multi-Grid)</span>
+        <span>All Divisional Charts (D1 to D60)</span>
       </button>
 
       <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-varshaphal">
         <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
         <span>Varshaphal (Annual Horoscope)</span>
-      </button>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-        <span>Divisional Charts (Vargas)</span>
       </button>
       <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-planets">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -946,87 +964,6 @@
       </div>
     </div>
 
-
-    <!-- TAB 2: DIVISIONAL CHARTS (VARGAS) -->
-    <div id="tab-vargas" class="tab-pane hidden space-y-6">
-      <div class="bg-vedic-cardbg border border-vedic-border rounded-2xl p-5 shadow-xl">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-vedic-border pb-4">
-          <div>
-            <h3 class="font-cinzel text-lg font-bold text-amber-300">Shodashavarga (Divisional Charts Explorer)</h3>
-            <p class="text-xs text-slate-400">Inspect harmonic divisional charts designed by Maharishi Parashara</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <label for="vargaSelector" class="text-xs text-slate-300 font-medium">Select Varga:</label>
-            <select id="vargaSelector" class="bg-slate-900 border border-vedic-border rounded-lg px-3 py-1.5 text-xs text-amber-300 font-semibold focus:border-vedic-gold outline-none">
-              <option value="D1">D1 - Rashi (Physical Constitution)</option>
-              <option value="D2">D2 - Hora (Wealth & Prosperity)</option>
-              <option value="D3">D3 - Drekkana (Siblings & Courage)</option>
-              <option value="D7">D7 - Saptamsha (Children & Progeny)</option>
-              <option value="D9" selected>D9 - Navamsha (Spouse & Dharma)</option>
-              <option value="D10">D10 - Dashamsha (Career & Status)</option>
-              <option value="D12">D12 - Dwadashamsha (Parents & Lineage)</option>
-              <option value="D30">D30 - Trimsamsha (Arishtas & Evils)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Varga Display & Side-by-Side Compare -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <div class="lg:col-span-5 flex flex-col items-center">
-            <h4 id="vargaChartTitle" class="font-cinzel text-sm font-bold text-amber-400 mb-2">Navamsha (D9) Chart</h4>
-            <div id="vargaMainChartContainer" class="w-full max-w-[380px] aspect-square flex items-center justify-center">
-              <!-- SVG -->
-            </div>
-            <p id="vargaChartDesc" class="text-xs text-slate-400 mt-3 text-center max-w-sm">Signifies inner potential, marriage harmony, and spiritual evolution.</p>
-          </div>
-
-          <!-- Divisional Details Table -->
-          <div class="lg:col-span-7 space-y-4">
-            <h4 class="font-cinzel text-sm font-bold text-slate-200">Planetary Positions in Selected Varga</h4>
-            <div class="overflow-x-auto rounded-xl border border-slate-800">
-              <table class="w-full text-left text-xs">
-                <thead class="bg-slate-900/80 text-amber-300 uppercase text-[10px] font-bold tracking-wider">
-                  <tr>
-                    <th class="py-2.5 px-3">Planet</th>
-                    <th class="py-2.5 px-3">D1 Sign</th>
-                    <th class="py-2.5 px-3">Varga Sign</th>
-                    <th class="py-2.5 px-3">Varga House</th>
-                    <th class="py-2.5 px-3">Sign Lord</th>
-                    <th class="py-2.5 px-3">Dignity in Varga</th>
-                  </tr>
-                </thead>
-                <tbody id="vargaTableBody" class="divide-y divide-slate-800/60 font-sans">
-                  <!-- Populated via JS -->
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Varga Quick Grid (Mini Cards for All 8 Vargas) -->
-            <div class="pt-4 border-t border-slate-800">
-              <h5 class="text-xs font-bold text-amber-400/90 uppercase tracking-wider mb-2">Quick Varga Guide</h5>
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                <button class="varga-btn p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-amber-500/50 text-left transition" data-v="D2">
-                  <span class="font-bold text-amber-300">D2 Hora</span>
-                  <p class="text-[10px] text-slate-400">Wealth & Assets</p>
-                </button>
-                <button class="varga-btn p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-amber-500/50 text-left transition" data-v="D3">
-                  <span class="font-bold text-amber-300">D3 Drekkana</span>
-                  <p class="text-[10px] text-slate-400">Siblings & Valor</p>
-                </button>
-                <button class="varga-btn p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-amber-500/50 text-left transition" data-v="D7">
-                  <span class="font-bold text-amber-300">D7 Saptamsha</span>
-                  <p class="text-[10px] text-slate-400">Progeny & Creativity</p>
-                </button>
-                <button class="varga-btn p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-amber-500/50 text-left transition" data-v="D10">
-                  <span class="font-bold text-amber-300">D10 Dashamsha</span>
-                  <p class="text-[10px] text-slate-400">Career & Power</p>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- TAB 3: PLANETARY DETAILS & DIGNITIES -->
     <div id="tab-planets" class="tab-pane hidden space-y-6">
@@ -2920,9 +2857,8 @@
       const effectiveAscSign = rotBhava === 1 ? ascSign : (((ascSign - 1 + (rotBhava - 1)) % 12) + 1);
 
       const size = isPrint ? 280 : 380;
-      const strokeClass = isPrint ? "print-chart-line" : "chart-line";
-      const boxClass = isPrint ? "print-chart-box" : "chart-box";
-      const strokeColor = isPrint ? "#374151" : "#D97706";
+      const strokeColor = isPrint ? "#374151" : "#F59E0B";
+      const strokeWidth = isPrint ? "1.5" : "2";
       const fillColor = isPrint ? "#f9fafb" : "#0B1329";
 
       const signBodies = {};
@@ -2984,11 +2920,11 @@
       };
 
       let svgHtml = `
-      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="w-full h-full select-none filter drop-shadow-md">
-        <rect x="2" y="2" width="${size - 4}" height="${size - 4}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.5" class="${boxClass} ${strokeClass}" />
-        <line x1="2" y1="2" x2="${size - 2}" y2="${size - 2}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <line x1="${size - 2}" y1="2" x2="2" y2="${size - 2}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <polygon points="${size / 2},2 ${size - 2},${size / 2} ${size / 2},${size - 2} 2,${size / 2}" fill="none" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
+      <svg width="100%" height="100%" viewBox="0 0 ${size} ${size}" class="w-full h-full select-none" style="background-color: ${fillColor};">
+        <rect x="2" y="2" width="${size - 4}" height="${size - 4}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="2" y1="2" x2="${size - 2}" y2="${size - 2}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="${size - 2}" y1="2" x2="2" y2="${size - 2}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <polygon points="${size / 2},2 ${size - 2},${size / 2} ${size / 2},${size - 2} 2,${size / 2}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
       `;
 
       for (let h = 1; h <= 12; h++) {
@@ -3002,12 +2938,12 @@
         <g class="cursor-pointer group" 
            onclick="window.openHouseInspector(${h}, ${signNum}, ${isD1 ? rotBhava : 1})"
            oncontextmenu="window.handleChartRightClick(event, ${isD1 ? natalBhava : h}, '${vargaKey}', '${containerId}'); return false;">
-          <polygon points="${poly}" fill="transparent" class="transition-colors duration-150 group-hover:fill-amber-500/15" />
+          <polygon points="${poly}" fill="transparent" class="transition-colors duration-150 group-hover:fill-amber-500/20" />
           <title>${isD1 && rotBhava !== 1 ? `Rotated House ${h} (Natal Bhava ${natalBhava}) • Sign ${signNum}` : `House ${h} • Sign ${signNum}`}&#10;Left-click: Inspect significations&#10;Right-click: Rotate chart from this Bhava</title>
-          <text x="${pos.numX}" y="${pos.numY}" text-anchor="middle" fill="${isPrint ? '#374151' : '#F59E0B'}" class="${isPrint ? 'font-serif text-[10px] font-bold' : 'chart-sign-num pointer-events-none group-hover:fill-amber-300'}">
+          <text x="${pos.numX}" y="${pos.numY}" text-anchor="middle" fill="${isPrint ? '#374151' : '#F59E0B'}" font-size="${s(13)}px" font-weight="700" font-family="'Inter', sans-serif" style="fill:${isPrint ? '#374151' : '#F59E0B'}!important;">
             ${signNum}
           </text>
-          <text x="${pos.textX}" y="${pos.textY}" text-anchor="middle" fill="${isPrint ? '#111827' : '#FDE68A'}" class="${isPrint ? 'font-sans text-[9px] font-bold' : 'chart-planet-tag pointer-events-none'}">
+          <text x="${pos.textX}" y="${pos.textY}" text-anchor="middle" fill="${isPrint ? '#111827' : '#FDE68A'}" font-size="${s(12)}px" font-weight="600" font-family="'Inter', sans-serif" style="fill:${isPrint ? '#111827' : '#FDE68A'}!important;">
             ${planetsInHouse.join(" ")}
           </text>
         </g>`;
@@ -3017,7 +2953,6 @@
       container.innerHTML = svgHtml;
     }
 
-    // South Indian Chart Renderer
     function renderSouthIndianChart(vargaKey, bodiesMap, containerId, isPrint = false) {
       const container = document.getElementById(containerId);
       if (!container) return;
@@ -3030,9 +2965,8 @@
 
       const size = isPrint ? 280 : 380;
       const cellSize = size / 4;
-      const strokeClass = isPrint ? "print-chart-line" : "chart-line";
-      const boxClass = isPrint ? "print-chart-box" : "chart-box";
-      const strokeColor = isPrint ? "#374151" : "#D97706";
+      const strokeColor = isPrint ? "#374151" : "#F59E0B";
+      const strokeWidth = isPrint ? "1.5" : "2";
       const fillColor = isPrint ? "#f9fafb" : "#0B1329";
 
       const rashiCells = {
@@ -3062,23 +2996,23 @@
       }
 
       let svgHtml = `
-      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="w-full h-full select-none filter drop-shadow-md">
-        <rect x="2" y="2" width="${size - 4}" height="${size - 4}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.5" class="${boxClass} ${strokeClass}" />
-        <rect x="${cellSize}" y="${cellSize}" width="${cellSize * 2}" height="${cellSize * 2}" fill="${isPrint ? '#f3f4f6' : '#050B18'}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <line x1="${cellSize}" y1="0" x2="${cellSize}" y2="${size}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <line x1="${cellSize * 2}" y1="0" x2="${cellSize * 2}" y2="${cellSize}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <line x1="${cellSize * 2}" y1="${cellSize * 3}" x2="${cellSize * 2}" y2="${size}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <line x1="${cellSize * 3}" y1="0" x2="${cellSize * 3}" y2="${size}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
+      <svg width="100%" height="100%" viewBox="0 0 ${size} ${size}" class="w-full h-full select-none" style="background-color: ${fillColor};">
+        <rect x="2" y="2" width="${size - 4}" height="${size - 4}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <rect x="${cellSize}" y="${cellSize}" width="${cellSize * 2}" height="${cellSize * 2}" fill="${isPrint ? '#f3f4f6' : '#050B18'}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="${cellSize}" y1="0" x2="${cellSize}" y2="${size}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="${cellSize * 2}" y1="0" x2="${cellSize * 2}" y2="${cellSize}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="${cellSize * 2}" y1="${cellSize * 3}" x2="${cellSize * 2}" y2="${size}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="${cellSize * 3}" y1="0" x2="${cellSize * 3}" y2="${size}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
         
-        <line x1="0" y1="${cellSize}" x2="${size}" y2="${cellSize}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <line x1="0" y1="${cellSize * 2}" x2="${cellSize}" y2="${cellSize * 2}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <line x1="${cellSize * 3}" y1="${cellSize * 2}" x2="${size}" y2="${cellSize * 2}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <line x1="0" y1="${cellSize * 3}" x2="${size}" y2="${cellSize * 3}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
+        <line x1="0" y1="${cellSize}" x2="${size}" y2="${cellSize}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="0" y1="${cellSize * 2}" x2="${cellSize}" y2="${cellSize * 2}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="${cellSize * 3}" y1="${cellSize * 2}" x2="${size}" y2="${cellSize * 2}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="0" y1="${cellSize * 3}" x2="${size}" y2="${cellSize * 3}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
 
-        <text x="${size / 2}" y="${size / 2 - 12}" text-anchor="middle" class="${isPrint ? 'font-serif text-xs fill-slate-800 font-bold' : 'font-cinzel text-xs fill-amber-300 font-bold'}">
+        <text x="${size / 2}" y="${size / 2 - 12}" text-anchor="middle" fill="${isPrint ? '#111827' : '#F59E0B'}" font-size="13px" font-weight="700" font-family="'Cinzel', serif" style="fill:${isPrint ? '#111827' : '#F59E0B'}!important;">
           ${vargaKey} Chart ${isD1 && rotBhava !== 1 ? `(H${rotBhava} Lagna)` : ''}
         </text>
-        <text x="${size / 2}" y="${size / 2 + 8}" text-anchor="middle" class="${isPrint ? 'font-sans text-[9px] fill-slate-500' : 'font-sans text-[10px] fill-slate-400'}">
+        <text x="${size / 2}" y="${size / 2 + 10}" text-anchor="middle" fill="${isPrint ? '#64748b' : '#94a3b8'}" font-size="10px" font-family="'Inter', sans-serif">
           ${isD1 && rotBhava !== 1 ? `Rotated: Bhava ${rotBhava}` : 'South Indian Style'}
         </text>
       `;
@@ -3097,14 +3031,14 @@
         <g class="cursor-pointer group" 
            onclick="window.openHouseInspectorBySign(${s})"
            oncontextmenu="window.handleChartRightClick(event, ${isD1 ? natalBhavaOfSign : houseFromAsc}, '${vargaKey}', '${containerId}'); return false;">
-          <rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" fill="transparent" class="transition-colors group-hover:fill-amber-500/15" />
+          <rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" fill="transparent" class="transition-colors group-hover:fill-amber-500/20" />
           <title>Sign ${s} (${RASHIS[s - 1].name}) • House ${houseFromAsc}${isD1 && rotBhava !== 1 ? ` (Natal H${natalBhavaOfSign})` : ''}&#10;Left-click: Inspect significations&#10;Right-click: Rotate chart from this Bhava</title>
-          <text x="${x + 6}" y="${y + 14}" class="${isPrint ? 'font-sans text-[8px] fill-slate-500 font-bold' : 'font-sans text-[9px] fill-slate-400 font-semibold group-hover:fill-amber-300'}">
-            ${RASHIS[s - 1].sanskrit.slice(0, 4)} <tspan class="text-[8px] text-amber-500/70">H${houseFromAsc}</tspan>
+          <text x="${x + 6}" y="${y + 14}" fill="${isPrint ? '#374151' : '#F59E0B'}" font-size="10px" font-weight="700" font-family="'Inter', sans-serif" style="fill:${isPrint ? '#374151' : '#F59E0B'}!important;">
+            ${RASHIS[s - 1].short} <tspan font-size="9px" fill="${isPrint ? '#64748b' : '#94a3b8'}">H${houseFromAsc}</tspan>
           </text>
-          ${isLagna ? `<line x1="${x + cellSize - 18}" y1="${y}" x2="${x + cellSize}" y2="${y + 18}" stroke="#EA580C" stroke-width="2.5" />` : ''}
+          ${isLagna ? `<line x1="${x + cellSize - 18}" y1="${y}" x2="${x + cellSize}" y2="${y + 18}" stroke="#EA580C" stroke-width="3" style="stroke:#EA580C!important;stroke-width:3px!important;" />` : ''}
           ${isNatalLagna ? `<line x1="${x}" y1="${y + 18}" x2="${x + 18}" y2="${y}" stroke="#3B82F6" stroke-width="2" stroke-dasharray="2 2" />` : ''}
-          <text x="${x + cellSize / 2}" y="${y + cellSize / 2 + 4}" text-anchor="middle" class="${isPrint ? 'font-sans text-[9px] fill-slate-900 font-bold' : 'chart-planet-tag fill-amber-200 pointer-events-none'}">
+          <text x="${x + cellSize / 2}" y="${y + cellSize / 2 + 5}" text-anchor="middle" fill="${isPrint ? '#111827' : '#FDE68A'}" font-size="11px" font-weight="600" font-family="'Inter', sans-serif" style="fill:${isPrint ? '#111827' : '#FDE68A'}!important;">
             ${planetsInSign.join(" ")}
           </text>
         </g>`;
@@ -3114,9 +3048,6 @@
       container.innerHTML = svgHtml;
     }
 
-    // Unified Chart Render Dispatcher
-    
-    // East Indian (Bengali / Odia) Chart Renderer
     function renderEastIndianChart(vargaKey, bodiesMap, containerId, isPrint = false) {
       const container = document.getElementById(containerId);
       if (!container) return;
@@ -3128,24 +3059,9 @@
       const effectiveAscSign = rotBhava === 1 ? ascSign : (((ascSign - 1 + (rotBhava - 1)) % 12) + 1);
 
       const size = isPrint ? 280 : 380;
-      const strokeClass = isPrint ? "print-chart-line" : "chart-line";
-      const boxClass = isPrint ? "print-chart-box" : "chart-box";
-      const strokeColor = isPrint ? "#374151" : "#D97706";
+      const strokeColor = isPrint ? "#374151" : "#F59E0B";
+      const strokeWidth = isPrint ? "1.5" : "2";
       const fillColor = isPrint ? "#f9fafb" : "#0B1329";
-
-      // Fixed Rashi positions in East Indian style (Anticlockwise starting with Aries at top center)
-      // 1: Aries (top center diamond)
-      // 2: Taurus (top-left triangle)
-      // 3: Gemini (upper-left corner triangle)
-      // 4: Cancer (left center diamond)
-      // 5: Leo (lower-left corner triangle)
-      // 6: Virgo (bottom-left triangle)
-      // 7: Libra (bottom center diamond)
-      // 8: Scorpio (bottom-right triangle)
-      // 9: Sagittarius (lower-right corner triangle)
-      // 10: Capricorn (right center diamond)
-      // 11: Aquarius (upper-right corner triangle)
-      // 12: Pisces (top-right triangle)
 
       const signBodies = {};
       for (let s = 1; s <= 12; s++) signBodies[s] = [];
@@ -3201,11 +3117,11 @@
       };
 
       let svgHtml = `
-      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="w-full h-full select-none filter drop-shadow-md">
-        <rect x="2" y="2" width="${size - 4}" height="${size - 4}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.5" class="${boxClass} ${strokeClass}" />
-        <line x1="2" y1="2" x2="${size - 2}" y2="${size - 2}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <line x1="${size - 2}" y1="2" x2="2" y2="${size - 2}" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
-        <polygon points="${size / 2},2 ${size - 2},${size / 2} ${size / 2},${size - 2} 2,${size / 2}" fill="none" stroke="${strokeColor}" stroke-width="1.5" class="${strokeClass}" />
+      <svg width="100%" height="100%" viewBox="0 0 ${size} ${size}" class="w-full h-full select-none" style="background-color: ${fillColor};">
+        <rect x="2" y="2" width="${size - 4}" height="${size - 4}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="2" y1="2" x2="${size - 2}" y2="${size - 2}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <line x1="${size - 2}" y1="2" x2="2" y2="${size - 2}" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
+        <polygon points="${size / 2},2 ${size - 2},${size / 2} ${size / 2},${size - 2} 2,${size / 2}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" style="stroke:${strokeColor}!important;stroke-width:${strokeWidth}px!important;" />
       `;
 
       for (let sNum = 1; sNum <= 12; sNum++) {
@@ -3220,12 +3136,12 @@
         <g class="cursor-pointer group" 
            onclick="window.openHouseInspectorBySign(${sNum})"
            oncontextmenu="window.handleChartRightClick(event, ${isD1 ? natalBhavaOfSign : houseFromAsc}, '${vargaKey}', '${containerId}'); return false;">
-          <polygon points="${poly}" fill="${isLagnaSign ? (isPrint ? 'rgba(234, 88, 12, 0.08)' : 'rgba(234, 88, 12, 0.12)') : 'transparent'}" class="transition-colors duration-150 group-hover:fill-amber-500/15" />
-          <title>East Indian (Fixed Sign ${sNum}: ${RASHIS[sNum - 1].name}) • House ${houseFromAsc}${isLagnaSign ? ' [Lagna]' : ''}&#10;Left-click: Inspect significations&#10;Right-click: Rotate chart</title>
-          <text x="${pos.numX}" y="${pos.numY}" text-anchor="middle" fill="${isPrint ? '#374151' : '#F59E0B'}" class="${isPrint ? 'font-serif text-[10px] font-bold' : 'chart-sign-num pointer-events-none group-hover:fill-amber-300'}">
-            ${RASHIS[sNum - 1].short} <tspan class="text-[9px]" fill="${isLagnaSign ? '#ea580c' : (isPrint ? '#64748b' : '#94a3b8')}">H${houseFromAsc}</tspan>
+          <polygon points="${poly}" fill="${isLagnaSign ? (isPrint ? 'rgba(234, 88, 12, 0.15)' : 'rgba(234, 88, 12, 0.25)') : 'transparent'}" class="transition-colors duration-150 group-hover:fill-amber-500/20" />
+          <title>East Indian (Sign ${sNum}: ${RASHIS[sNum - 1].name}) • House ${houseFromAsc}${isLagnaSign ? ' [Lagna]' : ''}&#10;Left-click: Inspect significations&#10;Right-click: Rotate chart</title>
+          <text x="${pos.numX}" y="${pos.numY}" text-anchor="middle" fill="${isPrint ? '#374151' : '#F59E0B'}" font-size="${s(13)}px" font-weight="700" font-family="'Inter', sans-serif" style="fill:${isPrint ? '#374151' : '#F59E0B'}!important;">
+            ${RASHIS[sNum - 1].short} <tspan font-size="${s(10)}px" fill="${isLagnaSign ? '#ea580c' : (isPrint ? '#64748b' : '#94a3b8')}">H${houseFromAsc}</tspan>
           </text>
-          <text x="${pos.textX}" y="${pos.textY}" text-anchor="middle" fill="${isPrint ? '#111827' : '#FDE68A'}" class="${isPrint ? 'font-sans text-[9px] font-bold' : 'chart-planet-tag pointer-events-none'}">
+          <text x="${pos.textX}" y="${pos.textY}" text-anchor="middle" fill="${isPrint ? '#111827' : '#FDE68A'}" font-size="${s(12)}px" font-weight="600" font-family="'Inter', sans-serif" style="fill:${isPrint ? '#111827' : '#FDE68A'}!important;">
             ${planetsInSign.join(" ")}
           </text>
         </g>`;
@@ -5671,6 +5587,10 @@
           document.querySelectorAll(".tab-pane").forEach(pane => pane.classList.add("hidden"));
           const targetPane = document.getElementById(targetId);
           if (targetPane) targetPane.classList.remove("hidden");
+
+          if (targetId === "tab-allvargas") {
+            try { renderAllVargasGrid(); } catch (e) { console.warn("renderAllVargasGrid:", e); }
+          }
         });
       });
 
@@ -5758,6 +5678,8 @@
 
       document.getElementById("topPrintBtn").addEventListener("click", () => window.print());
       document.getElementById("inlinePrintBtn").addEventListener("click", () => window.print());
+      const printAllBtn = document.getElementById("printAllVargasBtn");
+      if (printAllBtn) printAllBtn.addEventListener("click", () => window.print());
 
       document.getElementById("closeHouseModalBtn").addEventListener("click", () => {
         document.getElementById("houseModal").classList.add("hidden");
