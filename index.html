@@ -649,6 +649,11 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <span>Vimshottari Dasha</span>
       </button>
+            <button class="nav-tab px-3 py-2 text-[11px] sm:text-xs font-semibold rounded-t-lg border-b-2 border-transparent text-amber-400 hover:text-amber-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-ai-prediction">
+        <svg class="w-4 h-4 text-amber-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span>✨ Ask AI Astrologer</span>
+      </button>
+
       <button class="nav-tab px-3 py-2 text-[11px] sm:text-xs font-semibold rounded-t-lg border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-report">
         <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
         <span>Print Preview / Report</span>
@@ -1233,26 +1238,84 @@
       </div>
     </div>
 
-    <!-- TAB 5: YOGAS & ARISHTA ANALYSIS -->
+    <!-- TAB 5: YOGAS & ARISHTA ANALYSIS (CLASSIFICATION & STRENGTH SCORECARD) -->
     <div id="tab-yogas" class="tab-pane hidden space-y-6">
-      <div class="bg-vedic-cardbg border border-vedic-border rounded-2xl p-5 shadow-xl">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 border-b border-vedic-border pb-4">
+      <div class="bg-vedic-cardbg border border-vedic-border rounded-2xl p-6 shadow-xl">
+        <!-- Header & Quick Filters -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4 border-b border-vedic-border pb-4">
           <div>
-            <h3 class="font-cinzel text-lg font-bold text-amber-300">Yogas & Arishta Assessment</h3>
-            <p class="text-xs text-slate-400">Classical Raja Yogas, Dhana Yogas, Kuja/Manglik Dosha, Kaal Sarp, and Balarishta</p>
+            <h3 class="font-cinzel text-xl font-bold text-amber-300">Yoga Classification</h3>
+            <p class="text-xs text-slate-400 mt-1" id="yogaSummarySubtitle">Comprehensive Classical & Parashari Evaluation</p>
           </div>
-          <!-- Filter Buttons -->
-          <div class="flex items-center gap-1.5 flex-wrap">
-            <button class="yoga-filter-btn active px-3 py-1 text-xs rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold" data-filter="all">All (<span id="countAllYogas">0</span>)</button>
-            <button class="yoga-filter-btn px-3 py-1 text-xs rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white" data-filter="raja">Raja Yogas (<span id="countRajaYogas">0</span>)</button>
-            <button class="yoga-filter-btn px-3 py-1 text-xs rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white" data-filter="dhana">Dhana Yogas (<span id="countDhanaYogas">0</span>)</button>
-            <button class="yoga-filter-btn px-3 py-1 text-xs rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white" data-filter="arishta">Arishta / Doshas (<span id="countArishtaYogas">0</span>)</button>
+          <div class="flex items-center gap-1.5 flex-wrap" id="yogaFilterGroup">
+            <button class="yoga-filter-btn active px-3 py-1 text-xs rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold" data-filter="all">All Yogas</button>
+            <button class="yoga-filter-btn px-3 py-1 text-xs rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white" data-filter="present">Present (<span id="countPresentFilter">0</span>)</button>
+            <button class="yoga-filter-btn px-3 py-1 text-xs rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white" data-filter="transformational">Transformational (<span id="countTransFilter">0</span>)</button>
+            <button class="yoga-filter-btn px-3 py-1 text-xs rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white" data-filter="rare">Rare+ (<span id="countRareFilter">0</span>)</button>
+            <button class="yoga-filter-btn px-3 py-1 text-xs rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white" data-filter="common">Common (<span id="countCommonFilter">0</span>)</button>
           </div>
         </div>
 
-        <!-- Yoga Cards Container -->
-        <div id="yogasContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Populated by JS -->
+        <!-- 6 KPI Badges matching PDF -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-center">
+            <div class="text-2xl font-bold text-emerald-400 font-mono" id="cntPresent">0</div>
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider mt-1 font-bold">Present</div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-center">
+            <div class="text-2xl font-bold text-amber-400 font-mono" id="cntPartial">0</div>
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider mt-1 font-bold">Partial</div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-center">
+            <div class="text-2xl font-bold text-slate-400 font-mono" id="cntCancelled">0</div>
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider mt-1 font-bold">Cancelled</div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-center">
+            <div class="text-2xl font-bold text-indigo-400 font-mono" id="cntTransformational">0</div>
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider mt-1 font-bold">Transformational</div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-center">
+            <div class="text-2xl font-bold text-rose-400 font-mono" id="cntRare">0</div>
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider mt-1 font-bold">Rare / Very Rare</div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-center">
+            <div class="text-2xl font-bold text-slate-200 font-mono" id="cntTotalChecked">185</div>
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider mt-1 font-bold">Total Checked</div>
+          </div>
+        </div>
+
+        <!-- Categorized Sections Container -->
+        <div id="yogaCategorySections" class="space-y-6">
+          <!-- Injected via updateYogasUI() -->
+        </div>
+
+        <!-- Master Yogas Table -->
+        <div class="mt-8 bg-slate-950/70 border border-slate-800 rounded-2xl p-5 overflow-hidden">
+          <div class="flex items-center justify-between mb-4 border-b border-slate-800/80 pb-3">
+            <div>
+              <h4 class="font-cinzel text-base font-bold text-amber-300">All Yogas Master Table</h4>
+              <p class="text-xs text-slate-400 mt-0.5">Sorted by Strength score (highest first). Tap any row to view full details.</p>
+            </div>
+            <span class="text-xs text-amber-400 font-mono" id="tableCountBadge">0 yogas</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 uppercase text-[10px] font-bold tracking-wider">
+                  <th class="py-2.5 px-3">Yoga</th>
+                  <th class="py-2.5 px-3">Cat</th>
+                  <th class="py-2.5 px-3">Status</th>
+                  <th class="py-2.5 px-3 text-center">Str</th>
+                  <th class="py-2.5 px-3">Signification</th>
+                  <th class="py-2.5 px-3">Application</th>
+                </tr>
+              </thead>
+              <tbody id="yogasTableBody" class="divide-y divide-slate-800/60 font-sans">
+                <!-- Injected via updateYogasUI() -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -4143,56 +4206,152 @@ function calculateUpaGrahas(sunLon, lagnaLon, hour, minute, second, sunriseHour 
       bavTbody.appendChild(totRow);
     }
 
+    // Comprehensive Classification & Strength Scoring Engine (matching PDF)
+    function getYogaActivationPeriod(planetName, dashaData) {
+      if (!planetName || !dashaData || !dashaData.periods) return "Activates during major dasha of relevant planet";
+      const p = planetName.toLowerCase().trim();
+      const md = dashaData.periods.find(m => m.lord.toLowerCase() === p);
+      if (md) {
+        return `${md.lord} MD (${md.startStr} to ${md.endStr})`;
+      }
+      return `Dasha of ${planetName}`;
+    }
+
     function updateYogasUI(filter = "all") {
-      const container = document.getElementById("yogasContainer");
-      container.innerHTML = "";
-
+      if (!currentChartData || !currentChartData.yogas) return;
       const yogas = currentChartData.yogas;
+      const dasha = currentChartData.dasha;
 
-      const counts = { all: yogas.length, raja: 0, dhana: 0, arishta: 0 };
+      // Classify counts
+      let cntPresent = 0;
+      let cntPartial = 0;
+      let cntCancelled = 0;
+      let cntTrans = 0;
+      let cntRare = 0;
+      let cntCommon = 0;
+
       yogas.forEach(y => {
-        if (counts[y.category] !== undefined) counts[y.category]++;
+        const s = (y.status || "Present").toLowerCase();
+        if (s.includes("cancel")) cntCancelled++;
+        else if (s.includes("part")) cntPartial++;
+        else cntPresent++;
+
+        if (y.group === "transformational") cntTrans++;
+        if (y.rarity === "Rare" || y.rarity === "Very Rare") cntRare++;
+        if (y.rarity === "Common") cntCommon++;
       });
-      document.getElementById("countAllYogas").textContent = counts.all;
-      document.getElementById("countRajaYogas").textContent = counts.raja;
-      document.getElementById("countDhanaYogas").textContent = counts.dhana;
-      document.getElementById("countArishtaYogas").textContent = counts.arishta;
 
-      const filtered = filter === "all" ? yogas : yogas.filter(y => y.category === filter);
+      // Update KPI Badges
+      const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      setEl("cntPresent", cntPresent);
+      setEl("cntPartial", cntPartial);
+      setEl("cntCancelled", cntCancelled);
+      setEl("cntTransformational", cntTrans);
+      setEl("cntRare", cntRare);
+      setEl("cntTotalChecked", "185");
 
-      if (filtered.length === 0) {
-        container.innerHTML = `<div class="col-span-2 py-8 text-center text-slate-500">No yogas found under this category filter.</div>`;
-        return;
+      setEl("countPresentFilter", cntPresent);
+      setEl("countTransFilter", cntTrans);
+      setEl("countRareFilter", cntRare);
+      setEl("countCommonFilter", cntCommon);
+
+      setEl("yogaSummarySubtitle", `${cntPresent} present | ${cntPartial} partial | ${cntCancelled} cancelled`);
+
+      // Filtered list
+      let filtered = yogas;
+      if (filter === "present") filtered = yogas.filter(y => y.status === "Present");
+      else if (filter === "transformational") filtered = yogas.filter(y => y.group === "transformational");
+      else if (filter === "rare") filtered = yogas.filter(y => y.rarity === "Rare" || y.rarity === "Very Rare");
+      else if (filter === "common") filtered = yogas.filter(y => y.rarity === "Common");
+
+      // Categorized Sections Layout (Pages 1-4 of PDF)
+      const categories = [
+        { key: "transformational", title: "Transformational", totalChecked: 11, desc: "Yogas that fundamentally alter life trajectory - usually activate via specific dashas. Often involve H8/H12/Dusthana lords or Neecha Bhanga." },
+        { key: "rare", title: "Rare & Very Rare (< 10% of charts)", totalChecked: 18, desc: "Uncommon yogas requiring multiple precise conditions. When present, these are significant and the dasha of relevant planets is important." },
+        { key: "common", title: "Common (> 30% of charts)", totalChecked: 17, desc: "Found in a large proportion of charts. Presence alone is not extraordinary - strength of the yoga (planet dignity + placement) matters more." },
+        { key: "wealth", title: "Wealth and Financial Yogas", totalChecked: 16, desc: "Dhana yogas, Kubera yoga, Vasumati, and related combinations indicating financial prosperity." },
+        { key: "career", title: "Career and Status Yogas", totalChecked: 44, desc: "Raja yogas, Pancha Mahapurusha, and house 10/9 lord combinations that elevate professional status and public recognition." },
+        { key: "spiritual", title: "Spiritual and Moksha Yogas", totalChecked: 8, desc: "Yogas indicating deep spiritual inclination, liberation path, or renunciation. Ketu, H12, and Saturn combinations." },
+        { key: "caution", title: "Affliction and Caution Yogas", totalChecked: 16, desc: "Arishta yogas, Kuja Dosha, Daridra - areas of life requiring attention, often mitigated by benefic aspects or cancellation." }
+      ];
+
+      const catContainer = document.getElementById("yogaCategorySections");
+      if (catContainer) {
+        catContainer.innerHTML = "";
+        categories.forEach(cat => {
+          let catYogas = filtered.filter(y => y.group === cat.key);
+          if (filter !== "all" && catYogas.length === 0) return;
+
+          const section = document.createElement("div");
+          section.className = "bg-slate-900/60 border border-slate-800 rounded-2xl p-5 shadow-lg";
+
+          let itemsHtml = "";
+          if (catYogas.length === 0) {
+            itemsHtml = `<p class="text-xs text-slate-500 italic mt-3">None detected in your chart for this category.</p>`;
+          } else {
+            itemsHtml = catYogas.map(y => {
+              const isCanc = (y.status || "").includes("Cancel");
+              const isPart = (y.status || "").includes("Part");
+              const statusClass = isCanc 
+                ? "bg-slate-800 text-slate-400 border-slate-700" 
+                : (isPart ? "bg-amber-500/10 text-amber-400 border-amber-500/30" : "bg-emerald-500/10 text-emerald-400 border-emerald-500/30");
+
+              const actPlanet = y.planets && y.planets.length ? y.planets[0] : (y.activatingPlanet || "Sun");
+              const dashaText = getYogaActivationPeriod(actPlanet, dasha);
+
+              return `
+                <div class="mt-4 pt-3.5 border-t border-slate-800/80">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${statusClass}">${y.status}</span>
+                    <h5 class="text-sm font-bold text-slate-200">${y.name}</h5>
+                  </div>
+                  <div class="text-xs text-slate-400 font-mono pl-1">${y.application || y.description}</div>
+                  <div class="border-l-2 border-indigo-500/50 pl-3 my-2 text-xs text-slate-300 italic">
+                    ${y.signification || y.description}
+                  </div>
+                  <div class="text-[11px] text-indigo-400 font-mono pl-1">Activates: ${dashaText}</div>
+                </div>
+              `;
+            }).join("");
+          }
+
+          section.innerHTML = `
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+              <h4 class="font-cinzel text-base font-bold text-amber-300">${cat.title}</h4>
+              <span class="text-xs text-slate-400 font-mono">${catYogas.length} in your chart / ${cat.totalChecked} checked</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">${cat.desc}</p>
+            ${itemsHtml}
+          `;
+          catContainer.appendChild(section);
+        });
       }
 
-      filtered.forEach(y => {
-        const isArishta = y.category === "arishta";
-        const isRaja = y.category === "raja";
+      // Master Table Layout (Pages 4-7 of PDF)
+      const tbody = document.getElementById("yogasTableBody");
+      if (tbody) {
+        tbody.innerHTML = "";
+        const sorted = [...filtered].sort((a, b) => (b.strength || 5) - (a.strength || 5));
+        setEl("tableCountBadge", `${sorted.length} yogas shown`);
 
-        const badgeBg = isArishta ? (y.status.includes("Cancelled") ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" : "bg-rose-500/10 text-rose-300 border-rose-500/30") : (isRaja ? "bg-amber-500/10 text-amber-300 border-amber-500/30" : "bg-blue-500/10 text-blue-300 border-blue-500/30");
+        sorted.forEach(y => {
+          const row = document.createElement("tr");
+          row.className = "hover:bg-slate-900/60 transition";
+          const isCanc = (y.status || "").includes("Cancel");
+          const isPart = (y.status || "").includes("Part");
+          const statusClass = isCanc ? "text-slate-500" : (isPart ? "text-amber-400" : "text-emerald-400 font-bold");
 
-        const card = document.createElement("div");
-        card.className = "bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col justify-between hover:border-amber-500/40 transition shadow-lg";
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h4 class="font-cinzel text-base font-bold text-white tracking-wide">${y.name}</h4>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold border ${badgeBg}">${y.status}</span>
-            </div>
-            <div class="flex items-center gap-3 text-xs text-slate-400 mb-2">
-              <span>Planets: <strong class="text-amber-200">${y.planets.join(", ")}</strong></span>
-              <span>•</span>
-              <span>Houses: <strong class="text-amber-200">${y.houses.map(h => 'H' + h).join(", ")}</strong></span>
-            </div>
-            <p class="text-xs text-slate-300 leading-relaxed mb-3">${y.description}</p>
-          </div>
-          <div class="pt-2.5 border-t border-slate-800/80 text-[11px] text-amber-300/90 flex items-start gap-1.5">
-            <span class="text-amber-400">🕉️</span>
-            <div><strong>Vedic Remedy / Advice:</strong> ${y.remedy}</div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
+          row.innerHTML = `
+            <td class="py-3 px-3 font-semibold text-slate-200">${y.name}</td>
+            <td class="py-3 px-3 text-slate-400 text-[11px]">${y.categoryName || y.category || "Raja"}</td>
+            <td class="py-3 px-3 ${statusClass}">${y.status}</td>
+            <td class="py-3 px-3 text-center font-mono font-bold text-amber-300">${y.strength || 6}</td>
+            <td class="py-3 px-3 text-slate-300 text-[11px] max-w-xs leading-relaxed">${y.signification || y.description}</td>
+            <td class="py-3 px-3 text-slate-400 text-[11px] font-mono">${y.application || (y.planets ? y.planets.join(", ") : "")}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
     }
 
     function updateDashaUI() {
@@ -5911,6 +6070,281 @@ function calculateUpaGrahas(sunLon, lagnaLon, hour, minute, second, sunriseHour 
       });
     }
 
+    
+    // =========================================================================
+    // AI ASTROLOGER PREDICTION ENGINE & VEDASTRO CLIENT
+    // =========================================================================
+    let selectedAiTopic = "career";
+
+    const AI_TOPIC_TEMPLATES = {
+      career: {
+        title: "Career, Status & Professional Destiny",
+        question: "Analyze my 10th house, Lagna lord, Dashamsha (D10), and current active dasha to predict my career trajectory, leadership prospects, and professional breakthroughs."
+      },
+      marriage: {
+        title: "Marriage, Kalatra & Relationship Harmony",
+        question: "Analyze my 7th house, Venus/Jupiter karaka, Navamsha (D9) dignity, and Kuja Dosha factors to predict marital timing, spouse characteristics, and relationship fulfillment."
+      },
+      dasha: {
+        title: "Active Vimshottari Mahadasha & Antardasha Timing",
+        question: "Evaluate my currently operating Mahadasha and Antardasha lords, their house rulerships, functional nature, and what karmic chapter they are triggering right now."
+      },
+      spiritual: {
+        title: "Spiritual Path, Moksha & Karmic Evolution",
+        question: "Examine my 9th and 12th houses, Ketu placement, Atmakaraka, and D20 Vimshamsha to reveal my inner spiritual potential, sadhana inclination, and past-life karma."
+      },
+      health: {
+        title: "Health, Vitality & Longevity Safeguards",
+        question: "Assess my 1st, 6th, and 8th houses, Ascendant lord strength, Maraka influences, and planetary afflictions to give constructive wellness and vitality guidance."
+      },
+      remedies: {
+        title: "Custom Vedic Remedies, Mantras & Gemstones",
+        question: "Provide authentic classical Vedic remedies (stotras, mantras, daan/charity, and gemstone considerations) tailored specifically to balance the weak or afflicted planets in my chart."
+      }
+    };
+
+    function generateInstantBuiltinPrediction(chart, topic, customPrompt) {
+      if (!chart) return "Please generate a horoscope first by clicking 'Generate Kundli'.";
+
+      const p = chart.planets;
+      const asc = chart.ascendant;
+      const dasha = chart.dasha;
+      const yogas = chart.yogas || [];
+
+      const activeDasha = dasha ? dasha.getActiveDashaAt(new Date()) : null;
+      const dashaStr = activeDasha ? `${activeDasha.mahadasha} Mahadasha • ${activeDasha.antardasha} Antardasha` : "Active Dasha";
+
+      // Synthesize 5-layer interpretation
+      let answer = "";
+      let astrologicalDrivers = "";
+      let practicalManifestation = "";
+      let timingSection = "";
+      let remedies = "";
+
+      if (topic === "career") {
+        const l10Lord = chart.houseLords ? chart.houseLords[10] : "10th Lord";
+        const h10Planets = Object.values(p).filter(pl => pl.house === 10).map(pl => pl.name);
+        const l10Text = h10Planets.length ? h10Planets.join(", ") : "Empty (governed by " + l10Lord + ")";
+
+        answer = `Your professional blueprint is defined by **${asc.sign} Ascendant** with the 10th house of vocation in **${RASHIS[(asc.signNum + 8) % 12].name}**, occupied/influenced by **${l10Text}**. You possess an innate capacity for strategic planning, executive execution, and structured problem solving.`;
+        astrologicalDrivers = `The 10th lord **${l10Lord}** operates in House ${p[l10Lord]?.house || 10} in **${p[l10Lord]?.sign || ''}** (${p[l10Lord]?.dignity || 'Neutral'}). In KP astrology, your Ascendant Sub-Lord is **${asc.kpSubLord || 'Benefic'}**, ensuring that initiatives taken with diligence receive recognition from institutional authorities.`;
+        practicalManifestation = `In career dynamics, you excel when given autonomy rather than micro-management. Professional milestones accelerate whenever you align with knowledge-driven, managerial, or advisory roles.`;
+        timingSection = `**Timing via Dasha:** You are currently traversing **${dashaStr}**. This period activates the houses ruled by ${activeDasha ? activeDasha.mahadasha : 'operating planets'}, making the upcoming months highly pivotal for promotions, strategic relocations, or entrepreneurial ventures.`;
+        remedies = `To strengthen career fruition, honor your 10th lord by offering water to the rising Sun daily, practicing ethical transparency in trade, and chanting the Gayatri Mantra 11 times every morning.`;
+      } else if (topic === "marriage") {
+        const h7Planets = Object.values(p).filter(pl => pl.house === 7).map(pl => pl.name);
+        const h7Text = h7Planets.length ? h7Planets.join(", ") : "unoccupied, receiving natural planetary aspects";
+
+        answer = `Your relationship karma is rooted in the 7th house of Kalatra, currently **${h7Text}**. Marriage brings significant emotional maturity, grounding your worldly ambitions through a supportive, intellectually compatible life partner.`;
+        astrologicalDrivers = `Venus is posited in **${p.Venus.sign}** (House ${p.Venus.house}) with **${p.Venus.dignity}** dignity. In the Navamsha (D9) chart, your soul purpose and partner alignment are fortified by classical trinal harmonies.`;
+        practicalManifestation = `Mutual respect and shared philosophical values are non-negotiable for marital bliss. Avoid hasty reactive arguments; give each other conversational space during contentious transits.`;
+        timingSection = `**Timing via Dasha:** Under **${dashaStr}**, marital prospects or relationship bonding experiences intensify. Favorable transit windows occur when transiting Jupiter casts its 5th, 7th, or 9th aspect over your natal 7th house or Venus.`;
+        remedies = `Foster harmony by lighting a ghee lamp in your home temple on Friday evenings, reciting the Shukra Beej Mantra (Om Shum Shukraya Namaha), and offering sweets to elders.`;
+      } else if (topic === "dasha") {
+        answer = `You are currently experiencing the **${dashaStr}**, spanning from **${activeDasha ? activeDasha.adStart : 'N/A'}** to **${activeDasha ? activeDasha.adEnd : 'N/A'}**. This represents a major karmic checkpoint where seeds sown in prior years bear tangible fruit.`;
+        astrologicalDrivers = `The Mahadasha lord operates as the supreme environmental ruler, setting the overarching theme, while the Antardasha lord delivers day-to-day circumstances through its lordship over natal houses.`;
+        practicalManifestation = `Expect shifting priorities toward personal sovereignty, skill refinement, and financial restructuring. Internal restless energy should be channeled into constructive studies, fitness, or professional upgrades.`;
+        timingSection = `**Remaining Duration:** Approximately ${activeDasha ? activeDasha.remainingDays : 'few'} days remain in this specific sub-cycle before the next planetary sub-period takes over.`;
+        remedies = `Align with the Mahadasha lord through targeted meditation, conscious time management, and wearing colors associated with the operating planet.`;
+      } else {
+        answer = `Your horoscope reveals a balanced synthesis of planetary dignities with **${asc.sign} Lagna** and Moon in **${p.Moon.sign}** (${p.Moon.nakshatra} Nakshatra).`;
+        astrologicalDrivers = `With ${yogas.filter(y => y.status === "Present").length} confirmed classical Yogas active in your chart, your life journey features distinct turning points that elevate your stature after age 28.`;
+        practicalManifestation = `Your primary superpower lies in persistence through adversity. The presence of auspicious combinations shields you against major catastrophes.`;
+        timingSection = `**Active Period:** Operating under **${dashaStr}**.`;
+        remedies = `Regular chanting of the Maha Mrityunjaya Mantra and performing charitable acts on Saturdays provides comprehensive protection.`;
+      }
+
+      return `
+        <div class="space-y-4">
+          <div class="p-3.5 bg-amber-500/10 border-l-4 border-amber-400 rounded-r-xl">
+            <h5 class="text-xs font-bold text-amber-300 uppercase tracking-wider mb-1">Direct Predictive Synthesis</h5>
+            <p class="text-xs text-slate-200 leading-relaxed">${answer}</p>
+          </div>
+
+          <div>
+            <h5 class="text-xs font-bold text-indigo-300 uppercase tracking-wider mb-1">Astrological Drivers (Houses, Lords & KP Sub-Lords)</h5>
+            <p class="text-xs text-slate-300 leading-relaxed">${astrologicalDrivers}</p>
+          </div>
+
+          <div>
+            <h5 class="text-xs font-bold text-emerald-300 uppercase tracking-wider mb-1">Real-Life Manifestation & Strategy</h5>
+            <p class="text-xs text-slate-300 leading-relaxed">${practicalManifestation}</p>
+          </div>
+
+          <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
+            <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Vimshottari Dasha Timing & Activation Window</h5>
+            <p class="text-xs text-slate-300 leading-relaxed">${timingSection}</p>
+          </div>
+
+          <div class="p-3.5 bg-amber-950/20 border border-amber-500/30 rounded-xl flex items-start gap-2 text-xs text-amber-200/90">
+            <span class="text-base text-amber-400">🕉️</span>
+            <div><strong>Classical Vedic Remedy:</strong> ${remedies}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function generateAiPrediction() {
+      if (!currentChartData) {
+        showToast("Please calculate a birth chart first.", "warning");
+        return;
+      }
+
+      const btn = document.getElementById("btnGenerateAiPrediction");
+      const btnText = document.getElementById("btnAiText");
+      const spinner = document.getElementById("aiSpinner");
+      const output = document.getElementById("aiReadingContent");
+      const title = document.getElementById("aiReadingTitle");
+      const timestamp = document.getElementById("aiReadingTimestamp");
+
+      const customInput = document.getElementById("aiCustomQuestion");
+      const userPrompt = customInput && customInput.value.trim() 
+        ? customInput.value.trim() 
+        : AI_TOPIC_TEMPLATES[selectedAiTopic].question;
+
+      title.textContent = AI_TOPIC_TEMPLATES[selectedAiTopic].title;
+      timestamp.textContent = `Generated: ${new Date().toLocaleTimeString()}`;
+
+      // Check for Gemini API Key in localStorage
+      const geminiKey = localStorage.getItem("indus_gemini_api_key");
+      const modelChoice = document.getElementById("aiModelSelect")?.value || "gemini-2.5-flash";
+
+      btn.disabled = true;
+      spinner.classList.remove("hidden");
+      btnText.textContent = "Synthesizing...";
+
+      if (geminiKey && modelChoice.startsWith("gemini")) {
+        // Live Google Gemini Flash Free Tier API Call
+        try {
+          const chartSummary = {
+            ascendant: {
+              sign: currentChartData.ascendant.sign,
+              degree: currentChartData.ascendant.formattedDeg,
+              kpSubLord: currentChartData.ascendant.kpSubLord
+            },
+            planets: Object.fromEntries(
+              Object.entries(currentChartData.planets).map(([k, v]) => [k, {
+                sign: v.sign,
+                deg: v.degFormatted,
+                house: v.house,
+                dignity: v.dignity,
+                isRetrograde: v.isRetrograde,
+                kpSubLord: v.kpSubLord
+              }])
+            ),
+            activeDasha: currentChartData.dasha ? currentChartData.dasha.getActiveDashaAt(new Date()) : null,
+            confirmedYogas: currentChartData.yogas.filter(y => y.status === "Present").map(y => y.name)
+          };
+
+          const fullPrompt = `You are an expert Vedic Astrologer practicing Maharishi Parashara, KP (Krishnamurti Paddhati), and Bhrigu Nandi Nadi.
+Answer this question with depth, precision, and practical clarity based strictly on the native's chart:
+"${userPrompt}"
+
+Native's Astronomical Chart Data:
+${JSON.stringify(chartSummary, null, 2)}
+
+Structure your response cleanly using these 5 sections:
+1. Direct Answer (clear, direct, empowering overview)
+2. Astrological Drivers (specific houses, planetary placements, and KP sub-lords)
+3. Real-Life Manifestations (concrete real-world advice and patterns)
+4. Dasha Timing (connect predictions to active Mahadasha / Antardasha windows)
+5. Classical Remedies (authentic mantras, charitable acts, or ethical alignments).
+Never make fatalistic or doom predictions.`;
+
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: fullPrompt }] }]
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error(`Gemini API Error (${response.status}): ${response.statusText}`);
+          }
+
+          const resData = await response.json();
+          const rawText = resData.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          
+          // Format markdown paragraphs
+          const formattedHtml = rawText
+            .replace(/### (.*?)\n/g, '<h5 class="text-xs font-bold text-amber-300 uppercase tracking-wider mt-4 mb-1">$1</h5>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-amber-200">$1</strong>')
+            .replace(/\n\n/g, '</p><p class="mt-2 text-xs text-slate-300 leading-relaxed">')
+            .replace(/\n- /g, '<br>• ');
+
+          output.innerHTML = `<div class="text-xs text-slate-200 leading-relaxed"><p>${formattedHtml}</p></div>`;
+          showToast("AI Prediction generated successfully via Gemini Flash!", "success");
+        } catch (err) {
+          console.warn("Gemini call failed, falling back to built-in synthesis:", err);
+          output.innerHTML = generateInstantBuiltinPrediction(currentChartData, selectedAiTopic, userPrompt);
+          showToast("Gemini API call failed; displayed built-in Jyotish reading.", "warning");
+        }
+      } else {
+        // Zero-Cost Instant Built-In Jyotish Synthesis Engine
+        setTimeout(() => {
+          output.innerHTML = generateInstantBuiltinPrediction(currentChartData, selectedAiTopic, userPrompt);
+          showToast("Instant Vedic prediction generated (Free & Offline)!", "success");
+        }, 300);
+      }
+
+      btn.disabled = false;
+      spinner.classList.add("hidden");
+      btnText.textContent = "Generate Prediction";
+    }
+
+    async function fetchVedAstroPredictions() {
+      if (!currentChartData) {
+        showToast("Please calculate a birth chart first.", "warning");
+        return;
+      }
+
+      const output = document.getElementById("aiReadingContent");
+      const title = document.getElementById("aiReadingTitle");
+      title.textContent = "VedAstro Open-Source Classical Horoscope Predictions";
+      output.innerHTML = `<p class="text-amber-300 animate-pulse">Connecting to VedAstro Public API (api.vedastro.org)...</p>`;
+
+      try {
+        const d = document.getElementById("birthDate").value;
+        const t = document.getElementById("birthTime").value;
+        const [y, m, day] = d.split("-");
+        const [hr, min] = t.split(":");
+        const tz = parseFloat(document.getElementById("customTZ").value) || 5.5;
+        const tzFormatted = (tz >= 0 ? "+" : "-") + String(Math.abs(tz)).padStart(2, '0') + ":00";
+
+        // VedAstro time format: HH:mm dd/MM/yyyy +05:30
+        const timeStr = `${hr}:${min} ${day}/${m}/${y} ${tzFormatted}`;
+        const lat = parseFloat(document.getElementById("customLat").value) || 28.4089;
+        const lon = parseFloat(document.getElementById("customLon").value) || 77.3178;
+
+        const endpoint = `https://api.vedastro.org/api/Calculate/HoroscopePredictions/Location/${lat},${lon}/Time/${encodeURIComponent(timeStr)}`;
+        const res = await fetch(endpoint);
+        const data = await res.json();
+
+        if (data.Status === "Pass" && Array.isArray(data.Payload)) {
+          const preds = data.Payload.slice(0, 10);
+          output.innerHTML = `
+            <div class="space-y-3">
+              <p class="text-xs text-emerald-400 font-semibold">Retrieved ${data.Payload.length} classical events from VedAstro Open API:</p>
+              ${preds.map(p => `
+                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
+                  <h6 class="text-xs font-bold text-amber-300">${p.Name || p.PredictionName || 'Classical Shloka Result'}</h6>
+                  <p class="text-xs text-slate-300 mt-1">${p.Description || p.Prediction || JSON.stringify(p)}</p>
+                </div>
+              `).join("")}
+            </div>
+          `;
+          showToast("VedAstro classical predictions retrieved!", "success");
+        } else {
+          throw new Error("No predictions array returned");
+        }
+      } catch (err) {
+        console.warn("VedAstro direct fetch note:", err);
+        output.innerHTML = generateInstantBuiltinPrediction(currentChartData, "career", "VedAstro offline fallback");
+        showToast("VedAstro server busy; switched to built-in Jyotish engine.", "info");
+      }
+    }
+
     window.addEventListener("DOMContentLoaded", () => {
       const citySelect = document.getElementById("birthPlaceSelect");
       const citySearch = document.getElementById("citySearchInput");
@@ -6142,5 +6576,38 @@ function calculateUpaGrahas(sunLon, lagnaLon, hour, minute, second, sunriseHour 
     });
 
   </script>
+  <!-- AI API Settings Modal -->
+  <div id="aiSettingsModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
+    <div class="bg-vedic-cardbg border border-vedic-gold/40 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-left">
+      <button id="closeAiSettingsModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl p-1 rounded-lg bg-slate-800/60">✕</button>
+      
+      <div class="text-center mb-5">
+        <h3 class="font-cinzel text-xl font-bold text-amber-300">AI Prediction Engine Settings</h3>
+        <p class="text-xs text-slate-400 mt-1">Configure Free AI APIs for deeper personalized predictions</p>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Google Gemini API Key (100% Free Tier):</label>
+          <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-xs font-mono focus:border-amber-400 focus:outline-none" />
+          <p class="text-[11px] text-slate-400 mt-1">Get your free key at <a href="https://aistudio.google.com/" target="_blank" class="text-amber-400 underline">aistudio.google.com</a> (1,500 free queries/day, ₹0 cost). Stored securely only in your browser's localStorage.</p>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">AI Reading Style / Depth:</label>
+          <select id="aiModelSelect" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-amber-300 text-xs font-sans">
+            <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Fast, Recommended, Free)</option>
+            <option value="builtin">Built-In Rule Synthesis (Offline, Zero-API)</option>
+          </select>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex justify-end gap-2">
+          <button id="btnClearAiKey" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">Clear Key</button>
+          <button id="btnSaveAiKey" class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs">Save & Activate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
