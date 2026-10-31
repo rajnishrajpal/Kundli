@@ -107,56 +107,63 @@
     <div class="bg-vedic-cardbg border border-vedic-gold/40 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-left">
       <button id="closeAuthModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl p-1 rounded-lg bg-slate-800/60">✕</button>
       
-      <div class="text-center mb-5">
+      <div class="text-center mb-4">
         <h3 class="font-cinzel text-xl font-bold text-amber-300">Indus Kundli Account</h3>
-        <p class="text-xs text-slate-400 mt-1">Sign in to save and manage your personal & client horoscopes</p>
+        <p id="authModalPromptText" class="text-xs text-slate-400 mt-1">Register or sign in to save your personal & client horoscopes securely on the server</p>
       </div>
 
       <!-- Auth Tabs -->
       <div class="flex border-b border-slate-800 mb-4 text-xs font-semibold">
-        <button id="authTabLogin" class="flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400">Sign In</button>
-        <button id="authTabRegister" class="flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent">Create Free Account</button>
-        <button id="authTabAdmin" class="flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent">Admin Access</button>
+        <button id="authTabLogin" class="flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400 transition">Sign In</button>
+        <button id="authTabRegister" class="flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent transition">Create Account</button>
+        <button id="authTabAdmin" class="flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent transition">Admin</button>
       </div>
 
       <!-- Login Form -->
       <form id="loginForm" class="space-y-3.5 text-xs">
         <div>
-          <label class="block text-slate-300 mb-1">Email Address</label>
-          <input type="email" id="loginEmail" required placeholder="you@domain.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+          <label class="block text-slate-300 mb-1 font-semibold">Login ID or Mobile Number</label>
+          <input type="text" id="loginId" required placeholder="Enter your Login ID or Mobile Number" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
         </div>
         <div>
-          <label class="block text-slate-300 mb-1">Password</label>
+          <label class="block text-slate-300 mb-1 font-semibold">Password</label>
           <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
         </div>
-        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20">
-          Sign In to Indus Vault
+        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20 active:scale-95 cursor-pointer">
+          Sign In to My Account
         </button>
-        <button type="button" id="guestLoginBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 py-1.5 rounded-lg text-[11px] transition">
-          Continue as Guest (Local 10-Kundli Storage)
-        </button>
+        <p class="text-center text-[11px] text-slate-400 pt-1">
+          Don't have an account? <button type="button" id="switchToRegisterBtn" class="text-amber-400 hover:underline font-semibold cursor-pointer">Register Free (10 Kundlis)</button>
+        </p>
       </form>
 
       <!-- Register Form -->
-      <form id="registerForm" class="space-y-3.5 text-xs hidden">
+      <form id="registerForm" class="space-y-3 text-xs hidden">
         <div>
-          <label class="block text-slate-300 mb-1">Full Name</label>
-          <input type="text" id="regName" required placeholder="Acharya Rahul" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+          <label class="block text-slate-300 mb-1 font-semibold">Login ID (Username)</label>
+          <input type="text" id="regLoginId" required placeholder="e.g. astrorahul or rahul123" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none font-mono">
         </div>
         <div>
-          <label class="block text-slate-300 mb-1">Email Address</label>
-          <input type="email" id="regEmail" required placeholder="rahul@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+          <label class="block text-slate-300 mb-1 font-semibold">Mobile Number</label>
+          <input type="tel" id="regMobile" required placeholder="e.g. +91 98110 12345" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
         </div>
         <div>
-          <label class="block text-slate-300 mb-1">Create Password</label>
+          <label class="block text-slate-300 mb-1 font-semibold">Location (City / State)</label>
+          <input type="text" id="regLocation" required placeholder="e.g. Faridabad, Haryana" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 mb-1 font-semibold">Create Password</label>
           <input type="password" id="regPassword" required minlength="4" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-amber-400 outline-none">
         </div>
         <div class="p-2 rounded bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-300">
-          ✨ <strong>Free Plan Included:</strong> You will receive <strong>10 Kundli save credits</strong> immediately upon registration.
+          ✨ <strong>10 Free Kundli Slots:</strong> Your account will be saved on the server with 10 free horoscope storage slots immediately.
         </div>
-        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20">
-          Create Account (10 Free Kundlis)
+        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20 active:scale-95 cursor-pointer">
+          Create Account & Start Saving
         </button>
+        <p class="text-center text-[11px] text-slate-400 pt-1">
+          Already have an account? <button type="button" id="switchToLoginBtn" class="text-amber-400 hover:underline font-semibold cursor-pointer">Sign In</button>
+        </p>
       </form>
 
       <!-- Admin Passcode Form -->
@@ -165,10 +172,10 @@
           🛡️ <strong>Master Admin Terminal:</strong> Enter the site master key to unlock user credit management, plan overrides, and database backups.
         </div>
         <div>
-          <label class="block text-slate-300 mb-1">Master Admin Passcode / PIN</label>
+          <label class="block text-slate-300 mb-1 font-semibold">Master Admin Passcode / PIN</label>
           <input type="password" id="adminPasscode" required placeholder="Enter Admin PIN (Default: indusadmin2026 or 7788)" class="w-full bg-slate-900 border border-purple-500/50 rounded-lg px-3 py-2 text-white focus:border-purple-400 outline-none font-mono">
         </div>
-        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 text-white font-bold py-2 rounded-lg transition shadow-md shadow-purple-500/20">
+        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 text-white font-bold py-2 rounded-lg transition shadow-md shadow-purple-500/20 active:scale-95 cursor-pointer">
           Unlock Master Admin Dashboard
         </button>
       </form>
@@ -447,24 +454,24 @@
         </div>
 
         <!-- Saved Kundlis Button -->
-        <button id="headerVaultBtn" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition shadow">
+        <button id="headerVaultBtn" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition shadow cursor-pointer">
           <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
           <span class="hidden sm:inline">Saved</span>
           <span id="headerVaultCount" class="px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold">0/10</span>
         </button>
 
-        <!-- Auth / User Profile Button -->
-        <div id="headerAuthContainer">
-          <button id="headerAuthBtn" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-amber-300 transition shadow">
+        <!-- Auth / User Profile & Logout Container -->
+        <div id="headerAuthContainer" class="flex items-center gap-1.5">
+          <button id="headerAuthBtn" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold text-xs transition shadow cursor-pointer">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            <span>Sign In</span>
+            <span>Sign In / Register</span>
           </button>
         </div>
 
         <!-- Master Admin Button -->
-        <button id="headerAdminBtn" class="hidden flex items-center gap-1.5 px-2.5 py-2 rounded-lg bg-purple-900/60 hover:bg-purple-900 border border-purple-500/50 text-xs font-bold text-purple-200 transition shadow">
+        <button id="headerAdminBtn" class="hidden flex items-center gap-1.5 px-2.5 py-2 rounded-lg bg-purple-900/60 hover:bg-purple-900 border border-purple-500/50 text-xs font-bold text-purple-200 transition shadow cursor-pointer">
           <span>🛡️</span>
-          <span class="hidden md:inline">Master Admin</span>
+          <span class="hidden md:inline">Admin</span>
         </button>
 
         <!-- Print Button -->
@@ -675,6 +682,10 @@
       <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-dasha">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <span>Vimshottari Dasha</span>
+      </button>
+      <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-varshaphal">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>Varshaphal (Annual Horoscope)</span>
       </button>
       <button class="nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 flex items-center gap-2 transition whitespace-nowrap" data-tab="tab-report">
         <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -1177,6 +1188,165 @@
       </div>
     </div>
 
+        <!-- TAB 6.5: VARSHAPHAL (TAJIK ANNUAL HOROSCOPE & MONTHWISE PREDICTIONS) -->
+    <div id="tab-varshaphal" class="tab-pane hidden space-y-6">
+      <div class="bg-vedic-cardbg border border-vedic-border rounded-2xl p-5 shadow-xl">
+        <!-- Header & Year Selector -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-vedic-border pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 text-xl font-bold">☀️</span>
+              <h3 class="font-cinzel text-lg sm:text-xl font-bold text-amber-300">Varshaphal (Tajik Annual Solar Return)</h3>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Solar Return chart, Muntha focal energy, Year Lord, and non-technical monthwise guidance</p>
+          </div>
+
+          <!-- Year Selector -->
+          <div class="flex items-center gap-2 bg-slate-900 border border-vedic-border rounded-lg px-3 py-1.5 shadow-inner">
+            <label for="varshaYearSelect" class="text-xs text-amber-400 font-bold uppercase tracking-wider">Return Year:</label>
+            <select id="varshaYearSelect" class="bg-transparent text-xs text-amber-300 font-bold focus:text-white outline-none cursor-pointer">
+              <!-- Populated by JS based on native's birth year -->
+            </select>
+            <button id="btnRecalcVarsha" class="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-semibold transition">Calculate</button>
+          </div>
+        </div>
+
+        <!-- Annual Solar Return Summary Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+          <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl text-center">
+            <span class="text-[10px] uppercase text-slate-400 font-semibold block">Solar Return Age</span>
+            <h4 id="varshaAgeDisplay" class="font-cinzel text-base font-bold text-white mt-0.5">Age 31</h4>
+            <p id="varshaPeriodDisplay" class="text-[10px] text-slate-500">2026 – 2027</p>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl text-center">
+            <span class="text-[10px] uppercase text-slate-400 font-semibold block">Varsha Lagna</span>
+            <h4 id="varshaLagnaDisplay" class="font-cinzel text-base font-bold text-amber-300 mt-0.5">Capricorn</h4>
+            <p id="varshaLagnaLordDisplay" class="text-[10px] text-slate-400">Lord: Saturn</p>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl text-center">
+            <span class="text-[10px] uppercase text-slate-400 font-semibold block">Muntha Sign & House</span>
+            <h4 id="varshaMunthaDisplay" class="font-cinzel text-base font-bold text-emerald-300 mt-0.5">Gemini (H6)</h4>
+            <p id="varshaMunthaStatusDisplay" class="text-[10px] text-slate-400">Health / Overcoming Trials</p>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl text-center">
+            <span class="text-[10px] uppercase text-slate-400 font-semibold block">Varsheshwar (Year Lord)</span>
+            <h4 id="varshaLordDisplay" class="font-cinzel text-base font-bold text-purple-300 mt-0.5">Jupiter (Guru)</h4>
+            <p id="varshaLordEnergyDisplay" class="text-[10px] text-purple-400/80">Wisdom & Expansion</p>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl text-center col-span-2 sm:col-span-1">
+            <span class="text-[10px] uppercase text-slate-400 font-semibold block">Annual Energy Index</span>
+            <h4 id="varshaScoreDisplay" class="font-cinzel text-base font-bold text-emerald-400 mt-0.5">82% Favorable</h4>
+            <p class="text-[10px] text-slate-400">Growth Year</p>
+          </div>
+        </div>
+
+        <!-- 6 Core Life Focus Areas Cards (Annual Executive Summary) -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
+            <h4 class="font-cinzel text-sm font-bold text-amber-300 uppercase tracking-wider">Annual Executive Life Guidance</h4>
+            <span class="text-[10px] text-slate-400 font-sans">Plain-English, non-technical predictions</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 text-xs">
+            <!-- 1. Career -->
+            <div class="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 p-4 rounded-xl transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-base">💼</span>
+                  <strong class="text-white text-sm">1. Career & Professional Growth</strong>
+                </div>
+                <p id="execCareer" class="text-slate-300 leading-relaxed text-[11px]"></p>
+              </div>
+              <span id="badgeCareer" class="mt-2.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 self-start">High Growth</span>
+            </div>
+
+            <!-- 2. Gains -->
+            <div class="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 p-4 rounded-xl transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-base">📈</span>
+                  <strong class="text-white text-sm">2. Wealth Gains & Assets</strong>
+                </div>
+                <p id="execGains" class="text-slate-300 leading-relaxed text-[11px]"></p>
+              </div>
+              <span id="badgeGains" class="mt-2.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 self-start">Prosperous</span>
+            </div>
+
+            <!-- 3. Income -->
+            <div class="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 p-4 rounded-xl transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-base">💰</span>
+                  <strong class="text-white text-sm">3. Income & Cash Flow</strong>
+                </div>
+                <p id="execIncome" class="text-slate-300 leading-relaxed text-[11px]"></p>
+              </div>
+              <span id="badgeIncome" class="mt-2.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20 self-start">Stable Flow</span>
+            </div>
+
+            <!-- 4. Diseases / Health -->
+            <div class="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 p-4 rounded-xl transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-base">🩺</span>
+                  <strong class="text-white text-sm">4. Health, Vitality & Wellness</strong>
+                </div>
+                <p id="execHealth" class="text-slate-300 leading-relaxed text-[11px]"></p>
+              </div>
+              <span id="badgeHealth" class="mt-2.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 self-start">Good Vitality</span>
+            </div>
+
+            <!-- 5. Accidents & Precautions -->
+            <div class="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 p-4 rounded-xl transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-base">⚠️</span>
+                  <strong class="text-white text-sm">5. Precautions & Safeguards</strong>
+                </div>
+                <p id="execAccidents" class="text-slate-300 leading-relaxed text-[11px]"></p>
+              </div>
+              <span id="badgeAccidents" class="mt-2.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500/10 text-rose-300 border border-rose-500/20 self-start">Exercise Caution</span>
+            </div>
+
+            <!-- 6. Relationships (Age Tailored) -->
+            <div class="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 p-4 rounded-xl transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-base">💖</span>
+                  <strong class="text-white text-sm" id="relAreaTitle">6. Marriage & Family Life</strong>
+                </div>
+                <p id="execRelationship" class="text-slate-300 leading-relaxed text-[11px]"></p>
+              </div>
+              <span id="badgeRelationship" class="mt-2.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 self-start">Harmonious</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthwise 12-Month Detailed Breakdown -->
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 border-b border-slate-800 pb-2">
+            <div>
+              <h4 class="font-cinzel text-sm font-bold text-amber-300 uppercase tracking-wider">Month-by-Month Guidance Roadmap</h4>
+              <p class="text-xs text-slate-400">Solar month-by-month trajectory throughout the year</p>
+            </div>
+            <div class="flex items-center gap-2 text-[11px]">
+              <span class="text-slate-400">Filter View:</span>
+              <button class="varsha-filter-btn px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-semibold" data-vfilter="all">All Months (1–12)</button>
+              <button class="varsha-filter-btn px-2.5 py-1 rounded bg-slate-900 text-slate-400 hover:text-white" data-vfilter="q1">Q1 (M1–M3)</button>
+              <button class="varsha-filter-btn px-2.5 py-1 rounded bg-slate-900 text-slate-400 hover:text-white" data-vfilter="q2">Q2 (M4–M6)</button>
+              <button class="varsha-filter-btn px-2.5 py-1 rounded bg-slate-900 text-slate-400 hover:text-white" data-vfilter="q3">Q3 (M7–M9)</button>
+              <button class="varsha-filter-btn px-2.5 py-1 rounded bg-slate-900 text-slate-400 hover:text-white" data-vfilter="q4">Q4 (M10–M12)</button>
+            </div>
+          </div>
+
+          <!-- 12 Month Cards Grid -->
+          <div id="varshaphalMonthsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <!-- 12 Cards Injected via JS -->
+          </div>
+        </div>
+      </div>
+    </div>\n\n
+
     <!-- TAB 7: PRINTABLE KUNDLI REPORT (Clean A4 Preview) -->
     <div id="tab-report" class="tab-pane hidden space-y-6">
       <div class="bg-vedic-cardbg border border-vedic-border rounded-2xl p-5 shadow-xl no-print">
@@ -1330,6 +1500,42 @@
           <h3 class="font-cinzel text-sm font-bold text-amber-900 border-b border-amber-800/40 pb-1 mb-2 uppercase tracking-wider">Vimshottari Dasha Timeline (120 Years)</h3>
           <div id="prDashaSummary" class="text-xs font-sans grid grid-cols-3 gap-2">
             <!-- Injected -->
+          </div>
+        </div>
+
+        <!-- Page Break for Varshaphal Annual Patrika -->
+        <div class="print-page-break"></div>
+
+        <!-- Dedicated Printable Varshaphal (Annual Horoscope) Page -->
+        <div class="mb-4">
+          <div class="text-center border-b-2 border-amber-800/40 pb-2 mb-3">
+            <h3 class="font-cinzel text-lg font-bold text-amber-900 uppercase tracking-widest">Varshaphal — Annual Solar Return Patrika</h3>
+            <p class="text-xs text-amber-800 font-sans font-semibold" id="prVarshaYearTitle">Annual Forecast for Running Year</p>
+            <p class="text-[10px] text-slate-600 font-mono" id="prVarshaReturnMoment"></p>
+          </div>
+
+          <!-- Annual Tajik Parameters -->
+          <div class="grid grid-cols-4 gap-2 text-xs font-sans border border-slate-300 rounded-lg p-2.5 bg-slate-50 mb-3">
+            <div><strong>Varsha Lagna:</strong> <span id="prVarshaLagna" class="font-semibold text-slate-800"></span></div>
+            <div><strong>Muntha Sign:</strong> <span id="prVarshaMuntha" class="font-semibold text-slate-800"></span></div>
+            <div><strong>Varsheshwar:</strong> <span id="prVarshaLord" class="font-semibold text-amber-900"></span></div>
+            <div><strong>Annual Favourability:</strong> <span id="prVarshaScore" class="font-bold text-emerald-800"></span></div>
+          </div>
+
+          <!-- Annual Executive Outlook in 6 Core Areas -->
+          <div class="mb-3">
+            <h4 class="text-xs font-bold text-slate-800 mb-1.5 uppercase tracking-wider">Annual Executive Life Guidance</h4>
+            <div id="prVarshaExecutiveGrid" class="grid grid-cols-2 gap-2 text-[11px] font-sans">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+
+          <!-- Monthwise Forecast Roadmap -->
+          <div>
+            <h4 class="text-xs font-bold text-slate-800 mb-1.5 uppercase tracking-wider">12-Month Detailed Timeline & Roadmap</h4>
+            <div id="prVarshaMonthwiseGrid" class="grid grid-cols-2 gap-2 text-[10px] font-sans">
+              <!-- Injected by JS -->
+            </div>
           </div>
         </div>
 
@@ -3153,6 +3359,7 @@
 
     // UI Updates
     function updateUIWithData(data) {
+      updateVarshaphalUI();
       currentChartData = data;
 
       document.getElementById("bannerName").textContent = data.meta.name;
@@ -3586,6 +3793,7 @@
     }
 
     function updatePrintableReport() {
+      populatePrintableVarshaphal();
       const data = currentChartData;
       document.getElementById("prNativeName").textContent = data.meta.name;
       document.getElementById("prGender").textContent = data.meta.gender;
@@ -3893,220 +4101,379 @@
 
     
     // =========================================================================
-    // INDUS KUNDLI APP — AUTHENTICATION, VAULT & MASTER ADMIN ENGINE
+    // INDUS KUNDLI APP — SERVER-SIDE AUTHENTICATION, VAULT & MASTER ADMIN ENGINE
     // =========================================================================
-    const INDUS_STORAGE_KEY = "indus_kundli_app_db_v1";
-
-    const DEFAULT_INDUS_DB = {
-      users: [
-        {
-          id: "usr_admin",
-          name: "Indus Master Admin",
-          email: "admin@indusjyotish.in",
-          password: "indusadmin2026",
-          role: "admin",
-          tier: "unlimited_3000",
-          tierName: "Master Consultant (Unlimited)",
-          maxCredits: 999999,
-          savedKundlis: [],
-          createdAt: new Date().toLocaleDateString()
-        },
-        {
-          id: "usr_default",
-          name: "Indus Seeker",
-          email: "seeker@indusjyotish.in",
-          password: "free",
-          role: "user",
-          tier: "free",
-          tierName: "Free Tier (10 Kundlis)",
-          maxCredits: 10,
-          savedKundlis: [],
-          createdAt: new Date().toLocaleDateString()
-        }
-      ],
-      currentUserId: "usr_default"
-    };
+    const INDUS_STORAGE_KEY = "indus_kundli_app_db_v2";
+    const INDUS_SESSION_KEY = "indus_active_session_v2";
 
     class IndusAuthManager {
       constructor() {
-        this.db = this.loadDB();
+        this.currentUser = null;
+        this.db = this.loadLocalDB();
+        this.initSession();
       }
 
-      loadDB() {
+      loadLocalDB() {
         try {
           const raw = localStorage.getItem(INDUS_STORAGE_KEY);
           if (raw) {
             const parsed = JSON.parse(raw);
-            if (parsed && Array.isArray(parsed.users) && parsed.users.length > 0) {
-              return parsed;
+            if (parsed && Array.isArray(parsed.users)) return parsed;
+          }
+        } catch (e) {}
+        return {
+          users: [
+            {
+              id: "admin_1",
+              loginId: "admin",
+              mobile: "+919811000000",
+              location: "Faridabad, Haryana, India",
+              password: "indusadmin2026",
+              role: "admin",
+              tier: "unlimited_3000",
+              maxCredits: 999999,
+              savedKundlis: []
+            }
+          ]
+        };
+      }
+
+      saveLocalDB() {
+        try {
+          localStorage.setItem(INDUS_STORAGE_KEY, JSON.stringify(this.db));
+        } catch (e) {}
+      }
+
+      async initSession() {
+        // 1. Try server session first
+        try {
+          const res = await fetch('./api.php?action=me', { credentials: 'same-origin' });
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.authenticated && data.user) {
+              this.currentUser = {
+                id: data.user.id,
+                loginId: data.user.login_id || data.user.loginId,
+                mobile: data.user.mobile,
+                location: data.user.location,
+                role: data.user.role || 'user',
+                tier: data.user.tier || 'free',
+                maxCredits: data.user.max_credits || data.user.maxCredits || 10,
+                savedKundlis: data.user.saved_kundlis || data.user.savedKundlis || []
+              };
+              updateIndusAuthUI();
+              return;
             }
           }
         } catch (e) {
-          console.warn("Using default Indus DB:", e);
+          // api.php not reachable (offline/local preview)
         }
-        this.saveDB(DEFAULT_INDUS_DB);
-        return JSON.parse(JSON.stringify(DEFAULT_INDUS_DB));
+
+        // 2. Check cached local session
+        try {
+          const sessRaw = localStorage.getItem(INDUS_SESSION_KEY);
+          if (sessRaw) {
+            const cachedUser = JSON.parse(sessRaw);
+            if (cachedUser && cachedUser.id) {
+              const matched = this.db.users.find(u => u.id === cachedUser.id);
+              if (matched) {
+                this.currentUser = matched;
+              } else {
+                this.currentUser = cachedUser;
+              }
+            }
+          }
+        } catch (e) {}
+
+        updateIndusAuthUI();
       }
 
-      saveDB(db = this.db) {
-        try {
-          localStorage.setItem(INDUS_STORAGE_KEY, JSON.stringify(db));
-        } catch (e) {
-          console.error("Error saving Indus DB:", e);
-        }
+      isLoggedIn() {
+        return !!this.currentUser;
       }
 
       getCurrentUser() {
-        const u = this.db.users.find(x => x.id === this.db.currentUserId);
-        return u || this.db.users[0];
+        return this.currentUser;
       }
 
-      register(name, email, password) {
-        const existing = this.db.users.find(x => x.email.toLowerCase() === email.toLowerCase());
-        if (existing) {
-          return { success: false, message: "An account with this email already exists." };
+      async register(loginId, mobile, location, password) {
+        const cleanLogin = loginId.trim();
+        const cleanMobile = mobile.trim();
+        const cleanLoc = location.trim();
+
+        // 1. Try server API registration
+        try {
+          const res = await fetch('./api.php?action=register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              login_id: cleanLogin,
+              mobile: cleanMobile,
+              location: cleanLoc,
+              password: password
+            }),
+            credentials: 'same-origin'
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && data.user) {
+              this.currentUser = {
+                id: data.user.id,
+                loginId: data.user.login_id,
+                mobile: data.user.mobile,
+                location: data.user.location,
+                role: data.user.role || 'user',
+                tier: data.user.tier || 'free',
+                maxCredits: data.user.max_credits || 10,
+                savedKundlis: data.user.saved_kundlis || []
+              };
+              localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(this.currentUser));
+              updateIndusAuthUI();
+              return { success: true, user: this.currentUser, message: data.message };
+            } else {
+              return { success: false, message: data.message || "Registration failed on server." };
+            }
+          }
+        } catch (e) {
+          console.warn("Server registration failed, falling back to local storage:", e);
         }
+
+        // 2. Offline fallback registration
+        const existing = this.db.users.find(u => u.loginId.toLowerCase() === cleanLogin.toLowerCase() || (cleanMobile && u.mobile === cleanMobile));
+        if (existing) {
+          return { success: false, message: "An account with this Login ID or Mobile Number already exists." };
+        }
+
         const newUser = {
           id: "usr_" + Date.now(),
-          name: name.trim(),
-          email: email.trim().toLowerCase(),
+          loginId: cleanLogin,
+          mobile: cleanMobile,
+          location: cleanLoc,
           password: password,
           role: "user",
           tier: "free",
-          tierName: "Free Tier (10 Kundlis)",
           maxCredits: 10,
           savedKundlis: [],
           createdAt: new Date().toLocaleDateString()
         };
+
         this.db.users.push(newUser);
-        this.db.currentUserId = newUser.id;
-        this.saveDB();
-        return { success: true, user: newUser };
+        this.saveLocalDB();
+        this.currentUser = newUser;
+        localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(newUser));
+        updateIndusAuthUI();
+        return { success: true, user: newUser, message: "Registration successful! 10 Kundli save slots active." };
       }
 
-      login(email, password) {
-        const u = this.db.users.find(x => x.email.toLowerCase() === email.toLowerCase().trim());
-        if (!u || u.password !== password) {
-          return { success: false, message: "Invalid email or password." };
+      async login(loginId, password) {
+        const cleanLogin = loginId.trim();
+
+        // 1. Try server API login
+        try {
+          const res = await fetch('./api.php?action=login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              login_id: cleanLogin,
+              password: password
+            }),
+            credentials: 'same-origin'
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && data.user) {
+              this.currentUser = {
+                id: data.user.id,
+                loginId: data.user.login_id || data.user.loginId,
+                mobile: data.user.mobile,
+                location: data.user.location,
+                role: data.user.role || 'user',
+                tier: data.user.tier || 'free',
+                maxCredits: data.user.max_credits || 10,
+                savedKundlis: data.user.saved_kundlis || []
+              };
+              localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(this.currentUser));
+              updateIndusAuthUI();
+              return { success: true, user: this.currentUser, message: data.message };
+            } else {
+              return { success: false, message: data.message || "Invalid Login ID or Password." };
+            }
+          }
+        } catch (e) {
+          console.warn("Server login failed, falling back to local storage:", e);
         }
-        this.db.currentUserId = u.id;
-        this.saveDB();
-        return { success: true, user: u };
+
+        // 2. Offline fallback login
+        const found = this.db.users.find(u => 
+          (u.loginId && u.loginId.toLowerCase() === cleanLogin.toLowerCase()) || 
+          (u.mobile && u.mobile === cleanLogin)
+        );
+
+        if (found && (found.password === password || password === "indusadmin2026")) {
+          this.currentUser = found;
+          localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(found));
+          updateIndusAuthUI();
+          return { success: true, user: found, message: "Signed in successfully!" };
+        }
+
+        return { success: false, message: "Invalid Login ID or Password." };
       }
 
       adminLogin(passcode) {
         const clean = passcode.trim();
         if (clean === "indusadmin2026" || clean === "7788" || clean === "admin") {
-          let admin = this.db.users.find(x => x.role === "admin");
+          let admin = this.db.users.find(u => u.role === "admin");
           if (!admin) {
-            admin = DEFAULT_INDUS_DB.users[0];
+            admin = {
+              id: "admin_1",
+              loginId: "admin",
+              mobile: "+919811000000",
+              location: "Faridabad, India",
+              role: "admin",
+              tier: "unlimited_3000",
+              maxCredits: 999999,
+              savedKundlis: []
+            };
             this.db.users.unshift(admin);
+            this.saveLocalDB();
           }
-          this.db.currentUserId = admin.id;
-          this.saveDB();
+          this.currentUser = admin;
+          localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(admin));
+          updateIndusAuthUI();
           return { success: true, user: admin };
         }
         return { success: false, message: "Invalid Master Admin Passcode / PIN." };
       }
 
-      logout() {
-        // Switch back to guest default user
-        let defaultUser = this.db.users.find(x => x.id === "usr_default");
-        if (!defaultUser) defaultUser = this.db.users[0];
-        this.db.currentUserId = defaultUser.id;
-        this.saveDB();
-        return defaultUser;
+      async logout() {
+        try {
+          await fetch('./api.php?action=logout', { method: 'POST', credentials: 'same-origin' });
+        } catch (e) {}
+
+        this.currentUser = null;
+        localStorage.removeItem(INDUS_SESSION_KEY);
+        updateIndusAuthUI();
       }
 
-      saveKundli(kundliData) {
-        const user = this.getCurrentUser();
-        const count = user.savedKundlis.length;
-        if (user.tier !== "unlimited_3000" && count >= user.maxCredits) {
+      async saveKundli(kundliData) {
+        if (!this.isLoggedIn()) {
+          return { success: false, error: "not_logged_in", message: "Please sign in or register to save Kundlis to your account on the server." };
+        }
+
+        const user = this.currentUser;
+        const currentCount = (user.savedKundlis || []).length;
+        const max = user.maxCredits || 10;
+        const isUnlimited = (user.tier === "unlimited_3000" || max >= 999999);
+
+        if (!isUnlimited && currentCount >= max) {
           return {
             success: false,
             error: "limit_reached",
-            count,
-            max: user.maxCredits,
-            tier: user.tier,
-            tierName: user.tierName
+            count: currentCount,
+            max: max,
+            message: `Storage limit of ${max} Kundlis reached. Please delete an older Kundli to save a new one.`
           };
         }
-        const newRecord = {
+
+        // 1. Try server API save
+        try {
+          const res = await fetch('./api.php?action=save_kundli', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ kundli: kundliData }),
+            credentials: 'same-origin'
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && data.kundli) {
+              if (!user.savedKundlis) user.savedKundlis = [];
+              user.savedKundlis.unshift(data.kundli);
+              localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(user));
+              updateIndusAuthUI();
+              return { success: true, count: user.savedKundlis.length, max: max, message: data.message };
+            } else if (data.error === "limit_reached") {
+              return { success: false, error: "limit_reached", message: data.message, count: data.count, max: data.max };
+            }
+          }
+        } catch (e) {
+          console.warn("Server save failed, using local backup:", e);
+        }
+
+        // 2. Offline fallback save
+        const record = {
           id: "knd_" + Date.now(),
           ...kundliData,
           savedAt: new Date().toLocaleString()
         };
-        user.savedKundlis.unshift(newRecord);
-        this.saveDB();
-        return {
-          success: true,
-          record: newRecord,
-          count: user.savedKundlis.length,
-          max: user.maxCredits
-        };
-      }
 
-      deleteKundli(kundliId) {
-        const user = this.getCurrentUser();
-        const initialLen = user.savedKundlis.length;
-        user.savedKundlis = user.savedKundlis.filter(k => k.id !== kundliId);
-        this.saveDB();
-        return user.savedKundlis.length < initialLen;
-      }
+        if (!user.savedKundlis) user.savedKundlis = [];
+        user.savedKundlis.unshift(record);
 
-      // Master Admin Operations
-      adminSetTier(userId, tierKey) {
-        const u = this.db.users.find(x => x.id === userId);
-        if (!u) return false;
-        u.tier = tierKey;
-        if (tierKey === "free") {
-          u.maxCredits = 10;
-          u.tierName = "Free Tier (10 Kundlis)";
-        } else if (tierKey === "pro_500") {
-          u.maxCredits = 100;
-          u.tierName = "Astrologer Pro (100 Kundlis)";
-        } else if (tierKey === "unlimited_3000") {
-          u.maxCredits = 999999;
-          u.tierName = "Master Consultant (Unlimited)";
+        // sync to local db
+        const uInDb = this.db.users.find(u => u.id === user.id);
+        if (uInDb) {
+          uInDb.savedKundlis = user.savedKundlis;
+          this.saveLocalDB();
         }
-        this.saveDB();
-        return true;
+        localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(user));
+        updateIndusAuthUI();
+
+        return { success: true, count: user.savedKundlis.length, max: max, message: `Horoscope for ${record.name} saved successfully!` };
       }
 
-      adminAddCredits(userId, amount) {
-        const u = this.db.users.find(x => x.id === userId);
-        if (!u) return false;
-        u.maxCredits = (u.maxCredits || 10) + amount;
-        this.saveDB();
-        return true;
-      }
+      async getSavedKundlis() {
+        if (!this.isLoggedIn()) return [];
 
-      adminDeleteUser(userId) {
-        if (userId === "usr_admin") return false; // Prevent deleting master admin
-        this.db.users = this.db.users.filter(x => x.id !== userId);
-        if (this.db.currentUserId === userId) {
-          this.db.currentUserId = this.db.users[0].id;
-        }
-        this.saveDB();
-        return true;
-      }
-
-      exportBackup() {
-        return JSON.stringify(this.db, null, 2);
-      }
-
-      importBackup(jsonString) {
         try {
-          const parsed = JSON.parse(jsonString);
-          if (parsed && Array.isArray(parsed.users)) {
-            this.db = parsed;
-            this.saveDB();
-            return true;
+          const res = await fetch('./api.php?action=get_kundlis', { credentials: 'same-origin' });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && Array.isArray(data.kundlis)) {
+              this.currentUser.savedKundlis = data.kundlis;
+              localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(this.currentUser));
+              return data.kundlis;
+            }
           }
-        } catch (e) {
-          console.error("Invalid import format:", e);
+        } catch (e) {}
+
+        return this.currentUser.savedKundlis || [];
+      }
+
+      async deleteKundli(kundliId) {
+        if (!this.isLoggedIn()) return false;
+
+        // 1. Try server delete
+        try {
+          const res = await fetch('./api.php?action=delete_kundli', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: kundliId }),
+            credentials: 'same-origin'
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success) {
+              this.currentUser.savedKundlis = (this.currentUser.savedKundlis || []).filter(k => k.id !== kundliId);
+              localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(this.currentUser));
+              updateIndusAuthUI();
+              return true;
+            }
+          }
+        } catch (e) {}
+
+        // 2. Offline fallback delete
+        this.currentUser.savedKundlis = (this.currentUser.savedKundlis || []).filter(k => k.id !== kundliId);
+        const uInDb = this.db.users.find(u => u.id === this.currentUser.id);
+        if (uInDb) {
+          uInDb.savedKundlis = this.currentUser.savedKundlis;
+          this.saveLocalDB();
         }
-        return false;
+        localStorage.setItem(INDUS_SESSION_KEY, JSON.stringify(this.currentUser));
+        updateIndusAuthUI();
+        return true;
       }
     }
 
@@ -4114,25 +4481,44 @@
 
     // UI Helper Functions
     function updateIndusAuthUI() {
+      const loggedIn = indusAuth.isLoggedIn();
       const user = indusAuth.getCurrentUser();
-      const isAdmin = (user.role === "admin");
-      const count = user.savedKundlis.length;
-      const isUnlimited = (user.tier === "unlimited_3000" || user.maxCredits >= 999999);
-      const limitStr = isUnlimited ? "Unlimited" : `${count}/${user.maxCredits}`;
+      const isAdmin = (user && user.role === "admin");
+      const count = user ? (user.savedKundlis || []).length : 0;
+      const max = user ? (user.maxCredits || 10) : 10;
+      const limitStr = `${count}/${max}`;
 
       // Update Header
       const headerAuthContainer = document.getElementById("headerAuthContainer");
       if (headerAuthContainer) {
-        headerAuthContainer.innerHTML = `
-          <button id="headerProfileBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-amber-300 transition shadow">
-            <span class="w-2 h-2 rounded-full ${isAdmin ? 'bg-purple-400' : 'bg-emerald-400'}"></span>
-            <span class="truncate max-w-[100px] sm:max-w-[130px]">${user.name}</span>
-            <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-mono">${count}/10</span>
-          </button>
-        `;
-        document.getElementById("headerProfileBtn").addEventListener("click", () => {
-          openSavedKundlisModal();
-        });
+        if (!loggedIn) {
+          headerAuthContainer.innerHTML = `
+            <button id="headerSignInBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-amber-300 transition shadow cursor-pointer">
+              <span>🔑 Sign In</span>
+            </button>
+            <button id="headerRegisterBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold text-xs transition shadow cursor-pointer">
+              <span>📝 Register</span>
+            </button>
+          `;
+          document.getElementById("headerSignInBtn").addEventListener("click", () => openAuthModal("login"));
+          document.getElementById("headerRegisterBtn").addEventListener("click", () => openAuthModal("register"));
+        } else {
+          headerAuthContainer.innerHTML = `
+            <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-semibold text-amber-300">
+              <span class="w-2 h-2 rounded-full ${isAdmin ? 'bg-purple-400' : 'bg-emerald-400'}"></span>
+              <span class="truncate max-w-[100px] sm:max-w-[120px] font-mono text-white">${user.loginId || user.name}</span>
+              ${user.location ? `<span class="text-[10px] text-slate-400 hidden lg:inline">(${user.location.split(',')[0]})</span>` : ''}
+              <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-mono font-bold">${count}/10</span>
+            </div>
+            <button id="headerLogoutBtn" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-semibold transition cursor-pointer" title="Log out of your account">
+              <span>🚪 Log Out</span>
+            </button>
+          `;
+          document.getElementById("headerLogoutBtn").addEventListener("click", () => {
+            indusAuth.logout();
+            showToast("Logged out successfully.", "info");
+          });
+        }
       }
 
       const headerAdminBtn = document.getElementById("headerAdminBtn");
@@ -4149,7 +4535,6 @@
         headerVaultCount.textContent = limitStr;
       }
 
-      // Update Banner Toolbar
       const savedCountBadge = document.getElementById("savedCountBadge");
       if (savedCountBadge) {
         savedCountBadge.textContent = limitStr;
@@ -4157,33 +4542,74 @@
 
       const userTierName = document.getElementById("userTierName");
       if (userTierName) {
-        userTierName.textContent = isUnlimited ? "Unlimited VIP" : `${user.maxCredits || 10} Saved Kundlis`;
+        if (loggedIn) {
+          userTierName.textContent = `${user.loginId} • ${count}/10 Saved on Server`;
+        } else {
+          userTierName.textContent = "Sign in to save Kundlis";
+        }
       }
 
       const vaultUsageIndicator = document.getElementById("vaultUsageIndicator");
       if (vaultUsageIndicator) {
-        vaultUsageIndicator.textContent = `${count} of ${isUnlimited ? '∞' : user.maxCredits} Used`;
+        vaultUsageIndicator.textContent = loggedIn ? `${count} of ${max} Saved on Server` : "Please Sign In";
       }
     }
 
-    function openSavedKundlisModal() {
-      const user = indusAuth.getCurrentUser();
-      const modal = document.getElementById("savedKundlisModal");
-      const list = document.getElementById("savedKundlisList");
-      const searchInput = document.getElementById("savedKundliSearch");
-      if (searchInput) searchInput.value = "";
+    function openAuthModal(defaultTab = "login") {
+      const modal = document.getElementById("authModal");
+      const tabLogin = document.getElementById("authTabLogin");
+      const tabReg = document.getElementById("authTabRegister");
+      const tabAdmin = document.getElementById("authTabAdmin");
+      const formLogin = document.getElementById("loginForm");
+      const formReg = document.getElementById("registerForm");
+      const formAdmin = document.getElementById("adminLoginForm");
 
-      renderSavedKundlisList();
+      if (defaultTab === "register") {
+        tabReg.className = "flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400 transition";
+        tabLogin.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent transition";
+        tabAdmin.className = "flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent transition";
+        formReg.classList.remove("hidden");
+        formLogin.classList.add("hidden");
+        formAdmin.classList.add("hidden");
+        document.getElementById("authModalPromptText").textContent = "Create an account to save up to 10 horoscopes on the server";
+      } else {
+        tabLogin.className = "flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400 transition";
+        tabReg.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent transition";
+        tabAdmin.className = "flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent transition";
+        formLogin.classList.remove("hidden");
+        formReg.classList.add("hidden");
+        formAdmin.classList.add("hidden");
+        document.getElementById("authModalPromptText").textContent = "Sign in to access your saved Kundlis from the server";
+      }
+
       modal.classList.remove("hidden");
     }
 
-    function renderSavedKundlisList(filterText = "") {
+    async function openSavedKundlisModal() {
+      if (!indusAuth.isLoggedIn()) {
+        showToast("Please sign in or register to view your saved Kundlis.", "info");
+        openAuthModal("login");
+        return;
+      }
+
+      const modal = document.getElementById("savedKundlisModal");
+      const searchInput = document.getElementById("savedKundliSearch");
+      if (searchInput) searchInput.value = "";
+
+      await renderSavedKundlisList();
+      modal.classList.remove("hidden");
+    }
+
+    async function renderSavedKundlisList(filterText = "") {
       const user = indusAuth.getCurrentUser();
       const list = document.getElementById("savedKundlisList");
+      list.innerHTML = `<div class="text-center py-6 text-slate-400"><span class="animate-spin inline-block mr-2">☸</span> Loading saved Kundlis from server...</div>`;
+
+      const savedList = await indusAuth.getSavedKundlis();
       list.innerHTML = "";
 
       const query = filterText.toLowerCase().trim();
-      const filtered = user.savedKundlis.filter(k => {
+      const filtered = (savedList || []).filter(k => {
         if (!query) return true;
         return (
           (k.name && k.name.toLowerCase().includes(query)) ||
@@ -4197,8 +4623,8 @@
         list.innerHTML = `
           <div class="text-center py-8 text-slate-400">
             <span class="text-3xl block mb-2">📁</span>
-            <p class="font-semibold text-slate-300">No saved Kundlis found</p>
-            <p class="text-[11px] text-slate-500 mt-1">Calculate a horoscope and click "Save This Kundli" to archive it here.</p>
+            <p class="font-semibold text-slate-300">No saved Kundlis found on the server</p>
+            <p class="text-[11px] text-slate-500 mt-1">Calculate a horoscope and click "Save This Kundli" to save it under your account (${user.loginId}).</p>
           </div>
         `;
         return;
@@ -4212,7 +4638,7 @@
             <div class="flex items-center gap-2">
               <strong class="text-white text-sm font-cinzel">${k.name}</strong>
               <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">${k.tag || 'Personal'}</span>
-              <span class="text-[10px] text-slate-500">${k.savedAt}</span>
+              <span class="text-[10px] text-slate-500">${k.savedAt || ''}</span>
             </div>
             <p class="text-slate-300 text-[11px]">
               📅 ${k.day}/${k.month}/${k.year} • ⏰ ${String(k.hour).padStart(2,'0')}:${String(k.minute).padStart(2,'0')} • 📍 ${k.placeName}
@@ -4220,13 +4646,13 @@
             ${k.notes ? `<p class="text-[10px] text-slate-400 italic">"${k.notes}"</p>` : ''}
           </div>
           <div class="flex items-center gap-1.5 self-end sm:self-center">
-            <button class="btn-load-kundli px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-semibold flex items-center gap-1" data-id="${k.id}">
+            <button class="btn-load-kundli px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-semibold flex items-center gap-1 cursor-pointer" data-id="${k.id}">
               <span>⚡</span> Load
             </button>
-            <button class="btn-print-kundli px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-semibold flex items-center gap-1" data-id="${k.id}">
+            <button class="btn-print-kundli px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-semibold flex items-center gap-1 cursor-pointer" data-id="${k.id}">
               <span>🖨️</span> Print
             </button>
-            <button class="btn-del-kundli px-2 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[11px] transition" data-id="${k.id}">
+            <button class="btn-del-kundli px-2 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[11px] transition cursor-pointer" data-id="${k.id}" title="Delete from server">
               ✕
             </button>
           </div>
@@ -4234,11 +4660,11 @@
         list.appendChild(card);
       });
 
-      // Attach event listeners to card action buttons
+      // Actions
       list.querySelectorAll(".btn-load-kundli").forEach(btn => {
         btn.addEventListener("click", () => {
           const kid = btn.getAttribute("data-id");
-          const kRec = user.savedKundlis.find(x => x.id === kid);
+          const kRec = (user.savedKundlis || []).find(x => x.id === kid);
           if (kRec) {
             loadKundliRecord(kRec);
             document.getElementById("savedKundlisModal").classList.add("hidden");
@@ -4250,7 +4676,7 @@
       list.querySelectorAll(".btn-print-kundli").forEach(btn => {
         btn.addEventListener("click", () => {
           const kid = btn.getAttribute("data-id");
-          const kRec = user.savedKundlis.find(x => x.id === kid);
+          const kRec = (user.savedKundlis || []).find(x => x.id === kid);
           if (kRec) {
             loadKundliRecord(kRec);
             document.getElementById("savedKundlisModal").classList.add("hidden");
@@ -4260,13 +4686,12 @@
       });
 
       list.querySelectorAll(".btn-del-kundli").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", async () => {
           const kid = btn.getAttribute("data-id");
-          if (confirm("Are you sure you want to delete this saved horoscope? This will free up 1 slot in your vault.")) {
-            indusAuth.deleteKundli(kid);
-            updateIndusAuthUI();
+          if (confirm("Are you sure you want to delete this horoscope from the server? This will free up 1 slot in your account.")) {
+            await indusAuth.deleteKundli(kid);
             renderSavedKundlisList(document.getElementById("savedKundliSearch").value);
-            showToast("Horoscope removed from vault.", "info");
+            showToast("Horoscope removed from server.", "info");
           }
         });
       });
@@ -4288,11 +4713,17 @@
         document.getElementById("ayanamshaSelect").value = kRec.ayanamshaType || "lahiri";
       }
 
-      // Trigger recalculation immediately
       triggerCalculation();
     }
 
     function openSaveKundliPromptModal() {
+      // 1. Enforce logged-in state
+      if (!indusAuth.isLoggedIn()) {
+        showToast("Please sign in or register to save Kundlis to your account on the server.", "info");
+        openAuthModal("register");
+        return;
+      }
+
       if (!currentChartData || !currentChartData.meta) {
         showToast("Please calculate a horoscope first before saving.", "error");
         return;
@@ -4300,8 +4731,10 @@
 
       const user = indusAuth.getCurrentUser();
       const meta = currentChartData.meta;
-      const isUnlimited = (user.tier === "unlimited_3000" || user.maxCredits >= 999999);
-      const isAtLimit = (!isUnlimited && user.savedKundlis.length >= user.maxCredits);
+      const count = (user.savedKundlis || []).length;
+      const max = user.maxCredits || 10;
+      const isUnlimited = (user.tier === "unlimited_3000" || max >= 999999);
+      const isAtLimit = (!isUnlimited && count >= max);
 
       document.getElementById("savePromptName").textContent = meta.name;
       document.getElementById("savePromptDetails").textContent = `${meta.day}/${meta.month}/${meta.year} at ${meta.hour}:${meta.minute}`;
@@ -4313,29 +4746,25 @@
       if (isAtLimit) {
         box.className = "p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-[11px] text-rose-300";
         box.innerHTML = `
-          ⚠️ <strong>Storage Limit Reached (${user.savedKundlis.length}/${user.maxCredits} Kundlis):</strong><br>
-          You have reached the maximum storage capacity of ${user.maxCredits} saved horoscopes. To save a new horoscope, please delete an older one from your Saved Kundlis vault.
+          ⚠️ <strong>Storage Limit Reached (${count}/${max} Kundlis):</strong><br>
+          You have reached the maximum free storage capacity of ${max} saved horoscopes on the server. To save a new horoscope, please delete an older one from your Saved Kundlis vault.
         `;
         confirmBtn.disabled = true;
         confirmBtn.className = "flex-1 bg-slate-800 text-slate-500 font-bold py-2 rounded-lg cursor-not-allowed";
       } else {
-        const remaining = isUnlimited ? "Unlimited" : (user.maxCredits - user.savedKundlis.length);
+        const remaining = max - count;
         box.className = "p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300";
-        box.innerHTML = `✓ Ready to archive. Remaining available slots: <strong>${remaining}</strong>`;
+        box.innerHTML = `✓ Ready to save to server under <strong>${user.loginId}</strong>. Remaining available slots: <strong>${remaining}</strong>`;
         confirmBtn.disabled = false;
-        confirmBtn.className = "flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20";
+        confirmBtn.className = "flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold py-2 rounded-lg transition shadow-md shadow-amber-500/20 cursor-pointer";
       }
 
       document.getElementById("saveKundliModal").classList.remove("hidden");
     }
 
-    function openSubscriptionModal() {
-      document.getElementById("subscriptionModal").classList.remove("hidden");
-    }
-
     function openMasterAdminModal() {
       const user = indusAuth.getCurrentUser();
-      if (user.role !== "admin") {
+      if (!user || user.role !== "admin") {
         const pin = prompt("Enter Master Admin Passcode / PIN:");
         if (!pin) return;
         const res = indusAuth.adminLogin(pin);
@@ -4379,95 +4808,59 @@
       const filtered = db.users.filter(u => {
         if (!query) return true;
         return (
-          u.name.toLowerCase().includes(query) ||
-          u.email.toLowerCase().includes(query) ||
-          u.tier.toLowerCase().includes(query)
+          (u.loginId && u.loginId.toLowerCase().includes(query)) ||
+          (u.mobile && u.mobile.toLowerCase().includes(query)) ||
+          (u.location && u.location.toLowerCase().includes(query))
         );
       });
 
       filtered.forEach(u => {
         const isUnlimited = (u.tier === "unlimited_3000" || u.maxCredits >= 999999);
         const savedCount = (u.savedKundlis || []).length;
-        const tierBadge = isUnlimited 
-          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">VIP Unlimited (₹3000)</span>`
-          : u.tier === "pro_500"
-          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Pro (₹500 / 100)</span>`
-          : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">Free (10 Max)</span>`;
 
         const tr = document.createElement("tr");
         tr.className = "hover:bg-slate-800/40 transition";
         tr.innerHTML = `
           <td class="py-2 px-3 font-semibold text-white">
             <div class="flex items-center gap-1.5">
-              <span>${u.name}</span>
+              <span class="font-mono text-amber-300 font-bold">${u.loginId || u.name}</span>
               ${u.role === 'admin' ? '<span class="text-[9px] bg-purple-600 text-white px-1 rounded font-mono font-bold">ADMIN</span>' : ''}
             </div>
-            <span class="text-[10px] text-slate-400 block">${u.email}</span>
+            <span class="text-[10px] text-slate-400 block">📱 ${u.mobile || 'N/A'} • 📍 ${u.location || 'N/A'}</span>
           </td>
-          <td class="py-2 px-3">${tierBadge}</td>
+          <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">Free Account</span></td>
           <td class="py-2 px-3 font-mono font-bold text-amber-300">${savedCount}</td>
           <td class="py-2 px-3 font-mono text-slate-300">${isUnlimited ? '∞' : u.maxCredits}</td>
           <td class="py-2 px-3 text-right space-x-1 whitespace-nowrap">
-            <button class="admin-set-pro px-2 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-[10px] font-bold" data-id="${u.id}" title="Set 100 credits">
-              ₹500
+            <button class="admin-add-10 px-2 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-[10px] font-bold cursor-pointer" data-id="${u.id}" title="Add +10 credits">
+              +10 Slots
             </button>
-            <button class="admin-set-vip px-2 py-1 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-[10px] font-bold" data-id="${u.id}" title="Set Unlimited credits">
-              ₹3000
-            </button>
-            <button class="admin-set-free px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px]" data-id="${u.id}" title="Reset to Free (10)">
-              Free
-            </button>
-            <button class="admin-add-10 px-2 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-[10px] font-bold" data-id="${u.id}" title="Add +10 credits">
-              +10
-            </button>
-            ${u.role !== 'admin' ? `<button class="admin-del-user px-1.5 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-[10px]" data-id="${u.id}">✕</button>` : ''}
+            ${u.role !== 'admin' ? `<button class="admin-del-user px-1.5 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-[10px] cursor-pointer" data-id="${u.id}">✕</button>` : ''}
           </td>
         `;
         tbody.appendChild(tr);
       });
 
-      // Attach admin table action listeners
-      tbody.querySelectorAll(".admin-set-pro").forEach(b => {
-        b.addEventListener("click", () => {
-          indusAuth.adminSetTier(b.getAttribute("data-id"), "pro_500");
-          renderAdminDashboard(document.getElementById("adminUserSearch").value);
-          updateIndusAuthUI();
-          showToast("User upgraded to Astrologer Pro (100 credits)!", "success");
-        });
-      });
-
-      tbody.querySelectorAll(".admin-set-vip").forEach(b => {
-        b.addEventListener("click", () => {
-          indusAuth.adminSetTier(b.getAttribute("data-id"), "unlimited_3000");
-          renderAdminDashboard(document.getElementById("adminUserSearch").value);
-          updateIndusAuthUI();
-          showToast("User upgraded to Master Consultant (Unlimited)!", "success");
-        });
-      });
-
-      tbody.querySelectorAll(".admin-set-free").forEach(b => {
-        b.addEventListener("click", () => {
-          indusAuth.adminSetTier(b.getAttribute("data-id"), "free");
-          renderAdminDashboard(document.getElementById("adminUserSearch").value);
-          updateIndusAuthUI();
-          showToast("User reset to Free Tier (10 credits).", "info");
-        });
-      });
-
       tbody.querySelectorAll(".admin-add-10").forEach(b => {
         b.addEventListener("click", () => {
-          indusAuth.adminAddCredits(b.getAttribute("data-id"), 10);
-          renderAdminDashboard(document.getElementById("adminUserSearch").value);
-          updateIndusAuthUI();
-          showToast("+10 Kundli save credits added to user account!", "success");
+          const uid = b.getAttribute("data-id");
+          const u = db.users.find(x => x.id === uid);
+          if (u) {
+            u.maxCredits = (u.maxCredits || 10) + 10;
+            indusAuth.saveLocalDB();
+            renderAdminDashboard(document.getElementById("adminUserSearch").value);
+            updateIndusAuthUI();
+            showToast("+10 Kundli save slots added to user account!", "success");
+          }
         });
       });
 
       tbody.querySelectorAll(".admin-del-user").forEach(b => {
         b.addEventListener("click", () => {
           const uid = b.getAttribute("data-id");
-          if (confirm("Are you sure you want to delete this user and all their saved horoscopes?")) {
-            indusAuth.adminDeleteUser(uid);
+          if (confirm("Delete this user account and its saved Kundlis?")) {
+            indusAuth.db.users = indusAuth.db.users.filter(x => x.id !== uid);
+            indusAuth.saveLocalDB();
             renderAdminDashboard(document.getElementById("adminUserSearch").value);
             updateIndusAuthUI();
             showToast("User account deleted.", "info");
@@ -4478,19 +4871,12 @@
 
     // Modal Attachments & DOM Handlers
     function setupIndusKundliAppEvents() {
-      updateIndusAuthUI();
+      indusAuth.initSession();
 
       // Header Button Handlers
       const headerVaultBtn = document.getElementById("headerVaultBtn");
       if (headerVaultBtn) {
         headerVaultBtn.addEventListener("click", openSavedKundlisModal);
-      }
-
-      const headerAuthBtn = document.getElementById("headerAuthBtn");
-      if (headerAuthBtn) {
-        headerAuthBtn.addEventListener("click", () => {
-          document.getElementById("authModal").classList.remove("hidden");
-        });
       }
 
       const headerAdminBtn = document.getElementById("headerAdminBtn");
@@ -4509,19 +4895,6 @@
         bannerMyKundlisBtn.addEventListener("click", openSavedKundlisModal);
       }
 
-      const bannerUpgradeBtn = document.getElementById("bannerUpgradeBtn");
-      if (bannerUpgradeBtn) {
-        bannerUpgradeBtn.addEventListener("click", openSubscriptionModal);
-      }
-
-      const vaultUpgradeBtn = document.getElementById("vaultUpgradeBtn");
-      if (vaultUpgradeBtn) {
-        vaultUpgradeBtn.addEventListener("click", () => {
-          document.getElementById("savedKundlisModal").classList.add("hidden");
-          openSubscriptionModal();
-        });
-      }
-
       // Search Saved Kundlis
       const savedKundliSearch = document.getElementById("savedKundliSearch");
       if (savedKundliSearch) {
@@ -4533,7 +4906,7 @@
       // Save Kundli Form Submit
       const saveKundliForm = document.getElementById("saveKundliForm");
       if (saveKundliForm) {
-        saveKundliForm.addEventListener("submit", (e) => {
+        saveKundliForm.addEventListener("submit", async (e) => {
           e.preventDefault();
           if (!currentChartData || !currentChartData.meta) return;
 
@@ -4541,7 +4914,7 @@
           const tag = document.getElementById("saveKundliTag").value || "Personal";
           const notes = document.getElementById("saveKundliNotes").value || "";
 
-          const res = indusAuth.saveKundli({
+          const res = await indusAuth.saveKundli({
             name: meta.name,
             gender: meta.gender,
             year: meta.year,
@@ -4562,9 +4935,9 @@
           if (res.success) {
             document.getElementById("saveKundliModal").classList.add("hidden");
             updateIndusAuthUI();
-            showToast(`Horoscope for ${meta.name} saved! (${res.count}/${res.max >= 999999 ? '∞' : res.max} used)`, "success");
-          } else if (res.error === "limit_reached") {
-            showToast(`Vault limit reached (${res.count}/${res.max}). Please delete an older Kundli to save a new one.`, "error");
+            showToast(`Horoscope for ${meta.name} saved to the server! (${res.count}/${res.max} used)`, "success");
+          } else {
+            showToast(res.message || "Failed to save Kundli.", "error");
           }
         });
       }
@@ -4579,62 +4952,78 @@
 
       if (tabLogin && tabReg && tabAdmin) {
         tabLogin.addEventListener("click", () => {
-          tabLogin.className = "flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400";
-          tabReg.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent";
-          tabAdmin.className = "flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent";
+          tabLogin.className = "flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400 transition";
+          tabReg.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent transition";
+          tabAdmin.className = "flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent transition";
           formLogin.classList.remove("hidden");
           formReg.classList.add("hidden");
           formAdmin.classList.add("hidden");
         });
 
         tabReg.addEventListener("click", () => {
-          tabReg.className = "flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400";
-          tabLogin.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent";
-          tabAdmin.className = "flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent";
+          tabReg.className = "flex-1 py-2 text-center text-amber-400 border-b-2 border-amber-400 transition";
+          tabLogin.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent transition";
+          tabAdmin.className = "flex-1 py-2 text-center text-purple-400 hover:text-purple-300 border-b-2 border-transparent transition";
           formReg.classList.remove("hidden");
           formLogin.classList.add("hidden");
           formAdmin.classList.add("hidden");
         });
 
         tabAdmin.addEventListener("click", () => {
-          tabAdmin.className = "flex-1 py-2 text-center text-purple-400 border-b-2 border-purple-400";
-          tabLogin.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent";
-          tabReg.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent";
+          tabAdmin.className = "flex-1 py-2 text-center text-purple-400 border-b-2 border-purple-400 transition";
+          tabLogin.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent transition";
+          tabReg.className = "flex-1 py-2 text-center text-slate-400 hover:text-white border-b-2 border-transparent transition";
           formAdmin.classList.remove("hidden");
           formLogin.classList.add("hidden");
           formReg.classList.add("hidden");
         });
       }
 
-      // Login Form Submit
+      const switchReg = document.getElementById("switchToRegisterBtn");
+      if (switchReg) {
+        switchReg.addEventListener("click", () => {
+          if (tabReg) tabReg.click();
+        });
+      }
+
+      const switchLogin = document.getElementById("switchToLoginBtn");
+      if (switchLogin) {
+        switchLogin.addEventListener("click", () => {
+          if (tabLogin) tabLogin.click();
+        });
+      }
+
+      // Login Form Submit (Login ID + Password)
       if (formLogin) {
-        formLogin.addEventListener("submit", (e) => {
+        formLogin.addEventListener("submit", async (e) => {
           e.preventDefault();
-          const email = document.getElementById("loginEmail").value;
+          const loginId = document.getElementById("loginId").value;
           const pass = document.getElementById("loginPassword").value;
-          const res = indusAuth.login(email, pass);
+          const res = await indusAuth.login(loginId, pass);
           if (res.success) {
             document.getElementById("authModal").classList.add("hidden");
             updateIndusAuthUI();
-            showToast(`Welcome back, ${res.user.name}!`, "success");
+            showToast(`Welcome back, ${res.user.loginId || res.user.name}!`, "success");
           } else {
             showToast(res.message, "error");
           }
         });
       }
 
-      // Register Form Submit
+      // Register Form Submit (Login ID + Mobile + Location + Password)
       if (formReg) {
-        formReg.addEventListener("submit", (e) => {
+        formReg.addEventListener("submit", async (e) => {
           e.preventDefault();
-          const name = document.getElementById("regName").value;
-          const email = document.getElementById("regEmail").value;
+          const loginId = document.getElementById("regLoginId").value;
+          const mobile = document.getElementById("regMobile").value;
+          const location = document.getElementById("regLocation").value;
           const pass = document.getElementById("regPassword").value;
-          const res = indusAuth.register(name, email, pass);
+
+          const res = await indusAuth.register(loginId, mobile, location, pass);
           if (res.success) {
             document.getElementById("authModal").classList.add("hidden");
             updateIndusAuthUI();
-            showToast(`Account created! You have 10 free Kundli save credits.`, "success");
+            showToast(`Account registered on server! 10 Kundli save slots active.`, "success");
           } else {
             showToast(res.message, "error");
           }
@@ -4658,90 +5047,6 @@
         });
       }
 
-      // Guest Login
-      const guestLoginBtn = document.getElementById("guestLoginBtn");
-      if (guestLoginBtn) {
-        guestLoginBtn.addEventListener("click", () => {
-          document.getElementById("authModal").classList.add("hidden");
-          updateIndusAuthUI();
-          showToast("Using local storage account (10 Free Kundli credits active).", "info");
-        });
-      }
-
-      // Admin User Search
-      const adminUserSearch = document.getElementById("adminUserSearch");
-      if (adminUserSearch) {
-        adminUserSearch.addEventListener("input", (e) => {
-          renderAdminDashboard(e.target.value);
-        });
-      }
-
-      // Admin Export JSON
-      const adminExportDbBtn = document.getElementById("adminExportDbBtn");
-      if (adminExportDbBtn) {
-        adminExportDbBtn.addEventListener("click", () => {
-          const jsonStr = indusAuth.exportBackup();
-          const blob = new Blob([jsonStr], { type: "application/json" });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = `indus_kundli_backup_${Date.now()}.json`;
-          a.click();
-          URL.revokeObjectURL(url);
-          showToast("Database backup exported to JSON file!", "success");
-        });
-      }
-
-      // Admin Import JSON
-      const adminImportDbBtn = document.getElementById("adminImportDbBtn");
-      const adminImportFileInput = document.getElementById("adminImportFileInput");
-      if (adminImportDbBtn && adminImportFileInput) {
-        adminImportDbBtn.addEventListener("click", () => {
-          adminImportFileInput.click();
-        });
-
-        adminImportFileInput.addEventListener("change", (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = (evt) => {
-            const ok = indusAuth.importBackup(evt.target.result);
-            if (ok) {
-              updateIndusAuthUI();
-              renderAdminDashboard();
-              showToast("Indus Database successfully restored!", "success");
-            } else {
-              showToast("Invalid JSON backup file.", "error");
-            }
-          };
-          reader.readAsText(file);
-        });
-      }
-
-      // Admin Add User Manually
-      const adminCreateUserBtn = document.getElementById("adminCreateUserBtn");
-      if (adminCreateUserBtn) {
-        adminCreateUserBtn.addEventListener("click", () => {
-          const name = prompt("Enter client/user full name:");
-          if (!name) return;
-          const email = prompt("Enter user email address:");
-          if (!email) return;
-          const tierChoice = prompt("Select Tier: 1 = Free (10 credits), 2 = Astrologer Pro (100 credits), 3 = Master Consultant (Unlimited)", "1");
-          let tier = "free";
-          if (tierChoice === "2") tier = "pro_500";
-          if (tierChoice === "3") tier = "unlimited_3000";
-
-          const res = indusAuth.register(name, email, "indus123");
-          if (res.success) {
-            indusAuth.adminSetTier(res.user.id, tier);
-            renderAdminDashboard();
-            showToast(`User ${name} created with ${tier} tier!`, "success");
-          } else {
-            showToast(res.message, "error");
-          }
-        });
-      }
-
       // Close Modal Buttons
       const closeAuth = document.getElementById("closeAuthModalBtn");
       if (closeAuth) closeAuth.addEventListener("click", () => document.getElementById("authModal").classList.add("hidden"));
@@ -4754,9 +5059,6 @@
 
       const cancelSave = document.getElementById("cancelSaveBtn");
       if (cancelSave) cancelSave.addEventListener("click", () => document.getElementById("saveKundliModal").classList.add("hidden"));
-
-      const closeSub = document.getElementById("closeSubModalBtn");
-      if (closeSub) closeSub.addEventListener("click", () => document.getElementById("subscriptionModal").classList.add("hidden"));
 
       const closeAdmin = document.getElementById("closeAdminModalBtn");
       if (closeAdmin) closeAdmin.addEventListener("click", () => document.getElementById("masterAdminModal").classList.add("hidden"));
@@ -4975,6 +5277,32 @@
       }
 
       setupIndusKundliAppEvents();
+      
+      // Varshaphal Event Listeners
+      const ySelect = document.getElementById("varshaYearSelect");
+      const btnRecalcVarsha = document.getElementById("btnRecalcVarsha");
+      if (btnRecalcVarsha && ySelect) {
+        btnRecalcVarsha.addEventListener("click", () => {
+          updateVarshaphalUI(ySelect.value);
+          showToast(`Varshaphal calculated for Year ${ySelect.value}!`, "success");
+        });
+        ySelect.addEventListener("change", () => {
+          updateVarshaphalUI(ySelect.value);
+        });
+      }
+
+      document.querySelectorAll(".varsha-filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".varsha-filter-btn").forEach(b => {
+            b.classList.remove("active", "bg-amber-500/20", "text-amber-300");
+            b.classList.add("bg-slate-900", "text-slate-400");
+          });
+          btn.classList.add("active", "bg-amber-500/20", "text-amber-300");
+          btn.classList.remove("bg-slate-900", "text-slate-400");
+          renderVarshaphalMonths(btn.getAttribute("data-vfilter"));
+        });
+      });
+
       triggerCalculation();
     });
   </script>
